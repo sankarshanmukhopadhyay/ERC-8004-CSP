@@ -1,0 +1,21 @@
+name: CSP Change Request
+description: Propose an improvement, clarification, or addition to the CSP.
+title: "[CSP] "
+labels: ["csp"]
+body:
+  - type: textarea
+    attributes:
+      label: Problem
+      description: What problem are you trying to solve?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Proposed change
+      description: Describe the change, including which file/section/table it affects.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Rationale and tradeoffs
+      description: Why this change? What are the tradeoffs?
