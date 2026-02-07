@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/erc-8004-csp/policy.schema.json",
+  "title": "ERC-8004 CSP Consumer Policy",
+  "type": "object",
+  "required": [
+    "version",
+    "conformanceLevel",
+    "safeFetch",
+    "reputation",
+    "validation",
+    "disclosures"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^0\\.\\d+(\\.\\d+)?$"
+    },
+    "conformanceLevel": {
+      "type": "string",
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3",
+        "L4"
+      ]
+    },
+    "safeFetch": {
+      "type": "object",
+      "required": [
+        "timeoutMs",
+        "maxBytes",
+        "allowedSchemes",
+        "allowedContentTypes",
+        "followRedirects",
+        "maxRedirects"
+      ],
+      "properties": {
+        "timeoutMs": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 60000
+        },
+        "maxBytes": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 104857600
+        },
+        "allowedSchemes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "allowedContentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "followRedirects": {
+          "type": "boolean"
+        },
+        "maxRedirects": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "ipfsGateways": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cache": {
+          "type": "object",
+          "required": [
+            "enabled",
+            "retentionDays"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "retentionDays": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3650
+            }
+          }
+        }
+      }
+    },
+    "reputation": {
+      "type": "object",
+      "required": [
+        "weighting",
+        "rateLimits",
+        "display"
+      ],
+      "properties": {
+        "weighting": {
+          "type": "object",
+          "required": [
+            "ageDecayHalfLifeDays",
+            "clientAccountAgeWeight",
+            "clientProofWeights",
+            "stakeWeight",
+            "reliabilityWeight"
+          ],
+          "properties": {
+            "ageDecayHalfLifeDays": {
+              "type": "number",
+              "minimum": 1
+            },
+            "clientAccountAgeWeight": {
+              "type": "number",
+              "minimum": 0
+            },
+            "clientProofWeights": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "stakeWeight": {
+              "type": "number",
+              "minimum": 0
+            },
+            "reliabilityWeight": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "rateLimits": {
+          "type": "object",
+          "required": [
+            "maxFeedbackPerAgentPerDay",
+            "maxResponsesPerFeedback",
+            "maxFetchesPerHostPerMinute"
+          ],
+          "properties": {
+            "maxFeedbackPerAgentPerDay": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "maxResponsesPerFeedback": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maxFetchesPerHostPerMinute": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "display": {
+          "type": "object",
+          "required": [
+            "showScalarScore",
+            "showConfidence",
+            "appendResponsePolicy"
+          ],
+          "properties": {
+            "showScalarScore": {
+              "type": "boolean"
+            },
+            "showConfidence": {
+              "type": "boolean"
+            },
+            "appendResponsePolicy": {
+              "type": "string",
+              "enum": [
+                "hide",
+                "showAll",
+                "gatedByResponderPolicy"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "required": [
+        "validatorPolicy",
+        "finalityRule",
+        "requireScopeMethodFreshness"
+      ],
+      "properties": {
+        "requireScopeMethodFreshness": {
+          "type": "boolean"
+        },
+        "finalityRule": {
+          "type": "string",
+          "enum": [
+            "latestWithinWindow",
+            "quorum",
+            "twoPhase"
+          ]
+        },
+        "validatorPolicy": {
+          "type": "object",
+          "required": [
+            "mode",
+            "validators",
+            "freshnessWindowHours"
+          ],
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "allowlist",
+                "weightedAllowlist",
+                "openButDownrank"
+              ]
+            },
+            "freshnessWindowHours": {
+              "type": "number",
+              "minimum": 0.1
+            },
+            "validators": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "validatorAddress",
+                  "methodologyURI",
+                  "scopeTags",
+                  "weight",
+                  "conflictRule"
+                ],
+                "properties": {
+                  "validatorAddress": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{40}$"
+                  },
+                  "methodologyURI": {
+                    "type": "string"
+                  },
+                  "scopeTags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1
+                  },
+                  "weight": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "conflictRule": {
+                    "type": "string",
+                    "enum": [
+                      "preferHigherWeight",
+                      "preferMostRecent",
+                      "preferQuorum"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "disclosures": {
+      "type": "object",
+      "required": [
+        "integrityDefinition",
+        "reputationPolicyDisclosure",
+        "validatorDisclosure",
+        "economicDependenciesDisclosure"
+      ],
+      "properties": {
+        "integrityDefinition": {
+          "type": "string"
+        },
+        "reputationPolicyDisclosure": {
+          "type": "string"
+        },
+        "validatorDisclosure": {
+          "type": "string"
+        },
+        "economicDependenciesDisclosure": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
