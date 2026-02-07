@@ -1,0 +1,76 @@
+{
+  "version": "0.9",
+  "conformanceLevel": "L3",
+  "safeFetch": {
+    "timeoutMs": 8000,
+    "maxBytes": 5242880,
+    "allowedSchemes": [
+      "https",
+      "ipfs",
+      "data"
+    ],
+    "allowedContentTypes": [
+      "application/json",
+      "text/plain"
+    ],
+    "followRedirects": true,
+    "maxRedirects": 3,
+    "ipfsGateways": [
+      "https://ipfs.io/ipfs/",
+      "https://cloudflare-ipfs.com/ipfs/"
+    ],
+    "cache": {
+      "enabled": true,
+      "retentionDays": 180
+    }
+  },
+  "reputation": {
+    "weighting": {
+      "ageDecayHalfLifeDays": 90,
+      "clientAccountAgeWeight": 0.3,
+      "clientProofWeights": {
+        "did": 1.0,
+        "vc": 1.5,
+        "kyc": 2.0
+      },
+      "stakeWeight": 2.5,
+      "reliabilityWeight": 1.2
+    },
+    "rateLimits": {
+      "maxFeedbackPerAgentPerDay": 250,
+      "maxResponsesPerFeedback": 50,
+      "maxFetchesPerHostPerMinute": 60
+    },
+    "display": {
+      "showScalarScore": true,
+      "showConfidence": true,
+      "appendResponsePolicy": "gatedByResponderPolicy"
+    }
+  },
+  "validation": {
+    "requireScopeMethodFreshness": true,
+    "finalityRule": "quorum",
+    "validatorPolicy": {
+      "mode": "weightedAllowlist",
+      "freshnessWindowHours": 168,
+      "validators": [
+        {
+          "validatorAddress": "0x0000000000000000000000000000000000000001",
+          "methodologyURI": "https://example.org/validators/v1/method",
+          "scopeTags": [
+            "endpoint-availability",
+            "metadata-integrity"
+          ],
+          "weight": 1.0,
+          "conflictRule": "preferQuorum"
+        }
+      ]
+    }
+  },
+  "disclosures": {
+    "integrityDefinition": "Integrity verified means the fetched blob hash matches the on-chain expected hash. It does not imply safety of endpoints.",
+    "reputationPolicyDisclosure": "Reputation scores are weighted by feedback age, client proof, optional stake signals, and reliability. Raw counts are not treated as quality.",
+    "validatorDisclosure": "Validation badges include validator set, method URI, scope tags, and freshness window. Conflicts are resolved via quorum finality.",
+    "economicDependenciesDisclosure": "This consumer does not claim economic security unless integrated with an external staking/slashing/insurance protocol."
+  }
+}
