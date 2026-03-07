@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Architecture</title>
+  <style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; background: #0b0f17; color: #e9eef7; }
+a { color: #8cc7ff; }
+.container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+nav { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+nav a { text-decoration: none; padding: 0.55rem 0.8rem; border-radius: 999px; background: #121a28; }
+article { background: #121826; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+code, pre { background: #0d1320; border-radius: 8px; }
+pre { padding: 1rem; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }
+th, td { border: 1px solid #2a3346; padding: 0.6rem; text-align: left; }
+blockquote { border-left: 4px solid #8cc7ff; margin-left: 0; padding-left: 1rem; color: #c8d5ea; }
+.footer { margin-top: 1.5rem; color: #b7c5db; font-size: 0.95rem; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <nav><a href="README.html">Home</a> <a href="erc-8004-csp.html">Specification</a> <a href="checklist.html">Conformance Checklist</a> <a href="test-cases.html">Conformance Test Cases</a> <a href="architecture.html">Architecture</a> <a href="threat-model.html">Threat Model</a></nav>
+    <article><h1 id="reference-architecture">Reference Architecture</h1>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Responsibilities</th>
+<th>Hard requirements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Event indexer</td>
+<td>Ingest identity, reputation, and validation events; derive continuity and freshness views</td>
+<td>Replay-safe ingestion, quotas, and request linkage</td>
+</tr>
+<tr>
+<td>Safe fetcher</td>
+<td>Retrieve registration and validation artifacts</td>
+<td>Timeouts, size caps, media-type checks, anchor classification</td>
+</tr>
+<tr>
+<td>Content cache</td>
+<td>Store anchored and unanchored blobs separately</td>
+<td>Deduplication, retention controls, provenance metadata</td>
+</tr>
+<tr>
+<td>Policy engine</td>
+<td>Apply weighting, validator policy, and drift rules</td>
+<td>Transparent defaults, deterministic finality, stale-state logic</td>
+</tr>
+<tr>
+<td>Continuity guard</td>
+<td>Detect transfer, wallet reset, <code>agentURI</code> drift, and <code>registrations[]</code> mismatch</td>
+<td>Immediate invalidation of stale trust state</td>
+</tr>
+<tr>
+<td>UI risk layer</td>
+<td>Surface warnings, disclosures, and gated trust displays</td>
+<td>No silent badges, no silent continuity carryover</td>
+</tr>
+<tr>
+<td>Audit log</td>
+<td>Preserve fetch, classification, validation, and policy decisions</td>
+<td>Append-only event trail</td>
+</tr>
+</tbody>
+</table>
+<h2 id="design-notes">Design notes</h2>
+<ul>
+<li>The safe fetcher and continuity guard should be treated as first-class components, not garnish sprinkled on the plate after the kitchen fire starts.</li>
+<li>Anchored and unanchored content should not share the same cache namespace.</li>
+<li>Validation views should be keyed by <code>requestHash</code> and linked to the artifact or scope actually evaluated.</li>
+</ul></article>
+    <div class="footer">Built from repository Markdown by <code>scripts/build_pages.py</code>.</div>
+  </div>
+</body>
+</html>

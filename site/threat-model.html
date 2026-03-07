@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Threat Model</title>
+  <style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; background: #0b0f17; color: #e9eef7; }
+a { color: #8cc7ff; }
+.container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+nav { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+nav a { text-decoration: none; padding: 0.55rem 0.8rem; border-radius: 999px; background: #121a28; }
+article { background: #121826; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+code, pre { background: #0d1320; border-radius: 8px; }
+pre { padding: 1rem; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }
+th, td { border: 1px solid #2a3346; padding: 0.6rem; text-align: left; }
+blockquote { border-left: 4px solid #8cc7ff; margin-left: 0; padding-left: 1rem; color: #c8d5ea; }
+.footer { margin-top: 1.5rem; color: #b7c5db; font-size: 0.95rem; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <nav><a href="README.html">Home</a> <a href="erc-8004-csp.html">Specification</a> <a href="checklist.html">Conformance Checklist</a> <a href="test-cases.html">Conformance Test Cases</a> <a href="architecture.html">Architecture</a> <a href="threat-model.html">Threat Model</a></nav>
+    <article><h1 id="threat-model-consumer-side">Threat Model (Consumer-side)</h1>
+<table>
+<thead>
+<tr>
+<th>Playbook</th>
+<th>Goal</th>
+<th>Path</th>
+<th>Primary defenses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reputation Sybil swarm</td>
+<td>Inflate or bury reputation</td>
+<td>Cheap repeated feedback</td>
+<td>Weighting, rate limits, anomaly detection</td>
+</tr>
+<tr>
+<td>Identity hijack via transfer</td>
+<td>Take over a brand or reputation shell</td>
+<td>Transfer the ERC-721 token</td>
+<td>Control-change banner, stale-state reset</td>
+</tr>
+<tr>
+<td>Endpoint substitution</td>
+<td>Route users to malicious infrastructure</td>
+<td>Change registration or service endpoints</td>
+<td>Safe-fetch, endpoint tiering, diff visibility</td>
+</tr>
+<tr>
+<td>Availability rug</td>
+<td>Break verifiability</td>
+<td>Remove or censor blobs</td>
+<td>Cache, retry, unavailable semantics</td>
+</tr>
+<tr>
+<td>Validation theater</td>
+<td>Fake assurance without substance</td>
+<td>Friendly validators or vague scope</td>
+<td>Method, scope, freshness, request linkage</td>
+</tr>
+<tr>
+<td>Cross-registry continuity spoofing</td>
+<td>Pretend multi-chain legitimacy</td>
+<td>Fake or unverifiable <code>registrations[]</code> claims</td>
+<td>Cross-check and independent resolution</td>
+</tr>
+<tr>
+<td>Indexer griefing</td>
+<td>Degrade consumer infrastructure</td>
+<td>Spam events and slow URIs</td>
+<td>Quotas, backpressure, sandboxed retrieval</td>
+</tr>
+</tbody>
+</table>
+<h2 id="high-priority-consumer-mistakes-to-avoid">High-priority consumer mistakes to avoid</h2>
+<ol>
+<li>Treating successful retrieval as proof of integrity.</li>
+<li>Treating transfer as a cosmetic event instead of a trust reset.</li>
+<li>Treating <code>agentWallet</code> as permanently trustworthy after it has once been verified.</li>
+<li>Treating <code>supportedTrust</code> silence as if it were a positive trust claim.</li>
+<li>Treating validation as an agent-wide permanent badge when upstream semantics are request-specific.</li>
+</ol></article>
+    <div class="footer">Built from repository Markdown by <code>scripts/build_pages.py</code>.</div>
+  </div>
+</body>
+</html>

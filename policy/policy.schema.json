@@ -6,6 +6,7 @@
   "required": [
     "version",
     "conformanceLevel",
+    "identity",
     "safeFetch",
     "reputation",
     "validation",
@@ -14,17 +15,29 @@
   "properties": {
     "version": {
       "type": "string",
-      "pattern": "^0\\.\\d+(\\.\\d+)?$"
+      "pattern": "^0\\.9\\.1$"
     },
     "conformanceLevel": {
       "type": "string",
-      "enum": [
-        "L0",
-        "L1",
-        "L2",
-        "L3",
-        "L4"
-      ]
+      "enum": ["L0", "L1", "L2", "L3", "L4"]
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "requireCurrentRegistrationLink",
+        "treatMissingSupportedTrustAsDiscoveryOnly",
+        "requireWalletReverificationAfterTransfer",
+        "showWalletBindingStatus",
+        "showWalletVerificationType"
+      ],
+      "properties": {
+        "requireCurrentRegistrationLink": {"type": "boolean"},
+        "treatMissingSupportedTrustAsDiscoveryOnly": {"type": "boolean"},
+        "requireWalletReverificationAfterTransfer": {"type": "boolean"},
+        "showWalletBindingStatus": {"type": "boolean"},
+        "showWalletVerificationType": {"type": "boolean"}
+      },
+      "additionalProperties": false
     },
     "safeFetch": {
       "type": "object",
@@ -34,73 +47,59 @@
         "allowedSchemes",
         "allowedContentTypes",
         "followRedirects",
-        "maxRedirects"
+        "maxRedirects",
+        "dataUriPolicy"
       ],
       "properties": {
-        "timeoutMs": {
-          "type": "integer",
-          "minimum": 1000,
-          "maximum": 60000
-        },
-        "maxBytes": {
-          "type": "integer",
-          "minimum": 1024,
-          "maximum": 104857600
-        },
+        "timeoutMs": {"type": "integer", "minimum": 1000, "maximum": 60000},
+        "maxBytes": {"type": "integer", "minimum": 1024, "maximum": 104857600},
         "allowedSchemes": {
           "type": "array",
-          "items": {
-            "type": "string"
-          },
+          "items": {"type": "string"},
           "minItems": 1
         },
         "allowedContentTypes": {
           "type": "array",
-          "items": {
-            "type": "string"
-          },
+          "items": {"type": "string"},
           "minItems": 1
         },
-        "followRedirects": {
-          "type": "boolean"
-        },
-        "maxRedirects": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 10
-        },
+        "followRedirects": {"type": "boolean"},
+        "maxRedirects": {"type": "integer", "minimum": 0, "maximum": 10},
         "ipfsGateways": {
           "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "items": {"type": "string", "format": "uri"}
         },
         "cache": {
           "type": "object",
-          "required": [
-            "enabled",
-            "retentionDays"
-          ],
+          "required": ["enabled", "retentionDays", "separateUnanchoredCache"],
           "properties": {
-            "enabled": {
-              "type": "boolean"
+            "enabled": {"type": "boolean"},
+            "retentionDays": {"type": "integer", "minimum": 0, "maximum": 3650},
+            "separateUnanchoredCache": {"type": "boolean"}
+          },
+          "additionalProperties": false
+        },
+        "dataUriPolicy": {
+          "type": "object",
+          "required": ["enabled", "maxBytes", "allowedMediaTypes", "inertOnly"],
+          "properties": {
+            "enabled": {"type": "boolean"},
+            "maxBytes": {"type": "integer", "minimum": 1, "maximum": 10485760},
+            "allowedMediaTypes": {
+              "type": "array",
+              "items": {"type": "string"},
+              "minItems": 1
             },
-            "retentionDays": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 3650
-            }
-          }
+            "inertOnly": {"type": "boolean"}
+          },
+          "additionalProperties": false
         }
-      }
+      },
+      "additionalProperties": false
     },
     "reputation": {
       "type": "object",
-      "required": [
-        "weighting",
-        "rateLimits",
-        "display"
-      ],
+      "required": ["weighting", "rateLimits", "display"],
       "properties": {
         "weighting": {
           "type": "object",
@@ -112,30 +111,16 @@
             "reliabilityWeight"
           ],
           "properties": {
-            "ageDecayHalfLifeDays": {
-              "type": "number",
-              "minimum": 1
-            },
-            "clientAccountAgeWeight": {
-              "type": "number",
-              "minimum": 0
-            },
+            "ageDecayHalfLifeDays": {"type": "number", "minimum": 1},
+            "clientAccountAgeWeight": {"type": "number", "minimum": 0},
             "clientProofWeights": {
               "type": "object",
-              "additionalProperties": {
-                "type": "number",
-                "minimum": 0
-              }
+              "additionalProperties": {"type": "number", "minimum": 0}
             },
-            "stakeWeight": {
-              "type": "number",
-              "minimum": 0
-            },
-            "reliabilityWeight": {
-              "type": "number",
-              "minimum": 0
-            }
-          }
+            "stakeWeight": {"type": "number", "minimum": 0},
+            "reliabilityWeight": {"type": "number", "minimum": 0}
+          },
+          "additionalProperties": false
         },
         "rateLimits": {
           "type": "object",
@@ -145,85 +130,62 @@
             "maxFetchesPerHostPerMinute"
           ],
           "properties": {
-            "maxFeedbackPerAgentPerDay": {
-              "type": "integer",
-              "minimum": 1
-            },
-            "maxResponsesPerFeedback": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "maxFetchesPerHostPerMinute": {
-              "type": "integer",
-              "minimum": 1
-            }
-          }
+            "maxFeedbackPerAgentPerDay": {"type": "integer", "minimum": 1},
+            "maxResponsesPerFeedback": {"type": "integer", "minimum": 0},
+            "maxFetchesPerHostPerMinute": {"type": "integer", "minimum": 1}
+          },
+          "additionalProperties": false
         },
         "display": {
           "type": "object",
           "required": [
             "showScalarScore",
             "showConfidence",
-            "appendResponsePolicy"
+            "appendResponsePolicy",
+            "distinguishResponseTypes"
           ],
           "properties": {
-            "showScalarScore": {
-              "type": "boolean"
-            },
-            "showConfidence": {
-              "type": "boolean"
-            },
+            "showScalarScore": {"type": "boolean"},
+            "showConfidence": {"type": "boolean"},
             "appendResponsePolicy": {
               "type": "string",
-              "enum": [
-                "hide",
-                "showAll",
-                "gatedByResponderPolicy"
-              ]
-            }
-          }
+              "enum": ["hide", "showAll", "gatedByResponderPolicy"]
+            },
+            "distinguishResponseTypes": {"type": "boolean"}
+          },
+          "additionalProperties": false
         }
-      }
+      },
+      "additionalProperties": false
     },
     "validation": {
       "type": "object",
       "required": [
-        "validatorPolicy",
+        "requireScopeMethodFreshness",
+        "bindToRequestHash",
+        "invalidateOnAgentUriChange",
+        "showSupersededResponses",
         "finalityRule",
-        "requireScopeMethodFreshness"
+        "validatorPolicy"
       ],
       "properties": {
-        "requireScopeMethodFreshness": {
-          "type": "boolean"
-        },
+        "requireScopeMethodFreshness": {"type": "boolean"},
+        "bindToRequestHash": {"type": "boolean"},
+        "invalidateOnAgentUriChange": {"type": "boolean"},
+        "showSupersededResponses": {"type": "boolean"},
         "finalityRule": {
           "type": "string",
-          "enum": [
-            "latestWithinWindow",
-            "quorum",
-            "twoPhase"
-          ]
+          "enum": ["latestWithinWindow", "quorum", "twoPhase"]
         },
         "validatorPolicy": {
           "type": "object",
-          "required": [
-            "mode",
-            "validators",
-            "freshnessWindowHours"
-          ],
+          "required": ["mode", "validators", "freshnessWindowHours"],
           "properties": {
             "mode": {
               "type": "string",
-              "enum": [
-                "allowlist",
-                "weightedAllowlist",
-                "openButDownrank"
-              ]
+              "enum": ["allowlist", "weightedAllowlist", "openButDownrank"]
             },
-            "freshnessWindowHours": {
-              "type": "number",
-              "minimum": 0.1
-            },
+            "freshnessWindowHours": {"type": "number", "minimum": 0.1},
             "validators": {
               "type": "array",
               "items": {
@@ -240,34 +202,26 @@
                     "type": "string",
                     "pattern": "^0x[a-fA-F0-9]{40}$"
                   },
-                  "methodologyURI": {
-                    "type": "string"
-                  },
+                  "methodologyURI": {"type": "string", "format": "uri"},
                   "scopeTags": {
                     "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
+                    "items": {"type": "string"},
                     "minItems": 1
                   },
-                  "weight": {
-                    "type": "number",
-                    "minimum": 0
-                  },
+                  "weight": {"type": "number", "minimum": 0},
                   "conflictRule": {
                     "type": "string",
-                    "enum": [
-                      "preferHigherWeight",
-                      "preferMostRecent",
-                      "preferQuorum"
-                    ]
+                    "enum": ["preferHigherWeight", "preferQuorum", "markConflicted"]
                   }
-                }
+                },
+                "additionalProperties": false
               }
             }
-          }
+          },
+          "additionalProperties": false
         }
-      }
+      },
+      "additionalProperties": false
     },
     "disclosures": {
       "type": "object",
@@ -278,19 +232,13 @@
         "economicDependenciesDisclosure"
       ],
       "properties": {
-        "integrityDefinition": {
-          "type": "string"
-        },
-        "reputationPolicyDisclosure": {
-          "type": "string"
-        },
-        "validatorDisclosure": {
-          "type": "string"
-        },
-        "economicDependenciesDisclosure": {
-          "type": "string"
-        }
-      }
+        "integrityDefinition": {"type": "string"},
+        "reputationPolicyDisclosure": {"type": "string"},
+        "validatorDisclosure": {"type": "string"},
+        "economicDependenciesDisclosure": {"type": "string"}
+      },
+      "additionalProperties": false
     }
-  }
+  },
+  "additionalProperties": false
 }

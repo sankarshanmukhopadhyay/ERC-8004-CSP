@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conformance Test Cases</title>
+  <style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; background: #0b0f17; color: #e9eef7; }
+a { color: #8cc7ff; }
+.container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+nav { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+nav a { text-decoration: none; padding: 0.55rem 0.8rem; border-radius: 999px; background: #121a28; }
+article { background: #121826; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+code, pre { background: #0d1320; border-radius: 8px; }
+pre { padding: 1rem; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }
+th, td { border: 1px solid #2a3346; padding: 0.6rem; text-align: left; }
+blockquote { border-left: 4px solid #8cc7ff; margin-left: 0; padding-left: 1rem; color: #c8d5ea; }
+.footer { margin-top: 1.5rem; color: #b7c5db; font-size: 0.95rem; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <nav><a href="README.html">Home</a> <a href="erc-8004-csp.html">Specification</a> <a href="checklist.html">Conformance Checklist</a> <a href="test-cases.html">Conformance Test Cases</a> <a href="architecture.html">Architecture</a> <a href="threat-model.html">Threat Model</a></nav>
+    <article><h1 id="conformance-test-cases">Conformance Test Cases</h1>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Scenario</th>
+<th>Setup</th>
+<th>Action</th>
+<th>Expected</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T01</td>
+<td>Plain HTTPS registration with no digest</td>
+<td><code>agentURI</code> is <code>https://...</code> and no extension digest exists</td>
+<td>Fetch and classify</td>
+<td>Show <code>retrieved but unanchored</code>; do not claim integrity verified</td>
+<td>L1</td>
+</tr>
+<tr>
+<td>T02</td>
+<td>Registration mismatch</td>
+<td>Expected anchor and retrieved content differ</td>
+<td>Fetch and classify</td>
+<td>Quarantine and show mismatch</td>
+<td>L1</td>
+</tr>
+<tr>
+<td>T03</td>
+<td>Agent transfer clears wallet trust</td>
+<td>Transfer the ERC-721 token after wallet was set</td>
+<td>Refresh state</td>
+<td>Show control-change banner and wallet as stale or cleared until rebound</td>
+<td>L1</td>
+</tr>
+<tr>
+<td>T04</td>
+<td>Unavailable content</td>
+<td>404 or timeout</td>
+<td>Fetch</td>
+<td>Show unavailable and last verified snapshot if present</td>
+<td>L1</td>
+</tr>
+<tr>
+<td>T05</td>
+<td>Oversized <code>data:</code> URI</td>
+<td>Valid <code>data:</code> URI over policy byte limit</td>
+<td>Fetch</td>
+<td>Block and record policy violation</td>
+<td>L1</td>
+</tr>
+<tr>
+<td>T06</td>
+<td>Active-content <code>data:</code> URI</td>
+<td><code>data:text/html</code> or scriptable SVG</td>
+<td>Fetch and render</td>
+<td>Reject active rendering and show policy warning</td>
+<td>L1</td>
+</tr>
+<tr>
+<td>T07</td>
+<td>Feedback spam burst</td>
+<td>10k events emitted cheaply</td>
+<td>Index and render</td>
+<td>Throttling and quotas keep system usable</td>
+<td>L2</td>
+</tr>
+<tr>
+<td>T08</td>
+<td><code>appendResponse()</code> spam</td>
+<td>5k third-party responses</td>
+<td>Render</td>
+<td>Gated display, no UI DoS, typed as third-party annotations</td>
+<td>L2</td>
+</tr>
+<tr>
+<td>T09</td>
+<td>Revocation</td>
+<td>Feedback is later revoked</td>
+<td>Render</td>
+<td>Prior feedback remains visible as revoked</td>
+<td>L2</td>
+</tr>
+<tr>
+<td>T10</td>
+<td><code>registrations[]</code> mismatch</td>
+<td>Active <code>(agentRegistry, agentId)</code> absent from declared <code>registrations[]</code></td>
+<td>Resolve registration file</td>
+<td>Warning or block continuity claim per policy</td>
+<td>L2</td>
+</tr>
+<tr>
+<td>T11</td>
+<td>Validator conflict</td>
+<td>Multiple validators disagree</td>
+<td>Render</td>
+<td>Deterministic finality output by explicit policy rule</td>
+<td>L3</td>
+</tr>
+<tr>
+<td>T12</td>
+<td>Progressive validation states</td>
+<td>Same <code>requestHash</code> receives soft and hard finality responses</td>
+<td>Render</td>
+<td>Show latest, final, and superseded states distinctly</td>
+<td>L3</td>
+</tr>
+<tr>
+<td>T13</td>
+<td>Expired validation</td>
+<td>Freshness window has elapsed</td>
+<td>Render</td>
+<td>Mark expired or stale; suppress affirmative badge</td>
+<td>L3</td>
+</tr>
+<tr>
+<td>T14</td>
+<td><code>agentURI</code> drift after validation</td>
+<td>Validation exists, then <code>agentURI</code> changes materially</td>
+<td>Refresh</td>
+<td>Downgrade or stale prior validation until re-evaluated</td>
+<td>L3</td>
+</tr>
+</tbody>
+</table></article>
+    <div class="footer">Built from repository Markdown by <code>scripts/build_pages.py</code>.</div>
+  </div>
+</body>
+</html>

@@ -1,6 +1,13 @@
 {
-  "version": "0.9",
+  "version": "0.9.1",
   "conformanceLevel": "L3",
+  "identity": {
+    "requireCurrentRegistrationLink": true,
+    "treatMissingSupportedTrustAsDiscoveryOnly": true,
+    "requireWalletReverificationAfterTransfer": true,
+    "showWalletBindingStatus": true,
+    "showWalletVerificationType": true
+  },
   "safeFetch": {
     "timeoutMs": 8000,
     "maxBytes": 5242880,
@@ -21,7 +28,17 @@
     ],
     "cache": {
       "enabled": true,
-      "retentionDays": 180
+      "retentionDays": 180,
+      "separateUnanchoredCache": true
+    },
+    "dataUriPolicy": {
+      "enabled": true,
+      "maxBytes": 65536,
+      "allowedMediaTypes": [
+        "application/json",
+        "text/plain"
+      ],
+      "inertOnly": true
     }
   },
   "reputation": {
@@ -44,11 +61,15 @@
     "display": {
       "showScalarScore": true,
       "showConfidence": true,
-      "appendResponsePolicy": "gatedByResponderPolicy"
+      "appendResponsePolicy": "gatedByResponderPolicy",
+      "distinguishResponseTypes": true
     }
   },
   "validation": {
     "requireScopeMethodFreshness": true,
+    "bindToRequestHash": true,
+    "invalidateOnAgentUriChange": true,
+    "showSupersededResponses": true,
     "finalityRule": "quorum",
     "validatorPolicy": {
       "mode": "weightedAllowlist",
@@ -68,9 +89,9 @@
     }
   },
   "disclosures": {
-    "integrityDefinition": "Integrity verified means the fetched blob hash matches the on-chain expected hash. It does not imply safety of endpoints.",
+    "integrityDefinition": "Integrity-aware means the consumer classifies content as anchored, unanchored, mismatched, unavailable, or malformed. Successful retrieval alone does not imply immutability, authenticity, or safety.",
     "reputationPolicyDisclosure": "Reputation scores are weighted by feedback age, client proof, optional stake signals, and reliability. Raw counts are not treated as quality.",
-    "validatorDisclosure": "Validation badges include validator set, method URI, scope tags, and freshness window. Conflicts are resolved via quorum finality.",
-    "economicDependenciesDisclosure": "This consumer does not claim economic security unless integrated with an external staking/slashing/insurance protocol."
+    "validatorDisclosure": "Validation badges include validator set, method URI, scope tags, request linkage, and freshness window. Conflicts are resolved via deterministic policy.",
+    "economicDependenciesDisclosure": "This consumer does not claim economic security unless integrated with an external staking, slashing, bond, or insurance protocol."
   }
 }

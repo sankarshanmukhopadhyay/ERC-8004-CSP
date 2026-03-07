@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Specification</title>
+  <style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; background: #0b0f17; color: #e9eef7; }
+a { color: #8cc7ff; }
+.container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+nav { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+nav a { text-decoration: none; padding: 0.55rem 0.8rem; border-radius: 999px; background: #121a28; }
+article { background: #121826; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+code, pre { background: #0d1320; border-radius: 8px; }
+pre { padding: 1rem; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }
+th, td { border: 1px solid #2a3346; padding: 0.6rem; text-align: left; }
+blockquote { border-left: 4px solid #8cc7ff; margin-left: 0; padding-left: 1rem; color: #c8d5ea; }
+.footer { margin-top: 1.5rem; color: #b7c5db; font-size: 0.95rem; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <nav><a href="README.html">Home</a> <a href="erc-8004-csp.html">Specification</a> <a href="checklist.html">Conformance Checklist</a> <a href="test-cases.html">Conformance Test Cases</a> <a href="architecture.html">Architecture</a> <a href="threat-model.html">Threat Model</a></nav>
+    <article><h1 id="erc-8004-consumer-security-profile-csp-v091">ERC-8004 Consumer Security Profile (CSP) v0.9.1</h1>
+<p><strong>Audience:</strong> wallets, marketplaces, agent directories, explorers, and indexers that consume ERC-8004 signals.<br />
+<strong>Goal:</strong> safe-by-default consumption with integrity-aware retrieval, Sybil-aware reputation, and validation that does not collapse into empty signaling.<br />
+<strong>Normative keywords:</strong> <strong>MUST</strong>, <strong>MUST NOT</strong>, <strong>SHOULD</strong>, <strong>SHOULD NOT</strong>, <strong>MAY</strong>.</p>
+<hr />
+<h2 id="1-scope-and-non-goals">1) Scope and non-goals</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>In scope</th>
+<th>Out of scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Integrity-aware retrieval of registration, feedback, and validation content</td>
+<td>✅</td>
+<td>Cryptographic guarantees not present in upstream registries</td>
+</tr>
+<tr>
+<td>Safe retrieval, caching, and inert rendering of URIs</td>
+<td>✅</td>
+<td>Rich active-content rendering</td>
+</tr>
+<tr>
+<td>Anti-spam and Sybil-resilient reputation display</td>
+<td>✅</td>
+<td>Perfect Sybil resistance</td>
+</tr>
+<tr>
+<td>Meaningful validation display and deterministic finality semantics</td>
+<td>✅</td>
+<td>Defining validator economics or slashing</td>
+</tr>
+<tr>
+<td>UX patterns for control change, drift, and risk warnings</td>
+<td>✅</td>
+<td>Policing off-chain agent behavior</td>
+</tr>
+<tr>
+<td>Privacy and data minimization for consumers</td>
+<td>✅</td>
+<td>Full legal or regulatory compliance framework</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-upstream-assumptions-and-design-posture">2) Upstream assumptions and design posture</h2>
+<p>This profile is written for the current <strong>draft</strong> of ERC-8004 and aligns to the following upstream properties:</p>
+<ol>
+<li>ERC-8004 defines three lightweight registries for <strong>identity</strong>, <strong>reputation</strong>, and <strong>validation</strong>. It is intentionally composable and leaves scoring, validator economics, and downstream policy largely open.</li>
+<li>The identity registry is based on <strong>ERC-721</strong>, so transfer of the token is a real control-change event and MUST be treated that way by consumers.</li>
+<li>The <code>agentURI</code> may use <code>https://</code>, <code>ipfs://</code>, or <code>data:</code> URIs. The draft does <strong>not</strong> define a universal on-chain digest for registration files. Consumers therefore MUST distinguish between <strong>cryptographically anchored retrieval</strong> and mere successful retrieval.</li>
+<li><code>agentWallet</code> is special. It is reserved, requires proof of control using <strong>EIP-712</strong> or <strong>ERC-1271</strong>, and is automatically cleared when the ERC-721 token is transferred.</li>
+<li>Validation is request-centric and keyed by <code>requestHash</code>. Multiple validation responses may exist for the same request, including progressive states.</li>
+<li>If <code>supportedTrust</code> is absent or empty, the registration is being used for discovery only, not for trust.</li>
+</ol>
+<hr />
+<h2 id="3-roles-and-trust-boundaries">3) Roles and trust boundaries</h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>What they control</th>
+<th>What consumers MUST NOT assume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent owner (ERC-721 holder)</td>
+<td><code>agentURI</code> updates, transfer control, wallet rebinding</td>
+<td>Same token means same operator over time</td>
+</tr>
+<tr>
+<td>Agent wallet (<code>agentWallet</code>)</td>
+<td>Optional payment and signing endpoint</td>
+<td>Always set, always current, always EOA, always safe</td>
+</tr>
+<tr>
+<td>Client / feedback author</td>
+<td>Feedback creation, revocation, appended material</td>
+<td>Human uniqueness, honesty, or non-collusion</td>
+</tr>
+<tr>
+<td>Validator</td>
+<td>Methodology, response semantics, update cadence</td>
+<td>Consistent meaning of “validated” across validators</td>
+</tr>
+<tr>
+<td>Consumer UI / indexer</td>
+<td>Aggregation, filtering, ranking, rendering</td>
+<td>Raw chain signals are safe or meaningful without policy</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-threat-model-summary">4) Threat model summary</h2>
+<table>
+<thead>
+<tr>
+<th>Threat</th>
+<th>Typical attacker path</th>
+<th>Consumer harm</th>
+<th>CSP posture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reputation Sybil swarm</td>
+<td>Many clients emit cheap feedback</td>
+<td>Inflated or buried reputation</td>
+<td>Weighting, quotas, anomaly controls</td>
+</tr>
+<tr>
+<td>Identity continuity hijack</td>
+<td>Transfer or buy the NFT</td>
+<td>Brand takeover, stale trust carryover</td>
+<td>Control-change detection and reset</td>
+</tr>
+<tr>
+<td>Endpoint substitution</td>
+<td>Swap registration or service endpoints</td>
+<td>Phishing, malware, impersonation</td>
+<td>Safe-fetch, endpoint tiering, diff visibility</td>
+</tr>
+<tr>
+<td>Availability rug</td>
+<td>Remove or censor blobs</td>
+<td>Claims cannot be re-verified</td>
+<td>Verified cache, retry, unavailable semantics</td>
+</tr>
+<tr>
+<td>Validation theater</td>
+<td>Friendly validators or vague scopes</td>
+<td>False assurance</td>
+<td>Method, scope, freshness, request binding</td>
+</tr>
+<tr>
+<td>Indexer griefing</td>
+<td>Spam events or slow URIs</td>
+<td>Downtime, hidden centralization</td>
+<td>Quotas, backpressure, fetch sandbox</td>
+</tr>
+<tr>
+<td>Cross-registry continuity spoofing</td>
+<td>Claim extra registrations without proof</td>
+<td>Fake multi-chain legitimacy</td>
+<td><code>registrations[]</code> cross-check rules</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-conformance-levels">5) Conformance levels</h2>
+<p>A consumer MUST NOT claim a higher level unless all requirements in that level and below are met.</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Label</th>
+<th>Minimum bar</th>
+<th>Typical safe use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L0</td>
+<td>ERC-8004 compatible</td>
+<td>Basic parsing only</td>
+<td>Demos and local experiments</td>
+</tr>
+<tr>
+<td>L1</td>
+<td>Integrity-aware</td>
+<td>Safe-fetch plus integrity anchoring classification</td>
+<td>Casual browsing</td>
+</tr>
+<tr>
+<td>L2</td>
+<td>Sybil-aware reputation</td>
+<td>Weighted reputation and spam controls</td>
+<td>Consumer directories and marketplaces</td>
+</tr>
+<tr>
+<td>L3</td>
+<td>Validation-meaningful</td>
+<td>Validator policy, request linkage, freshness, deterministic finality</td>
+<td>Enterprise evaluation</td>
+</tr>
+<tr>
+<td>L4</td>
+<td>Economically secured (profiled)</td>
+<td>External staking, slashing, bond, or insurance integration</td>
+<td>High-stakes automation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-requirements-matrix">6) Requirements matrix</h2>
+<h3 id="61-identity-consumption">6.1 Identity consumption</h3>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th style="text-align: right;">L1</th>
+<th style="text-align: right;">L2</th>
+<th style="text-align: right;">L3</th>
+<th style="text-align: right;">L4</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Detect ERC-721 transfer and treat it as a control change</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Show date and transaction reference; reset continuity</td>
+</tr>
+<tr>
+<td>Show <code>agentWallet</code> as current, cleared, or stale</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Zero address is not neutral; it is unbound</td>
+</tr>
+<tr>
+<td>Re-verify <code>agentWallet</code> after transfer before routing trust to it</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Old bindings MUST be invalidated</td>
+</tr>
+<tr>
+<td>Distinguish EOA proof from ERC-1271 contract-wallet proof where available</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Helpful for integrator risk models</td>
+</tr>
+<tr>
+<td>Registration retrieval MUST be classified as cryptographically anchored, unanchored, mismatched, unavailable, or malformed</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Retrieval state is not trust state</td>
+</tr>
+<tr>
+<td>If <code>registrations[]</code> is present, the active on-chain <code>(agentRegistry, agentId)</code> MUST appear in it</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Prevent continuity spoofing</td>
+</tr>
+<tr>
+<td>If <code>supportedTrust</code> is absent or empty, the consumer MUST treat the profile as discovery-only</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>No implied assurance from registration alone</td>
+</tr>
+<tr>
+<td>Endpoint domain verification MUST be labeled as domain control only</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Do not convert domain control into safety claims</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-reputation-consumption">6.2 Reputation consumption</h3>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th style="text-align: right;">L1</th>
+<th style="text-align: right;">L2</th>
+<th style="text-align: right;">L3</th>
+<th style="text-align: right;">L4</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Display raw feedback counts without implying quality</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>No stars or scalar quality score at L1</td>
+</tr>
+<tr>
+<td>Weight feedback using transparent policy inputs</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Age, proof, reliability, stake, or similar</td>
+</tr>
+<tr>
+<td>Rate-limit ingestion and rendering per agent and per source</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Protect both UI and indexer</td>
+</tr>
+<tr>
+<td>Treat <code>appendResponse()</code> as untrusted unless policy admits it</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Third-party annotations are not first-party truth</td>
+</tr>
+<tr>
+<td>Distinguish author feedback, agent response, and third-party annotation</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Asymmetry matters</td>
+</tr>
+<tr>
+<td>Revoked feedback remains visible as revoked</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>No silent erasure</td>
+</tr>
+<tr>
+<td>Summary outputs MUST declare the client set or policy basis used</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Prevent hidden centralization</td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-validation-consumption">6.3 Validation consumption</h3>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th style="text-align: right;">L1</th>
+<th style="text-align: right;">L2</th>
+<th style="text-align: right;">L3</th>
+<th style="text-align: right;">L4</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Never show “validated” without method, scope, freshness, and validator identity</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Kill badge inflation</td>
+</tr>
+<tr>
+<td>Preserve and expose <code>requestHash -&gt; validatorAddress -&gt; response(s)</code> linkage</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Validation is request-scoped</td>
+</tr>
+<tr>
+<td>Distinguish latest response, final response under policy, and superseded response</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Progressive states are allowed upstream</td>
+</tr>
+<tr>
+<td>Validation payload integrity MUST be checked using the same anchoring model used elsewhere</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Same retrieval rules apply</td>
+</tr>
+<tr>
+<td>Validation status MUST be tied to the specific artifact or scope evaluated</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>“Validated once” is not enough</td>
+</tr>
+<tr>
+<td>Material <code>agentURI</code> changes MUST stale or downgrade prior validations until re-evaluated</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Drift is real</td>
+</tr>
+<tr>
+<td>Consumer MUST maintain a validator policy</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Allowlist, weighted allowlist, or open-but-downrank</td>
+</tr>
+<tr>
+<td>Consumer MUST define a deterministic finality rule</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">SHOULD</td>
+<td style="text-align: right;">MUST</td>
+<td style="text-align: right;">MUST</td>
+<td>Multiple responses are expected upstream</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-integrity-anchoring-model">7) Integrity anchoring model</h2>
+<p>ERC-8004 allows <code>https://</code>, <code>ipfs://</code>, and <code>data:</code> registration URIs. The upstream draft does not provide a universal registration-file digest for every URI scheme. Therefore this profile uses an <strong>integrity anchoring model</strong>, not a pretend universal hash fairy.</p>
+<h3 id="71-classification-states">7.1 Classification states</h3>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+<th>Consumer behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cryptographically anchored</td>
+<td>Content is anchored by a content-addressed URI, embedded <code>data:</code> URI, or an extension-level digest</td>
+<td>MAY be used subject to normal safety checks</td>
+</tr>
+<tr>
+<td>Retrieved but unanchored</td>
+<td>Content was fetched, but no digest or content-addressed anchor exists</td>
+<td>MUST be labeled unanchored; MUST NOT be marketed as integrity-verified</td>
+</tr>
+<tr>
+<td>Mismatch</td>
+<td>Expected anchor and retrieved content disagree</td>
+<td>MUST quarantine and block normal use</td>
+</tr>
+<tr>
+<td>Unavailable</td>
+<td>Content could not be fetched</td>
+<td>SHOULD use last verified snapshot if present</td>
+</tr>
+<tr>
+<td>Malformed</td>
+<td>Content is syntactically or structurally invalid</td>
+<td>MUST show minimal safe metadata only</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-anchoring-rules">7.2 Anchoring rules</h3>
+<ol>
+<li><code>ipfs://</code> or similar content-addressed retrieval SHOULD be treated as cryptographically anchored when the content resolution preserves the expected content identifier.</li>
+<li><code>data:</code> URIs MAY be treated as cryptographically anchored because the content is embedded, but they MUST still pass size, media-type, and inert-rendering controls.</li>
+<li>Plain <code>https://</code> retrieval without an external digest or profile extension MUST be labeled <strong>retrieved but unanchored</strong>.</li>
+<li>If an implementation adds an extension-level digest for <code>https://</code> content, that digest MAY be used as the anchoring basis.</li>
+<li>A consumer MUST NOT use successful retrieval alone as evidence that content is immutable, authentic, safe, or still policy-worthy.</li>
+</ol>
+<hr />
+<h2 id="8-content-retrieval-and-rendering-policy-safe-fetch">8) Content retrieval and rendering policy (safe-fetch)</h2>
+<h3 id="81-uri-handling">8.1 URI handling</h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>MUST</th>
+<th>SHOULD</th>
+<th>MUST NOT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>URI schemes</td>
+<td>Support <code>https://</code>; support <code>ipfs://</code> through controlled gateways; support <code>data:</code> only under strict policy</td>
+<td>Support more than one IPFS gateway</td>
+<td>Auto-execute unknown schemes</td>
+</tr>
+<tr>
+<td>Fetch sandbox</td>
+<td>Enforce timeouts, size caps, media-type checks, and isolated execution</td>
+<td>Log resolved URI and anchor classification</td>
+<td>Fetch in a privileged UI thread</td>
+</tr>
+<tr>
+<td>Redirect handling</td>
+<td>Log redirect chain and policy outcome</td>
+<td>Limit redirect depth tightly</td>
+<td>Silently trust redirects</td>
+</tr>
+<tr>
+<td>Rendering</td>
+<td>Render inert text or JSON only</td>
+<td>Strip active content and dangerous attributes</td>
+<td>Render HTML, script, or SVG as active content</td>
+</tr>
+<tr>
+<td>PII and malware</td>
+<td>Classify and warn before display</td>
+<td>Offer suppression controls</td>
+<td>Display sensitive content by default</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-data-uri-controls">8.2 <code>data:</code> URI controls</h3>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Allowed media types</td>
+<td>MUST be explicitly allowlisted, for example <code>application/json</code> or <code>text/plain</code></td>
+</tr>
+<tr>
+<td>Size</td>
+<td>MUST be capped separately from normal fetch size</td>
+</tr>
+<tr>
+<td>Parsing</td>
+<td>MUST be inert-only</td>
+</tr>
+<tr>
+<td>Active content</td>
+<td>MUST NOT render HTML, JavaScript, or scriptable SVG</td>
+</tr>
+</tbody>
+</table>
+<h3 id="83-availability-semantics">8.3 Availability semantics</h3>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>UI label</th>
+<th>Consumer behavior</th>
+<th>Indexer behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anchored and valid</td>
+<td>Verified content</td>
+<td>Show normally with anchor disclosure</td>
+<td>Cache by anchor</td>
+</tr>
+<tr>
+<td>Retrieved but unanchored</td>
+<td>Retrieved, not cryptographically anchored</td>
+<td>Show warning and lower trust</td>
+<td>Cache separately from anchored content</td>
+</tr>
+<tr>
+<td>Mismatch</td>
+<td>Tampered or mismatched</td>
+<td>Block normal use</td>
+<td>Quarantine and alert</td>
+</tr>
+<tr>
+<td>Unavailable</td>
+<td>Unavailable</td>
+<td>Show last verified snapshot if present</td>
+<td>Retry with backoff</td>
+</tr>
+<tr>
+<td>Malformed</td>
+<td>Invalid content</td>
+<td>Show minimal safe metadata only</td>
+<td>Record error and rate-limit source</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-reputation-scoring-baseline-l2">9) Reputation scoring baseline (L2+)</h2>
+<h3 id="91-weighting-inputs">9.1 Weighting inputs</h3>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Default guidance</th>
+<th>Rationale</th>
+<th>Abuse resistance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feedback age</td>
+<td>Decay over time</td>
+<td>Prevent frozen reputation</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Client account age</td>
+<td>Upweight older accounts</td>
+<td>Adds friction to cheap swarms</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Client proof</td>
+<td>Optional upweight for DID, VC, KYC, or similar</td>
+<td>Raises cost of spoofing</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td>Stake or bond</td>
+<td>Strong upweight if present</td>
+<td>Adds economic cost</td>
+<td>High when real</td>
+</tr>
+<tr>
+<td>Prior reliability</td>
+<td>Upweight proven signal sources</td>
+<td>Anti-spam effect</td>
+<td>Medium</td>
+</tr>
+</tbody>
+</table>
+<h3 id="92-output-constraints">9.2 Output constraints</h3>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Allowed display</th>
+<th>Disallowed display</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1</td>
+<td>Counts and chronological views</td>
+<td>Scalar reputation score</td>
+</tr>
+<tr>
+<td>L2+</td>
+<td>Score with policy disclosure and confidence</td>
+<td>Score without policy transparency</td>
+</tr>
+<tr>
+<td>L3+</td>
+<td>Score plus validation overlays and freshness</td>
+<td>“Validated” badge with no scope or method</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-control-change-and-continuity-ux">10) Control change and continuity UX</h2>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>MUST show</th>
+<th>MUST do</th>
+<th>SHOULD do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ERC-721 transfer</td>
+<td>Control changed with date and tx reference</td>
+<td>Reset continuity indicators and invalidate prior wallet trust</td>
+<td>Require re-consent before risky actions</td>
+</tr>
+<tr>
+<td><code>agentURI</code> update</td>
+<td>Profile updated with diff view or changed fields</td>
+<td>Re-run retrieval classification and stale dependent validations</td>
+<td>Highlight endpoint changes</td>
+</tr>
+<tr>
+<td><code>agentWallet</code> set, cleared, or rebound</td>
+<td>Wallet bound, unbound, or reverified state</td>
+<td>Update routing constraints immediately</td>
+<td>Show EOA vs contract-wallet status</td>
+</tr>
+<tr>
+<td>Mismatch between active registration and <code>registrations[]</code></td>
+<td>Registration continuity warning</td>
+<td>Downrank or block continuity claims per policy</td>
+<td>Require manual review in high-stakes flows</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-cross-registry-continuity-rules">11) Cross-registry continuity rules</h2>
+<ol>
+<li>When <code>registrations[]</code> is present, the currently resolved on-chain <code>(agentRegistry, agentId)</code> pair SHOULD appear there at L1 and MUST appear there at L2+.</li>
+<li>Additional registration entries MUST be treated as <strong>claims</strong> unless independently resolved.</li>
+<li>Cross-chain or cross-registry continuity MUST NOT be treated as verified identity continuity without separately resolving each referenced registry/token pair.</li>
+<li>A consumer SHOULD surface mismatches between the active registration and declared linked registrations.</li>
+</ol>
+<hr />
+<h2 id="12-validator-governance-and-request-linkage-l3">12) Validator governance and request linkage (L3+)</h2>
+<h3 id="121-validator-policy-fields">12.1 Validator policy fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Requirement</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>validatorAddress</code></td>
+<td>address</td>
+<td>MUST</td>
+<td>On-chain validator identity</td>
+</tr>
+<tr>
+<td><code>methodologyURI</code></td>
+<td>URI</td>
+<td>MUST</td>
+<td>Human-readable method description</td>
+</tr>
+<tr>
+<td><code>scopeTags</code></td>
+<td>string[]</td>
+<td>MUST</td>
+<td>What was actually validated</td>
+</tr>
+<tr>
+<td><code>weight</code></td>
+<td>number</td>
+<td>MUST</td>
+<td>Consumer-side influence</td>
+</tr>
+<tr>
+<td><code>conflictRule</code></td>
+<td>enum</td>
+<td>MUST</td>
+<td>Tie-break or resolution policy</td>
+</tr>
+<tr>
+<td><code>freshnessWindowHours</code></td>
+<td>number</td>
+<td>MUST</td>
+<td>Validity window</td>
+</tr>
+</tbody>
+</table>
+<h3 id="122-request-and-response-handling">12.2 Request and response handling</h3>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Why it exists</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Preserve <code>requestHash</code> as the primary linkage key</td>
+<td>Upstream validation is request-centric</td>
+</tr>
+<tr>
+<td>Allow multiple responses per request</td>
+<td>Upstream supports progressive states</td>
+</tr>
+<tr>
+<td>Distinguish latest, final, and superseded responses</td>
+<td>Prevent semantic collapse</td>
+</tr>
+<tr>
+<td>Bind validation display to the artifact version or scope evaluated</td>
+<td>Avoid generic “validated once” theater</td>
+</tr>
+<tr>
+<td>Stale prior validations on material <code>agentURI</code> change</td>
+<td>Validation may no longer describe the live artifact</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="13-indexer-operational-controls">13) Indexer operational controls</h2>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>MUST</th>
+<th>SHOULD</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Event ingestion quotas</td>
+<td>✅</td>
+<td></td>
+<td>Per-agent and per-source burst controls</td>
+</tr>
+<tr>
+<td>Backpressure on slow URIs</td>
+<td>✅</td>
+<td></td>
+<td>Prevent fetch storms</td>
+</tr>
+<tr>
+<td>Cache by anchor or digest</td>
+<td>✅</td>
+<td></td>
+<td>Deduplicate and preserve provenance</td>
+</tr>
+<tr>
+<td>Audit logs of fetch, classification, and verification</td>
+<td>✅</td>
+<td></td>
+<td>Incident response and explainability</td>
+</tr>
+<tr>
+<td>Health checks for IPFS gateways</td>
+<td>✅</td>
+<td></td>
+<td>Automatic fallback</td>
+</tr>
+<tr>
+<td>Abuse reporting channel</td>
+<td></td>
+<td>✅</td>
+<td>Social layer still matters</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="14-privacy-and-data-minimization">14) Privacy and data minimization</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>CSP requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Correlation graphs</td>
+<td>SHOULD provide privacy-mode views</td>
+</tr>
+<tr>
+<td>Accidental PII in blobs</td>
+<td>MUST classify and permit suppression while keeping a pointer visible</td>
+</tr>
+<tr>
+<td>Long-term local retention</td>
+<td>SHOULD allow cache purge and MUST label on-chain immutability</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="15-compliance-test-suite-summary">15) Compliance test suite summary</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Expected result</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plain <code>https://</code> registration with no digest</td>
+<td>Show retrieved but unanchored</td>
+<td>L1+</td>
+</tr>
+<tr>
+<td>Transfer clears <code>agentWallet</code> trust</td>
+<td>Control-change banner and wallet invalidation</td>
+<td>L1+</td>
+</tr>
+<tr>
+<td><code>registrations[]</code> mismatch</td>
+<td>Warning or block per policy</td>
+<td>L2+</td>
+</tr>
+<tr>
+<td>Multiple validation responses for one request</td>
+<td>Deterministic latest/final/superseded output</td>
+<td>L3+</td>
+</tr>
+<tr>
+<td><code>agentURI</code> changes after validation</td>
+<td>Validation becomes stale or downgraded</td>
+<td>L3+</td>
+</tr>
+<tr>
+<td>Oversized or active <code>data:</code> URI</td>
+<td>Blocked by safe-fetch</td>
+<td>L1+</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="16-upstream-references">16) Upstream references</h2>
+<ul>
+<li>ERC-8004 draft: <code>https://eips.ethereum.org/EIPS/eip-8004</code></li>
+<li>EIP-712: <code>https://eips.ethereum.org/EIPS/eip-712</code></li>
+<li>ERC-721: <code>https://eips.ethereum.org/EIPS/eip-721</code></li>
+<li>ERC-1271: <code>https://eips.ethereum.org/EIPS/eip-1271</code></li>
+<li>RFC 2119: <code>https://www.rfc-editor.org/rfc/rfc2119</code></li>
+<li>RFC 8174: <code>https://www.rfc-editor.org/rfc/rfc8174</code></li>
+</ul></article>
+    <div class="footer">Built from repository Markdown by <code>scripts/build_pages.py</code>.</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home</title>
+  <style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; background: #0b0f17; color: #e9eef7; }
+a { color: #8cc7ff; }
+.container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+nav { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+nav a { text-decoration: none; padding: 0.55rem 0.8rem; border-radius: 999px; background: #121a28; }
+article { background: #121826; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+code, pre { background: #0d1320; border-radius: 8px; }
+pre { padding: 1rem; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }
+th, td { border: 1px solid #2a3346; padding: 0.6rem; text-align: left; }
+blockquote { border-left: 4px solid #8cc7ff; margin-left: 0; padding-left: 1rem; color: #c8d5ea; }
+.footer { margin-top: 1.5rem; color: #b7c5db; font-size: 0.95rem; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <nav><a href="README.html">Home</a> <a href="erc-8004-csp.html">Specification</a> <a href="checklist.html">Conformance Checklist</a> <a href="test-cases.html">Conformance Test Cases</a> <a href="architecture.html">Architecture</a> <a href="threat-model.html">Threat Model</a></nav>
+    <article><h1 id="erc-8004-consumer-security-profile-csp">ERC-8004 Consumer Security Profile (CSP)</h1>
+<p>A <strong>consumer-side</strong> security profile for <strong>ERC-8004 (Trustless Agents)</strong> implementers: wallets, agent directories, marketplaces, explorers, and indexers.</p>
+<p>This repository packages the CSP as:
+- A <strong>human-readable profile</strong> with normative <strong>MUST/SHOULD/MAY</strong> language.
+- A <strong>machine-readable policy schema</strong> for consumer policy enforcement.
+- A <strong>conformance checklist</strong> and <strong>test cases</strong> that can be wired into CI and release gates.
+- A <strong>GitHub Pages build pipeline</strong> that publishes the profile as a static documentation site.</p>
+<blockquote>
+<p>ERC-8004 is a discovery and signal layer, not a guarantee layer. This CSP defines how to consume those signals without wandering into badge theater.</p>
+</blockquote>
+<h2 id="contents">Contents</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spec/erc-8004-csp.md</code></td>
+<td>The normative CSP document</td>
+</tr>
+<tr>
+<td><code>policy/policy.schema.json</code></td>
+<td>JSON Schema for a consumer policy</td>
+</tr>
+<tr>
+<td><code>policy/example-policy.json</code></td>
+<td>Example consumer policy (L3-oriented baseline)</td>
+</tr>
+<tr>
+<td><code>conformance/checklist.md</code></td>
+<td>Checklist by conformance level</td>
+</tr>
+<tr>
+<td><code>conformance/test-cases.md</code></td>
+<td>Test case suite</td>
+</tr>
+<tr>
+<td><code>docs/architecture.md</code></td>
+<td>Reference architecture for implementers</td>
+</tr>
+<tr>
+<td><code>docs/threat-model.md</code></td>
+<td>Consumer-focused threat model and attacker playbooks</td>
+</tr>
+<tr>
+<td><code>.github/workflows/pages.yml</code></td>
+<td>GitHub Pages deployment workflow</td>
+</tr>
+<tr>
+<td><code>scripts/build_pages.py</code></td>
+<td>Static site build script</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conformance-levels">Conformance levels</h2>
+<ul>
+<li><strong>L0</strong>: basic parsing only. Suitable for demos.</li>
+<li><strong>L1</strong>: integrity-aware and safe-fetch capable.</li>
+<li><strong>L2</strong>: Sybil-aware reputation consumption.</li>
+<li><strong>L3</strong>: validation-meaningful consumption with deterministic rules.</li>
+<li><strong>L4</strong>: externally economically secured profile claims.</li>
+</ul>
+<p>See <code>spec/erc-8004-csp.md</code> for the full requirements matrix.</p>
+<h2 id="v091-highlights">v0.9.1 highlights</h2>
+<ul>
+<li>Corrected the integrity model for registration files so that <strong>content-addressed URIs, <code>data:</code> URIs, or extension-level digests</strong> are treated as cryptographically anchored, while plain <code>https://</code> retrieval without a digest is treated as retrieved but <strong>not cryptographically anchored</strong>.</li>
+<li>Added explicit handling for <strong><code>agentWallet</code> freshness</strong>, <strong>post-transfer invalidation</strong>, and <strong>EOA vs ERC-1271 wallet binding semantics</strong>.</li>
+<li>Added <strong><code>registrations[]</code> cross-check requirements</strong> to reduce continuity spoofing across registries and chains.</li>
+<li>Tightened <strong>validation request/response linkage</strong> around <code>requestHash</code>, supersession, finality, and drift after <code>agentURI</code> changes.</li>
+<li>Added stricter <strong><code>data:</code> URI safety controls</strong> and clearer <strong><code>supportedTrust</code> interpretation</strong>.</li>
+<li>Added a <strong>GitHub Pages</strong> workflow and static site build path.</li>
+</ul>
+<h2 id="quick-start">Quick start</h2>
+<ol>
+<li>Copy <code>policy/example-policy.json</code> and tailor it to your consumer risk tolerance.</li>
+<li>Implement the L1 baseline:
+   - safe-fetch sandbox
+   - integrity anchoring detection
+   - transfer and control-change UX
+   - explicit <code>agentWallet</code> state handling</li>
+<li>Add L2 and L3 capabilities:
+   - weighting and anomaly controls
+   - validator policy and finality rules
+   - stale-validation handling on profile drift</li>
+<li>Run <code>conformance/checklist.md</code> and <code>conformance/test-cases.md</code> in release gates.</li>
+</ol>
+<h2 id="repository-status">Repository status</h2>
+<ul>
+<li>Version: <strong>CSP v0.9.1</strong></li>
+<li>Date: <strong>2026-03-07</strong></li>
+<li>License: <strong>Apache-2.0</strong></li>
+</ul>
+<h2 id="github-pages">GitHub Pages</h2>
+<p>The repository includes an Actions-based Pages workflow in <code>.github/workflows/pages.yml</code>.</p>
+<p>After pushing to the default branch:
+1. In repository settings, set <strong>Pages</strong> to use <strong>GitHub Actions</strong> as the source.
+2. The workflow will build a static site from the repository Markdown.
+3. The deployed site will expose the CSP and supporting docs as browsable HTML.</p>
+<h2 id="upstream-references">Upstream references</h2>
+<p>The CSP is designed against the current draft and adjacent standards listed below:</p>
+<ul>
+<li>ERC-8004: Trustless Agents: <code>https://eips.ethereum.org/EIPS/eip-8004</code></li>
+<li>EIP-712: Typed structured data hashing and signing: <code>https://eips.ethereum.org/EIPS/eip-712</code></li>
+<li>ERC-721: Non-Fungible Token Standard: <code>https://eips.ethereum.org/EIPS/eip-721</code></li>
+<li>ERC-1271: Standard Signature Validation Method for Contracts: <code>https://eips.ethereum.org/EIPS/eip-1271</code></li>
+<li>RFC 2119: <code>https://www.rfc-editor.org/rfc/rfc2119</code></li>
+<li>RFC 8174: <code>https://www.rfc-editor.org/rfc/rfc8174</code></li>
+</ul>
+<h2 id="contributing">Contributing</h2>
+<p>See <code>CONTRIBUTING.md</code>. Useful contribution areas include:
+- new conformance tests
+- validator methodology registries
+- policy schema extensions
+- implementation notes and interoperability writeups</p></article>
+    <div class="footer">Built from repository Markdown by <code>scripts/build_pages.py</code>.</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conformance Checklist</title>
+  <style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; background: #0b0f17; color: #e9eef7; }
+a { color: #8cc7ff; }
+.container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+nav { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+nav a { text-decoration: none; padding: 0.55rem 0.8rem; border-radius: 999px; background: #121a28; }
+article { background: #121826; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+code, pre { background: #0d1320; border-radius: 8px; }
+pre { padding: 1rem; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }
+th, td { border: 1px solid #2a3346; padding: 0.6rem; text-align: left; }
+blockquote { border-left: 4px solid #8cc7ff; margin-left: 0; padding-left: 1rem; color: #c8d5ea; }
+.footer { margin-top: 1.5rem; color: #b7c5db; font-size: 0.95rem; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <nav><a href="README.html">Home</a> <a href="erc-8004-csp.html">Specification</a> <a href="checklist.html">Conformance Checklist</a> <a href="test-cases.html">Conformance Test Cases</a> <a href="architecture.html">Architecture</a> <a href="threat-model.html">Threat Model</a></nav>
+    <article><h1 id="conformance-checklist">Conformance Checklist</h1>
+<h2 id="l1-integrity-aware">L1 — Integrity-aware</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Check</th>
+<th>Pass criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fetch</td>
+<td>Safe-fetch sandbox</td>
+<td>Timeouts, size caps, media-type enforcement, isolated retrieval</td>
+</tr>
+<tr>
+<td>Integrity</td>
+<td>Anchoring classification</td>
+<td>Content is classified as anchored, unanchored, mismatch, unavailable, or malformed</td>
+</tr>
+<tr>
+<td>UX</td>
+<td>Control change</td>
+<td>Transfers trigger a prominent control-change banner</td>
+</tr>
+<tr>
+<td>UX</td>
+<td>Wallet binding</td>
+<td><code>agentWallet</code> is explicit as current, cleared, or stale</td>
+</tr>
+<tr>
+<td>Safety</td>
+<td><code>data:</code> URI policy</td>
+<td>Only allowlisted inert media types are accepted</td>
+</tr>
+</tbody>
+</table>
+<h2 id="l2-sybil-aware-reputation">L2 — Sybil-aware reputation</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Check</th>
+<th>Pass criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reputation</td>
+<td>Weighting policy</td>
+<td>Default weights exist, are disclosed, and are inspectable</td>
+</tr>
+<tr>
+<td>Spam</td>
+<td>Rate limits</td>
+<td>Bursts do not degrade UX or indexer stability</td>
+</tr>
+<tr>
+<td>Responses</td>
+<td>Gating</td>
+<td><code>appendResponse()</code> is policy-gated and typed correctly</td>
+</tr>
+<tr>
+<td>Revocation</td>
+<td>Transparency</td>
+<td>Revoked feedback remains visible as revoked</td>
+</tr>
+<tr>
+<td>Continuity</td>
+<td><code>registrations[]</code> cross-check</td>
+<td>Mismatches are surfaced and policy-handled</td>
+</tr>
+</tbody>
+</table>
+<h2 id="l3-validation-meaningful">L3 — Validation-meaningful</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Check</th>
+<th>Pass criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Validators</td>
+<td>Policy</td>
+<td>Validator set, methodology, and weights are published</td>
+</tr>
+<tr>
+<td>Semantics</td>
+<td>Scope</td>
+<td>Display includes validator, method, scope, freshness, and request linkage</td>
+</tr>
+<tr>
+<td>Finality</td>
+<td>Deterministic</td>
+<td>Conflicts and progressive states resolve by explicit rule</td>
+</tr>
+<tr>
+<td>Drift</td>
+<td>Revalidation</td>
+<td>Material <code>agentURI</code> changes stale dependent validations</td>
+</tr>
+<tr>
+<td>Freshness</td>
+<td>Window</td>
+<td>Expired validations are marked expired or stale</td>
+</tr>
+</tbody>
+</table>
+<h2 id="l4-economically-secured">L4 — Economically secured</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Check</th>
+<th>Pass criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Economics</td>
+<td>External protocol</td>
+<td>Claims are backed by staking, slashing, bonds, or insurance</td>
+</tr>
+<tr>
+<td>Disclosures</td>
+<td>Dependencies</td>
+<td>User-visible dependency disclosure is present and accurate</td>
+</tr>
+</tbody>
+</table></article>
+    <div class="footer">Built from repository Markdown by <code>scripts/build_pages.py</code>.</div>
+  </div>
+</body>
+</html>
