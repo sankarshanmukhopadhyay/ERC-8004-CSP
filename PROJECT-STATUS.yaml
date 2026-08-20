@@ -1,0 +1,31 @@
+schema_version: "1.0"
+project:
+  name: ERC-8004-CSP
+  maturity: implementation-draft
+  lifecycle: active
+  operational_status: active-development
+  specification_status: working-draft
+  intended_use:
+    - erc-8004-assurance-profile-development
+    - ecosystem-specific-conformance-guidance
+    - implementation-analysis
+  not_asserted:
+    - upstream-erc-authority
+    - production-certification
+    - independent-third-party-assurance
+authority:
+  normative_scope:
+    - erc-8004-assurance-profile
+  does_not_own:
+    - upstream-erc-8004-specification
+    - ethereum-governance
+    - external-deployment-policy
+  delegation: "Repository maintainers govern the CSP profile and fork-local assurance guidance; upstream ERC and ecosystem authorities retain their own authority."
+  revocation_or_supersession: "Profile requirements are superseded through explicit versioned repository changes with prior states retained in Git history."
+evidence:
+  validation_commands:
+    - git diff --check
+  evidence_outputs: []
+  known_limitations:
+    - repository-specific automated conformance coverage is not asserted by this declaration
+    - upstream ERC-8004 authority is explicitly outside scope
