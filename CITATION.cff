@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "Cite the version or commit consulted; this work does not assert upstream endorsement or certification."
+title: "ERC-8004 Consumer Security Profile"
+type: software
+version: "0.9.1"
+authors:
+  - family-names: Mukhopadhyay
+    given-names: Sankarshan
+repository-code: https://github.com/sankarshanmukhopadhyay/ERC-8004-CSP
