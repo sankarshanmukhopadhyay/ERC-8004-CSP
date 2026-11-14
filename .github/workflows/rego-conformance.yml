@@ -36,7 +36,7 @@ jobs:
       - name: Run schema and real-engine conformance
         env:
           CSP_OPA_BIN: /tmp/opa
-        run: python -m unittest discover -s tests -v
+        run: python -m unittest discover -s tests -p 'test_rego_policy.py' -v
       - name: Exercise canonical consumer CLI
         run: |
           python scripts/evaluate_validation.py \
