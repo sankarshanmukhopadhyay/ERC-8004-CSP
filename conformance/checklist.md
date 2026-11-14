@@ -63,3 +63,18 @@
 Each check should report **PASS**, **FAIL**, **INDETERMINATE**, or **NOT APPLICABLE** with evidence and reason. An INDETERMINATE or unexplained NOT APPLICABLE cannot satisfy an affirmative level claim. Conformance evidence must be produced by an actual consumer implementation; the repository's experimental Rego integration does **not** certify L3 or L4 consumers.
 
 See [test cases](test-cases.md), [architecture](../docs/architecture.md) and the [upstream traceability matrix](../spec/erc-8004-csp.md).
+
+
+## Red-team convergence checks for the candidate profile
+
+The [red-team resolution record](../docs/red-team-resolution-2026-11.md) tracks the source review, implementation and still-unevidenced external boundaries.
+
+| Level | Acceptance evidence | Consumer/implementation obligation | Representative case |
+| --- | --- | --- | --- |
+| L0 | Both a discovery-only positive and an authority-laundering negative | Parsing a registry entry never permits execution | T44/T45 |
+| L1 | Registry pin and recognition evidence, ABI/code migration, owner epoch, strict parser and same-byte display | Unknown revisions, code swaps and unsafe source inputs cannot become affirmative | T25/T26/T28/T31/T34–38 |
+| L2 | Source-cohort and owner-epoch records; explicit zero-count treatment | Colluding, absent or self-interested reviews cannot form an unqualified quality score | T27/T32/T39/T42 |
+| L3 | Chain- and registry-scoped request binding, latest-state reconciliation, competence conflict evidence | Owner-chosen validator responses and cross-chain hashes cannot create permanent assurance | T33/T40/T41/T43 |
+| L4 | Effective external mechanism, coverage scope and value-at-risk at reliance time | Expired or withdrawn exposure cannot establish current economic security | T23/T24/T46/T47 |
+
+**Execution distinction:** T01–T47 remain descriptive end-to-end acceptance scenarios. A bounded subset is represented by [normalized red-team vectors](red-team-vectors.json) and run through [the deterministic harness](../scripts/run_conformance.py). Green tests provide only local synthetic-input decision evidence. Full on-chain/HTTP/model/runtime/TEE or independent-conformance evidence remains unestablished. The [requirements index](requirements.json) must not convert scenario linkage to PASS.

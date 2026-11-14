@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CSP self-declared conformance claim candidate v0.10.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "claim_version",
+    "profile_version",
+    "level",
+    "consumer_scope",
+    "implementation_ref",
+    "policy_digest",
+    "upstream_commit",
+    "evaluation_time",
+    "valid_until",
+    "claim_status",
+    "evidence_class",
+    "test_results",
+    "limitations",
+    "authorization"
+  ],
+  "properties": {
+    "claim_version": {
+      "const": "1.0.0"
+    },
+    "profile_version": {
+      "const": "0.10.0-candidate"
+    },
+    "level": {
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3",
+        "L4"
+      ]
+    },
+    "consumer_scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "implementation_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "upstream_commit": {
+      "const": "503591a6e80e6e1affdd6403341e25269141f046"
+    },
+    "evaluation_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "claim_status": {
+      "enum": [
+        "not-assessed",
+        "qualified",
+        "withdrawn"
+      ]
+    },
+    "evidence_class": {
+      "enum": [
+        "not-run",
+        "author-supplied-synthetic",
+        "implementation-executed"
+      ]
+    },
+    "independent_review": {
+      "type": "string",
+      "minLength": 1
+    },
+    "test_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "disposition",
+          "evidence"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^T[0-9]{2}$"
+          },
+          "disposition": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "INDETERMINATE",
+              "NOT_APPLICABLE"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          }
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "authorization": {
+      "const": "not-evaluated"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "claim_status": {
+            "const": "qualified"
+          }
+        },
+        "required": [
+          "claim_status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "evidence_class": {
+            "const": "implementation-executed"
+          },
+          "test_results": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "level": {
+            "enum": [
+              "L3",
+              "L4"
+            ]
+          },
+          "claim_status": {
+            "const": "qualified"
+          }
+        },
+        "required": [
+          "level",
+          "claim_status"
+        ]
+      },
+      "then": {
+        "required": [
+          "independent_review"
+        ]
+      }
+    }
+  ]
+}

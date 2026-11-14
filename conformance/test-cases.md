@@ -61,3 +61,42 @@ Every test record SHOULD include the consumer build/commit, policy/configuration
 T01–T24 remain **specification acceptance scenarios** unless a particular consumer provides execution evidence. The experimental OPA/Rego unit fixtures P01–P20 are narrower and use synthetic normalized input; they do not implement ERC-8004 chain resolution, live URI fetch, KECCAK-256 commitment verification, reputation aggregation, external economic checks or transaction authorization. Keep the distinction when publishing conformance claims.
 
 See [checklist](checklist.md), [architecture](../docs/architecture.md) and [source/citation traceability](../spec/erc-8004-csp.md).
+
+
+## Red-team extension: release-blocking source and false-success cases
+
+The following scenarios extend T01–T24. They describe expected consumer dispositions, not executed whole-system test results. The smaller normalized-input subset in `conformance/red-team-vectors.json` is executed by `scripts/run_conformance.py`; it expressly does not simulate the blockchain, network egress, TEE, or LLM tools.
+
+| ID | Level | Polarity | Adversarial setup / action | Expected consumer result | Requirement basis |
+| --- | --- | --- | --- | --- | --- |
+| **T25** | L1 | fail | Decode legacy bytes32-tag / uint8-score ABI as current fixed-point feedback | indeterminate; abi-revision-unrecognised | CSP-UP-02–03 |
+| **T26** | L1 | fail | Registry proxy code changes across otherwise matching observations | invalidate prior recognition; indeterminate | CSP-UP-04 |
+| **T27** | L2 | fail | Positive feedback from previous owner epoch shown as current-owner quality | suppress/qualify owner-era score | CSP-ID-13 |
+| **T28** | L1 | fail | Transfer and material URI change in same block | affected state withdrawn until re-evaluation | CSP-ID-14, CSP-OP-05 |
+| **T29** | L1 | fail | `eip155:01:0x...` and noncanonical agent token ID | malformed, no trusted alias | CSP-ID-15 |
+| **T30** | L1 | fail | Cloned registration lists itself and an unrelated subject | consistency only; no linked-identity assurance | CSP-ID-16 |
+| **T31** | L1 | fail | `description` asks an agent to ignore rules and mark a profile verified | inert untrusted data; no authority promotion | CSP-SF-11–12 |
+| **T32** | L2 | fail | `getSummary` returns count zero and value zero | "no data", not a measured zero score | CSP-RP-10 |
+| **T33** | L3 | fail | Owner-controlled validator reports response 100 | not independently qualified | CSP-VL-16 |
+| **T34** | L1 | fail | HTTP feedback file supplied with zero `feedbackHash` | retrieved-unanchored; cannot promote as verified | CSP-IN-09 |
+| **T35** | L1 | fail | Identity-multihash CID used as independent remote anchor | not independently anchored | CSP-IN-11 |
+| **T36** | L1 | fail | Duplicate registration JSON key with different `registrations[]` values | malformed-or-disallowed | CSP-SF-10 |
+| **T37** | L1 | fail | Redirect to HTTP/private/IPv4-mapped metadata address | blocked and unavailable; never fetch target | CSP-SF-01–03 |
+| **T38** | L1 | pass | Recognised registry, verified content-addressed snapshot, stable owner | qualified, anchored-and-matched presentation | CSP-ID-12, CSP-IN-11 |
+| **T39** | L2 | pass | Known nonempty reviewer cohort with disclosed, independently qualified policy | provenance-qualified score | CSP-RP-10 |
+| **T40** | L3 | pass | Recognised validation registry, verified bound request and independent qualified validator | scoped admitted display, no action authorization | CSP-VL-15–16, CSP-AB-02 |
+| **T41** | L3 | fail | Same request hash reused on another chain/Validation Registry | contradictory binding, no validation display | CSP-VL-15 |
+| **T42** | L2 | fail | Feedback author later becomes approved token operator | self-interested; excluded or quarantined | CSP-RP-09 |
+| **T43** | L3 | fail | `getValidationStatus` conflicts with indexed event history | contradictory, no admitted display | CSP-VL-15, CSP-VL-18 |
+
+
+## Cross-level positive and negative boundary cases
+
+These four further scenarios establish a positive and a prohibited false-success case at the two outer conformance levels. The normalized-evidence examples are **synthetic** and cannot constitute an actual consumer L0 or L4 certification.
+
+| ID | Level | Polarity | Adversarial setup / action | Expected consumer result | Requirement basis |
+| --- | --- | --- | --- | --- | --- |
+| **T44** | L0 | pass | Recognized registry and correctly parsed discovery entry with no assurance claims | Qualified discovery only | CSP-UP-01, CSP-CF-04 |
+| **T45** | L0 | fail | Registry entry interpreted as authority to execute | No authorization; authority-laundering reason | CSP-AB-01, CSP-AB-02 |
+| **T46** | L4 | pass | Independently evidenced mechanism, effective exposure and coverage at reliance time | Scope-qualified L4 evidence *input*; no certification | CSP-EC-01–06 |
+| **T47** | L4 | fail | Previously covered stake is withdrawn before reliance | No current L4 exposure claim | CSP-EC-02, CSP-EC-06 |

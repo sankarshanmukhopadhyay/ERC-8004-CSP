@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CSP example consumer evidence record (candidate, not canonical wire format)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "profileVersion",
+    "subject",
+    "source",
+    "content",
+    "decision",
+    "executionClass"
+  ],
+  "properties": {
+    "profileVersion": {
+      "const": "0.10.0-candidate"
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agentRegistry",
+        "agentId"
+      ],
+      "properties": {
+        "agentRegistry": {
+          "type": "string",
+          "pattern": "^eip155:[1-9][0-9]*:0x[0-9a-f]{40}$"
+        },
+        "agentId": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chainId",
+        "registryAddress",
+        "blockNumber",
+        "blockHash",
+        "finality"
+      ],
+      "properties": {
+        "chainId": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$"
+        },
+        "registryAddress": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{40}$"
+        },
+        "blockNumber": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "blockHash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "finality": {
+          "enum": [
+            "latest",
+            "safe",
+            "finalized",
+            "unverified"
+          ]
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "uri",
+        "integrityState"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "integrityState": {
+          "enum": [
+            "anchored-and-matched",
+            "embedded-in-verified-URI",
+            "retrieved-unanchored",
+            "mismatch",
+            "unavailable",
+            "malformed-or-disallowed",
+            "indeterminate"
+          ]
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "status",
+        "policyDigest",
+        "authorization",
+        "reasonCodes"
+      ],
+      "properties": {
+        "kind": {
+          "const": "registration-display"
+        },
+        "status": {
+          "enum": [
+            "affirmative",
+            "negative",
+            "indeterminate"
+          ]
+        },
+        "policyDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "authorization": {
+          "const": "not-evaluated"
+        },
+        "reasonCodes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z_]+$"
+          }
+        }
+      }
+    },
+    "executionClass": {
+      "const": "synthetic-illustration"
+    }
+  }
+}

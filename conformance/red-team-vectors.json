@@ -1,0 +1,593 @@
+[
+  {
+    "id": "T25",
+    "level": "L1",
+    "input": {
+      "kind": "identity",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": false,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "canonical_subject": true,
+        "owner_epoch_current": true,
+        "cross_registration_verified": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "ABI_REVISION_UNRECOGNIZED"
+      ]
+    }
+  },
+  {
+    "id": "T26",
+    "level": "L1",
+    "input": {
+      "kind": "identity",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": false,
+        "source_finality": "verified",
+        "canonical_subject": true,
+        "owner_epoch_current": true,
+        "cross_registration_verified": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "REGISTRY_IMPLEMENTATION_CHANGED"
+      ]
+    }
+  },
+  {
+    "id": "T27",
+    "level": "L2",
+    "input": {
+      "kind": "reputation",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "count": 4,
+        "selection_basis": "curated-allowlist",
+        "self_interested": false,
+        "owner_epoch_current": false,
+        "scale_and_tag_verified": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "PRIOR_OWNER_EPOCH"
+      ]
+    }
+  },
+  {
+    "id": "T29",
+    "level": "L1",
+    "input": {
+      "kind": "identity",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "canonical_subject": false,
+        "owner_epoch_current": true,
+        "cross_registration_verified": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "NONCANONICAL_IDENTITY"
+      ]
+    }
+  },
+  {
+    "id": "T30",
+    "level": "L1",
+    "input": {
+      "kind": "identity",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "canonical_subject": true,
+        "owner_epoch_current": true,
+        "cross_registration_verified": false
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "UNVERIFIED_LINKED_REGISTRATION"
+      ]
+    }
+  },
+  {
+    "id": "T31",
+    "level": "L1",
+    "input": {
+      "kind": "integrity",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "json_valid": true,
+        "safe_endpoint": true,
+        "integrity_basis": "cid",
+        "cid_method": "verified-dag",
+        "injected_instruction": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "UNTRUSTED_INSTRUCTION"
+      ]
+    }
+  },
+  {
+    "id": "T32",
+    "level": "L2",
+    "input": {
+      "kind": "reputation",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "count": 0,
+        "selection_basis": "curated-allowlist",
+        "self_interested": false,
+        "owner_epoch_current": true,
+        "scale_and_tag_verified": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "NO_DATA"
+      ]
+    }
+  },
+  {
+    "id": "T33",
+    "level": "L3",
+    "input": {
+      "kind": "validation",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "registry_bound": true,
+        "request_verified": true,
+        "scope_bound": true,
+        "latest_state_consistent": true,
+        "validator_independent": false
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "VALIDATOR_NOT_INDEPENDENT"
+      ]
+    }
+  },
+  {
+    "id": "T34",
+    "level": "L1",
+    "input": {
+      "kind": "integrity",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "json_valid": true,
+        "safe_endpoint": true,
+        "integrity_basis": "keccak",
+        "cid_method": "verified-dag",
+        "hash_nonzero": false,
+        "exact_bytes_verified": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "MISSING_COMMITMENT"
+      ]
+    }
+  },
+  {
+    "id": "T35",
+    "level": "L1",
+    "input": {
+      "kind": "integrity",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "json_valid": true,
+        "safe_endpoint": true,
+        "integrity_basis": "cid",
+        "cid_method": "identity-multihash"
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "CID_NOT_VERIFIED"
+      ]
+    }
+  },
+  {
+    "id": "T36",
+    "level": "L1",
+    "input": {
+      "kind": "integrity",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "json_valid": false,
+        "safe_endpoint": true,
+        "integrity_basis": "cid",
+        "cid_method": "verified-dag"
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "MALFORMED_OR_DISALLOWED"
+      ]
+    }
+  },
+  {
+    "id": "T37",
+    "level": "L1",
+    "input": {
+      "kind": "integrity",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "json_valid": true,
+        "safe_endpoint": false,
+        "integrity_basis": "cid",
+        "cid_method": "verified-dag"
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "UNSAFE_FETCH_TARGET"
+      ]
+    }
+  },
+  {
+    "id": "T38",
+    "level": "L1",
+    "input": {
+      "kind": "integrity",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "json_valid": true,
+        "safe_endpoint": true,
+        "integrity_basis": "cid",
+        "cid_method": "verified-dag"
+      }
+    },
+    "expected": {
+      "status": "affirmative",
+      "reason_codes": []
+    }
+  },
+  {
+    "id": "T39",
+    "level": "L2",
+    "input": {
+      "kind": "reputation",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "count": 4,
+        "selection_basis": "curated-allowlist",
+        "self_interested": false,
+        "owner_epoch_current": true,
+        "scale_and_tag_verified": true
+      }
+    },
+    "expected": {
+      "status": "affirmative",
+      "reason_codes": []
+    }
+  },
+  {
+    "id": "T40",
+    "level": "L3",
+    "input": {
+      "kind": "validation",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "registry_bound": true,
+        "request_verified": true,
+        "scope_bound": true,
+        "latest_state_consistent": true,
+        "validator_independent": true
+      }
+    },
+    "expected": {
+      "status": "affirmative",
+      "reason_codes": []
+    }
+  },
+  {
+    "id": "T41",
+    "level": "L3",
+    "input": {
+      "kind": "validation",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "registry_bound": false,
+        "request_verified": true,
+        "scope_bound": true,
+        "latest_state_consistent": true,
+        "validator_independent": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "CROSS_REGISTRY_REQUEST"
+      ]
+    }
+  },
+  {
+    "id": "T42",
+    "level": "L2",
+    "input": {
+      "kind": "reputation",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "count": 4,
+        "selection_basis": "curated-allowlist",
+        "self_interested": true,
+        "owner_epoch_current": true,
+        "scale_and_tag_verified": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "SELF_INTERESTED_FEEDBACK"
+      ]
+    }
+  },
+  {
+    "id": "T43",
+    "level": "L3",
+    "input": {
+      "kind": "validation",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "registry_bound": true,
+        "request_verified": true,
+        "scope_bound": true,
+        "latest_state_consistent": false,
+        "validator_independent": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "VALIDATION_STATE_CONFLICT"
+      ]
+    }
+  },
+  {
+    "id": "S01",
+    "level": "L1",
+    "input": {
+      "kind": "identity",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "unknown",
+        "canonical_subject": true,
+        "owner_epoch_current": true,
+        "cross_registration_verified": true
+      }
+    },
+    "expected": {
+      "status": "indeterminate",
+      "reason_codes": [
+        "SOURCE_FINALITY_UNVERIFIED"
+      ]
+    }
+  },
+  {
+    "id": "S02",
+    "level": "L3",
+    "input": {
+      "kind": "validation",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "registry_bound": true,
+        "request_verified": null,
+        "scope_bound": true,
+        "latest_state_consistent": true,
+        "validator_independent": true
+      }
+    },
+    "expected": {
+      "status": "indeterminate",
+      "reason_codes": [
+        "UNKNOWN_REQUEST_VERIFIED"
+      ]
+    }
+  },
+  {
+    "id": "S03",
+    "level": "L1",
+    "input": {
+      "kind": "integrity",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "json_valid": true,
+        "safe_endpoint": true,
+        "integrity_basis": "embedded",
+        "cid_method": "verified-dag",
+        "uri_block_verified": true
+      }
+    },
+    "expected": {
+      "status": "affirmative",
+      "reason_codes": []
+    }
+  },
+  {
+    "id": "S04",
+    "level": "L2",
+    "input": {
+      "kind": "reputation",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "count": 4,
+        "selection_basis": "unfiltered",
+        "self_interested": false,
+        "owner_epoch_current": true,
+        "scale_and_tag_verified": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "UNQUALIFIED_REVIEWER_SELECTION"
+      ]
+    }
+  },
+  {
+    "id": "T44",
+    "level": "L0",
+    "input": {
+      "kind": "discovery",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "registration_parsed": true,
+        "claims_action_authority": false
+      }
+    },
+    "expected": {
+      "status": "affirmative",
+      "reason_codes": []
+    }
+  },
+  {
+    "id": "T45",
+    "level": "L0",
+    "input": {
+      "kind": "discovery",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "registration_parsed": true,
+        "claims_action_authority": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "AUTHORITY_LAUNDERING"
+      ]
+    }
+  },
+  {
+    "id": "T46",
+    "level": "L4",
+    "input": {
+      "kind": "economic",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "external_mechanism_verified": true,
+        "coverage_active_at_reliance": true,
+        "exposure_scope_verified": true,
+        "value_at_risk_qualified": true
+      }
+    },
+    "expected": {
+      "status": "affirmative",
+      "reason_codes": []
+    }
+  },
+  {
+    "id": "T47",
+    "level": "L4",
+    "input": {
+      "kind": "economic",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "external_mechanism_verified": true,
+        "coverage_active_at_reliance": false,
+        "exposure_scope_verified": true,
+        "value_at_risk_qualified": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "COVERAGE_NOT_EFFECTIVE"
+      ]
+    }
+  }
+]

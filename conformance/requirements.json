@@ -1,594 +1,1423 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "profile_status": "unreleased-working-draft",
   "proposed_profile_version": "0.10.0",
+  "upstream_pin": "503591a6e80e6e1affdd6403341e25269141f046",
   "canonical_specification": "spec/erc-8004-csp.md",
   "test_source": "conformance/test-cases.md",
-  "assurance_statement": "Generated index; test descriptions are not executed conformance evidence.",
+  "assurance_statement": "Generated index. Scenarios are descriptive, not executed production conformance.",
   "requirements": [
     {
       "id": "CSP-AB-01",
       "section": "1.3 Scope and explicit exclusions",
-      "source_line": 30,
+      "source_line": 43,
+      "min_level": "L0",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
       "descriptive_scenarios": [
         "T19",
-        "T22"
+        "T22",
+        "T45"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-UP-01",
       "section": "2.3 Validation Registry",
-      "source_line": 65,
-      "descriptive_scenarios": [],
-      "verification_status": "inspection-required"
+      "source_line": 78,
+      "min_level": "L0",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#specification",
+      "descriptive_scenarios": [
+        "T44"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-EV-01",
       "section": "3. Consumer architecture and evidence lifecycle",
-      "source_line": 71,
+      "source_line": 84,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#specification",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-EV-02",
       "section": "3. Consumer architecture and evidence lifecycle",
-      "source_line": 71,
+      "source_line": 84,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#specification",
       "descriptive_scenarios": [
         "T18"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-EV-03",
       "section": "3. Consumer architecture and evidence lifecycle",
-      "source_line": 71,
+      "source_line": 84,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#specification",
       "descriptive_scenarios": [
         "T18"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-EV-04",
       "section": "3. Consumer architecture and evidence lifecycle",
-      "source_line": 71,
+      "source_line": 84,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#specification",
       "descriptive_scenarios": [
         "T18"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-CF-01",
       "section": "4. Conformance model and claims",
-      "source_line": 102,
+      "source_line": 137,
+      "min_level": "L0",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-CF-02",
       "section": "4. Conformance model and claims",
-      "source_line": 102,
+      "source_line": 137,
+      "min_level": "L0",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-CF-03",
       "section": "4. Conformance model and claims",
-      "source_line": 102,
+      "source_line": 137,
+      "min_level": "L0",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-CF-04",
       "section": "4. Conformance model and claims",
-      "source_line": 102,
-      "descriptive_scenarios": [],
-      "verification_status": "inspection-required"
+      "source_line": 137,
+      "min_level": "L0",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
+      "descriptive_scenarios": [
+        "T44"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-ID-01",
       "section": "5.1 Canonical identifiers and state",
-      "source_line": 108,
+      "source_line": 143,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
       "descriptive_scenarios": [
         "T15"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-ID-02",
       "section": "5.1 Canonical identifiers and state",
-      "source_line": 108,
+      "source_line": 143,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-ID-03",
       "section": "5.1 Canonical identifiers and state",
-      "source_line": 108,
+      "source_line": 143,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-ID-04",
       "section": "5.2 Transfer, wallet rebinding and agentURI",
-      "source_line": 112,
+      "source_line": 147,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
       "descriptive_scenarios": [
         "T03"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-ID-05",
       "section": "5.2 Transfer, wallet rebinding and agentURI",
-      "source_line": 112,
+      "source_line": 147,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
       "descriptive_scenarios": [
         "T03"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-ID-06",
       "section": "5.2 Transfer, wallet rebinding and agentURI",
-      "source_line": 112,
+      "source_line": 147,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-ID-07",
       "section": "5.2 Transfer, wallet rebinding and agentURI",
-      "source_line": 112,
+      "source_line": 147,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-ID-08",
       "section": "5.3 Registration-file claims and cross-registry continuity",
-      "source_line": 118,
+      "source_line": 153,
+      "min_level": "L1",
+      "keyword": "SHOULD",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
       "descriptive_scenarios": [
         "T10"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-ID-18",
+      "section": "5.3 Registration-file claims and cross-registry continuity",
+      "source_line": 153,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
+      "descriptive_scenarios": [],
+      "verification_method": "inspection",
+      "verification_status": "inspection-required"
     },
     {
       "id": "CSP-ID-09",
       "section": "5.3 Registration-file claims and cross-registry continuity",
-      "source_line": 118,
+      "source_line": 153,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
       "descriptive_scenarios": [
         "T10"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-ID-10",
       "section": "5.3 Registration-file claims and cross-registry continuity",
-      "source_line": 118,
+      "source_line": 153,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-ID-11",
       "section": "5.3 Registration-file claims and cross-registry continuity",
-      "source_line": 118,
+      "source_line": 153,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
       "descriptive_scenarios": [
         "T19"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-IN-01",
       "section": "6.2 Digest and scheme-specific checks",
-      "source_line": 140,
+      "source_line": 175,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [
         "T16"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-IN-02",
       "section": "6.2 Digest and scheme-specific checks",
-      "source_line": 140,
+      "source_line": 175,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-IN-03",
       "section": "6.2 Digest and scheme-specific checks",
-      "source_line": 140,
+      "source_line": 175,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-IN-04",
       "section": "6.2 Digest and scheme-specific checks",
-      "source_line": 140,
+      "source_line": 175,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [
         "T01"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-IN-05",
       "section": "6.2 Digest and scheme-specific checks",
-      "source_line": 142,
+      "source_line": 177,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [
         "T02"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-IN-06",
       "section": "6.2 Digest and scheme-specific checks",
-      "source_line": 142,
+      "source_line": 177,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-IN-07",
       "section": "6.2 Digest and scheme-specific checks",
-      "source_line": 142,
+      "source_line": 177,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-SF-01",
       "section": "7. Safe retrieval, rendering and resource controls (L1+)",
-      "source_line": 146,
-      "descriptive_scenarios": [],
-      "verification_status": "inspection-required"
+      "source_line": 181,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
+      "descriptive_scenarios": [
+        "T37"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-SF-02",
       "section": "7. Safe retrieval, rendering and resource controls (L1+)",
-      "source_line": 146,
+      "source_line": 181,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [
-        "T17"
+        "T17",
+        "T37"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-SF-03",
       "section": "7. Safe retrieval, rendering and resource controls (L1+)",
-      "source_line": 146,
+      "source_line": 181,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [
-        "T17"
+        "T17",
+        "T37"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-SF-04",
       "section": "7. Safe retrieval, rendering and resource controls (L1+)",
-      "source_line": 146,
+      "source_line": 181,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [
         "T17"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-SF-05",
       "section": "7. Safe retrieval, rendering and resource controls (L1+)",
-      "source_line": 146,
+      "source_line": 181,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [
         "T06"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-SF-06",
       "section": "7. Safe retrieval, rendering and resource controls (L1+)",
-      "source_line": 148,
+      "source_line": 183,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [
         "T05",
         "T06"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-SF-07",
       "section": "7. Safe retrieval, rendering and resource controls (L1+)",
-      "source_line": 148,
+      "source_line": 183,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [
         "T04"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-SF-08",
       "section": "7. Safe retrieval, rendering and resource controls (L1+)",
-      "source_line": 148,
+      "source_line": 183,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-SF-09",
       "section": "7. Safe retrieval, rendering and resource controls (L1+)",
-      "source_line": 148,
+      "source_line": 183,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-RP-01",
       "section": "8.1 Record semantics and selected client population",
-      "source_line": 156,
+      "source_line": 191,
+      "min_level": "L2",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#reputation-registry",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-RP-02",
       "section": "8.1 Record semantics and selected client population",
-      "source_line": 156,
+      "source_line": 191,
+      "min_level": "L2",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#reputation-registry",
       "descriptive_scenarios": [
         "T20"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-RP-03",
       "section": "8.1 Record semantics and selected client population",
-      "source_line": 156,
+      "source_line": 191,
+      "min_level": "L2",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#reputation-registry",
       "descriptive_scenarios": [
         "T09"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-RP-04",
       "section": "8.2 Weighted scoring and false independence",
-      "source_line": 160,
+      "source_line": 195,
+      "min_level": "L2",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#reputation-registry",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-RP-05",
       "section": "8.2 Weighted scoring and false independence",
-      "source_line": 160,
+      "source_line": 195,
+      "min_level": "L2",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#reputation-registry",
       "descriptive_scenarios": [
         "T20"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-RP-06",
       "section": "8.2 Weighted scoring and false independence",
-      "source_line": 160,
+      "source_line": 195,
+      "min_level": "L2",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#reputation-registry",
       "descriptive_scenarios": [
         "T07",
         "T20"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-RP-07",
       "section": "8.2 Weighted scoring and false independence",
-      "source_line": 160,
+      "source_line": 195,
+      "min_level": "L2",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#reputation-registry",
       "descriptive_scenarios": [
         "T08"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-RP-08",
       "section": "8.2 Weighted scoring and false independence",
-      "source_line": 160,
+      "source_line": 195,
+      "min_level": "L2",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#reputation-registry",
       "descriptive_scenarios": [
         "T07",
         "T08"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-VL-01",
       "section": "9.1 Request/response binding",
-      "source_line": 170,
+      "source_line": 205,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
         "T21"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-VL-02",
       "section": "9.1 Request/response binding",
-      "source_line": 170,
+      "source_line": 205,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
         "T21"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-VL-03",
       "section": "9.1 Request/response binding",
-      "source_line": 170,
+      "source_line": 205,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
         "T16",
         "T21"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-VL-04",
       "section": "9.1 Request/response binding",
-      "source_line": 170,
+      "source_line": 205,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
         "T21"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-VL-05",
       "section": "9.2 Update, finality and contradiction",
-      "source_line": 174,
+      "source_line": 209,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
         "T12"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-VL-06",
       "section": "9.2 Update, finality and contradiction",
-      "source_line": 174,
+      "source_line": 209,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
         "T12"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-VL-07",
       "section": "9.2 Update, finality and contradiction",
-      "source_line": 174,
+      "source_line": 209,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
         "T11"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-VL-08",
       "section": "9.2 Update, finality and contradiction",
-      "source_line": 174,
+      "source_line": 209,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
         "T14"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-VL-09",
       "section": "9.3 Validator governance and bounded display",
-      "source_line": 178,
+      "source_line": 213,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
         "T13"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-VL-10",
       "section": "9.3 Validator governance and bounded display",
-      "source_line": 178,
+      "source_line": 213,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
         "T13"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-VL-11",
       "section": "9.3 Validator governance and bounded display",
-      "source_line": 178,
+      "source_line": 213,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
         "T13"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-VL-12",
       "section": "9.3 Validator governance and bounded display",
-      "source_line": 178,
+      "source_line": 213,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-VL-13",
       "section": "9.4 Optional executable Rego evaluation boundary",
-      "source_line": 186,
+      "source_line": 221,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-VL-14",
       "section": "9.4 Optional executable Rego evaluation boundary",
-      "source_line": 186,
+      "source_line": 221,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
         "T22"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-EC-01",
       "section": "10. External economic-security evidence (L4)",
-      "source_line": 190,
+      "source_line": 225,
+      "min_level": "L4",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
-        "T23"
+        "T23",
+        "T46"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-EC-02",
       "section": "10. External economic-security evidence (L4)",
-      "source_line": 190,
+      "source_line": 225,
+      "min_level": "L4",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
-        "T24"
+        "T24",
+        "T46",
+        "T47"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-EC-03",
       "section": "10. External economic-security evidence (L4)",
-      "source_line": 190,
+      "source_line": 225,
+      "min_level": "L4",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
-        "T24"
+        "T24",
+        "T46"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-EC-04",
       "section": "10. External economic-security evidence (L4)",
-      "source_line": 190,
+      "source_line": 225,
+      "min_level": "L4",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
       "descriptive_scenarios": [
-        "T23"
+        "T23",
+        "T46"
       ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
       "verification_status": "descriptive-scenario-only"
     },
     {
       "id": "CSP-OP-01",
       "section": "11. Indexer reliability, privacy and disclosure",
-      "source_line": 194,
+      "source_line": 229,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-OP-02",
       "section": "11. Indexer reliability, privacy and disclosure",
-      "source_line": 194,
+      "source_line": 229,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-OP-03",
       "section": "11. Indexer reliability, privacy and disclosure",
-      "source_line": 194,
+      "source_line": 229,
+      "min_level": "L1",
+      "keyword": "SHOULD",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-OP-04",
       "section": "11. Indexer reliability, privacy and disclosure",
-      "source_line": 194,
+      "source_line": 229,
+      "min_level": "L1",
+      "keyword": "SHOULD",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-PR-01",
       "section": "11. Indexer reliability, privacy and disclosure",
-      "source_line": 196,
+      "source_line": 231,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-PR-02",
       "section": "11. Indexer reliability, privacy and disclosure",
-      "source_line": 196,
+      "source_line": 231,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-PR-03",
       "section": "11. Indexer reliability, privacy and disclosure",
-      "source_line": 196,
+      "source_line": 231,
+      "min_level": "L1",
+      "keyword": "SHOULD",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
     },
     {
       "id": "CSP-PR-04",
       "section": "11. Indexer reliability, privacy and disclosure",
-      "source_line": 196,
+      "source_line": 231,
+      "min_level": "L1",
+      "keyword": "SHOULD",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
       "descriptive_scenarios": [],
+      "verification_method": "inspection",
       "verification_status": "inspection-required"
+    },
+    {
+      "id": "CSP-UP-02",
+      "section": "16. Pinned upstream, registry recognition and chain evidence (normative extension)",
+      "source_line": 334,
+      "min_level": "L0",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#specification",
+      "descriptive_scenarios": [
+        "T25"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-UP-03",
+      "section": "16. Pinned upstream, registry recognition and chain evidence (normative extension)",
+      "source_line": 336,
+      "min_level": "L0",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#specification",
+      "descriptive_scenarios": [
+        "T25"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-ID-12",
+      "section": "16. Pinned upstream, registry recognition and chain evidence (normative extension)",
+      "source_line": 338,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
+      "descriptive_scenarios": [
+        "T38"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-UP-04",
+      "section": "16. Pinned upstream, registry recognition and chain evidence (normative extension)",
+      "source_line": 340,
+      "min_level": "L0",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#specification",
+      "descriptive_scenarios": [
+        "T26"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-EV-05",
+      "section": "16. Pinned upstream, registry recognition and chain evidence (normative extension)",
+      "source_line": 342,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#specification",
+      "descriptive_scenarios": [],
+      "verification_method": "inspection",
+      "verification_status": "inspection-required"
+    },
+    {
+      "id": "CSP-EV-06",
+      "section": "16. Pinned upstream, registry recognition and chain evidence (normative extension)",
+      "source_line": 344,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#specification",
+      "descriptive_scenarios": [],
+      "verification_method": "inspection",
+      "verification_status": "inspection-required"
+    },
+    {
+      "id": "CSP-ID-13",
+      "section": "17. Owner epochs, control continuity and registration provenance (normative extension)",
+      "source_line": 354,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
+      "descriptive_scenarios": [
+        "T27"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-ID-14",
+      "section": "17. Owner epochs, control continuity and registration provenance (normative extension)",
+      "source_line": 356,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
+      "descriptive_scenarios": [
+        "T28"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-ID-15",
+      "section": "17. Owner epochs, control continuity and registration provenance (normative extension)",
+      "source_line": 358,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
+      "descriptive_scenarios": [
+        "T29"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-ID-16",
+      "section": "17. Owner epochs, control continuity and registration provenance (normative extension)",
+      "source_line": 360,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
+      "descriptive_scenarios": [
+        "T30"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-ID-17",
+      "section": "17. Owner epochs, control continuity and registration provenance (normative extension)",
+      "source_line": 362,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#identity-registry",
+      "descriptive_scenarios": [],
+      "verification_method": "inspection",
+      "verification_status": "inspection-required"
+    },
+    {
+      "id": "CSP-OP-05",
+      "section": "17. Owner epochs, control continuity and registration provenance (normative extension)",
+      "source_line": 364,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
+      "descriptive_scenarios": [
+        "T28"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-IN-08",
+      "section": "18. Exact bytes, hashes, hostile content and decision precedence (normative extension)",
+      "source_line": 374,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
+      "descriptive_scenarios": [],
+      "verification_method": "inspection",
+      "verification_status": "inspection-required"
+    },
+    {
+      "id": "CSP-IN-09",
+      "section": "18. Exact bytes, hashes, hostile content and decision precedence (normative extension)",
+      "source_line": 376,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
+      "descriptive_scenarios": [
+        "T34"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-IN-10",
+      "section": "18. Exact bytes, hashes, hostile content and decision precedence (normative extension)",
+      "source_line": 378,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
+      "descriptive_scenarios": [],
+      "verification_method": "inspection",
+      "verification_status": "inspection-required"
+    },
+    {
+      "id": "CSP-IN-11",
+      "section": "18. Exact bytes, hashes, hostile content and decision precedence (normative extension)",
+      "source_line": 380,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
+      "descriptive_scenarios": [
+        "T35",
+        "T38"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-SF-10",
+      "section": "18. Exact bytes, hashes, hostile content and decision precedence (normative extension)",
+      "source_line": 382,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
+      "descriptive_scenarios": [
+        "T36"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-SF-11",
+      "section": "18. Exact bytes, hashes, hostile content and decision precedence (normative extension)",
+      "source_line": 384,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
+      "descriptive_scenarios": [
+        "T31"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-SF-12",
+      "section": "18. Exact bytes, hashes, hostile content and decision precedence (normative extension)",
+      "source_line": 386,
+      "min_level": "L1",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#agent-uri-and-agent-registration-file",
+      "descriptive_scenarios": [
+        "T31"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-RP-09",
+      "section": "19. Reputation provenance and interest conflicts (normative extension)",
+      "source_line": 396,
+      "min_level": "L2",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#reputation-registry",
+      "descriptive_scenarios": [
+        "T42"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-RP-10",
+      "section": "19. Reputation provenance and interest conflicts (normative extension)",
+      "source_line": 398,
+      "min_level": "L2",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#reputation-registry",
+      "descriptive_scenarios": [
+        "T32",
+        "T39"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-RP-11",
+      "section": "19. Reputation provenance and interest conflicts (normative extension)",
+      "source_line": 400,
+      "min_level": "L2",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#reputation-registry",
+      "descriptive_scenarios": [],
+      "verification_method": "inspection",
+      "verification_status": "inspection-required"
+    },
+    {
+      "id": "CSP-RP-12",
+      "section": "19. Reputation provenance and interest conflicts (normative extension)",
+      "source_line": 402,
+      "min_level": "L2",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#reputation-registry",
+      "descriptive_scenarios": [],
+      "verification_method": "inspection",
+      "verification_status": "inspection-required"
+    },
+    {
+      "id": "CSP-VL-15",
+      "section": "20. Validation-registry binding and evidence quality (normative extension)",
+      "source_line": 410,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
+      "descriptive_scenarios": [
+        "T40",
+        "T41",
+        "T43"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-VL-16",
+      "section": "20. Validation-registry binding and evidence quality (normative extension)",
+      "source_line": 412,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
+      "descriptive_scenarios": [
+        "T33",
+        "T40"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-VL-17",
+      "section": "20. Validation-registry binding and evidence quality (normative extension)",
+      "source_line": 414,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
+      "descriptive_scenarios": [],
+      "verification_method": "inspection",
+      "verification_status": "inspection-required"
+    },
+    {
+      "id": "CSP-VL-18",
+      "section": "20. Validation-registry binding and evidence quality (normative extension)",
+      "source_line": 416,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
+      "descriptive_scenarios": [
+        "T43"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-VL-19",
+      "section": "20. Validation-registry binding and evidence quality (normative extension)",
+      "source_line": 418,
+      "min_level": "L3",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
+      "descriptive_scenarios": [],
+      "verification_method": "inspection",
+      "verification_status": "inspection-required"
+    },
+    {
+      "id": "CSP-EC-05",
+      "section": "21. Effective economic security and conformance claim lifecycle (normative extension)",
+      "source_line": 426,
+      "min_level": "L4",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
+      "descriptive_scenarios": [
+        "T46"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-EC-06",
+      "section": "21. Effective economic security and conformance claim lifecycle (normative extension)",
+      "source_line": 428,
+      "min_level": "L4",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-registry",
+      "descriptive_scenarios": [
+        "T46",
+        "T47"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
+    },
+    {
+      "id": "CSP-CF-05",
+      "section": "21. Effective economic security and conformance claim lifecycle (normative extension)",
+      "source_line": 430,
+      "min_level": "L0",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
+      "descriptive_scenarios": [],
+      "verification_method": "inspection",
+      "verification_status": "inspection-required"
+    },
+    {
+      "id": "CSP-CF-06",
+      "section": "21. Effective economic security and conformance claim lifecycle (normative extension)",
+      "source_line": 432,
+      "min_level": "L0",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
+      "descriptive_scenarios": [],
+      "verification_method": "inspection",
+      "verification_status": "inspection-required"
+    },
+    {
+      "id": "CSP-AB-02",
+      "section": "21. Effective economic security and conformance claim lifecycle (normative extension)",
+      "source_line": 434,
+      "min_level": "L0",
+      "keyword": "MUST",
+      "derivation_class": "consumer-derived",
+      "upstream_ref": "https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#security-considerations",
+      "descriptive_scenarios": [
+        "T40",
+        "T45"
+      ],
+      "verification_method": "descriptive-test-or-implementation-evidence",
+      "verification_status": "descriptive-scenario-only"
     }
   ]
 }

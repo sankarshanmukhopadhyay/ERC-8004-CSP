@@ -28,8 +28,13 @@ evidence:
     - CSP_OPA_BIN=/path/to/verified/opa python -m unittest discover -s tests -v
   evidence_outputs:
     - GitHub Actions rego-conformance workflow run results
+    - GitHub Actions Pages source-pin, traceability, and link-check results
+    - author-supplied normalized-evidence red-team regression report (synthetic only)
   known_limitations:
     - repository-specific automated conformance coverage is not asserted by this declaration
     - upstream ERC-8004 authority is explicitly outside scope
     - Rego evaluator uses synthetic data and externally supplied normalization and verification claims
     - action authorization and independent third-party assurance are not provided
+    - red-team source recognition, chain finality, secure fetch, validator independence, and economic enforcement require external implementation evidence
+    - prose T01-T47 scenarios are not fully executed consumer conformance tests
+    - v0.10.0 specification and policy contracts remain unreleased candidates

@@ -1,0 +1,28 @@
+{
+  "profileVersion": "0.10.0-candidate",
+  "subject": {
+    "agentRegistry": "eip155:1:0x1111111111111111111111111111111111111111",
+    "agentId": "42"
+  },
+  "source": {
+    "chainId": "1",
+    "registryAddress": "0x1111111111111111111111111111111111111111",
+    "blockNumber": "123456",
+    "blockHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "finality": "finalized"
+  },
+  "content": {
+    "uri": "https://example.org/agent.json",
+    "integrityState": "retrieved-unanchored"
+  },
+  "decision": {
+    "kind": "registration-display",
+    "status": "indeterminate",
+    "policyDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "authorization": "not-evaluated",
+    "reasonCodes": [
+      "UNANCHORED_CONTENT"
+    ]
+  },
+  "executionClass": "synthetic-illustration"
+}

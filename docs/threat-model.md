@@ -36,3 +36,21 @@
 ## Tests and disposition
 
 The [conformance test catalogue](../conformance/test-cases.md) specifies expected safe results for these failures. Implementers should create observable test outputs with relevant source snapshots and policy identity. Unknown, missing, stale and conflicting evidence must remain distinct from a proven negative. The experimental [Rego tests](executable-rego-policy.md) exercise only their bounded input contract, not the end-to-end threat model.
+
+
+## Red-team failure register: additional false-success paths
+
+| Failure | Attacker-controlled input | Required safe result | References |
+| --- | --- | --- | --- |
+| Look-alike registry, legacy ABI or proxy upgrade | Registry deployment and ABI/code identity | Source remains unrecognized or indeterminate; no trusted score | CSP-UP-02–04, CSP-ID-12; T25–T26 |
+| Purchase of a reputable ERC-721 agent token | Transfer and new registration URI | Prior owner score retained only as qualified history | CSP-ID-13–14; T27–T28 |
+| Cloned registration claims linked identities | Self-authored \`registrations[]\` and visual metadata | No independently established identity linkage | CSP-ID-16; T30 |
+| Valid digest, different rendered bytes | Mutable remote content or embedded media | Only exactly verified bytes can inform admission | CSP-IN-08; T34–T35 |
+| Zero/incorrect algorithm digest | \`bytes32(0)\`, Keccak/SHA3 confusion, mutable URI | No invented integrity anchor; exact-byte checks | CSP-IN-09–11; T16/T34 |
+| Parser differential and SSRF | Duplicate keys, nonfinite values, redirect targets | Malformed or blocked, never affirmative | CSP-SF-10, CSP-SF-01–03; T36–T37 |
+| Agent-facing instruction injection | \`description\`, service metadata, feedback and reports | Content remains data; no tool or authorization instruction | CSP-SF-11–12; T31 |
+| Selected-reviewer self-interest | Colluding clients and later operator/owner changes | No unqualified L2 score | CSP-RP-09–12; T32/T42 |
+| Validator chosen by subject | Colluding validator, cross-chain repeated request hash | Unknown independence or unbound request never admitted | CSP-VL-15–19; T33/T41/T43 |
+| Past stake inferred as present guarantee | Unbonding, suspension and correlated exposure | L4 current protection claim withdrawn | CSP-EC-05–06; T46–T47 |
+
+The [synthetic vector runner](../scripts/run_conformance.py) executes **normalized assertions** of these problems, not actual network or blockchain interactions. It cannot prove that an implementing fetcher is SSRF-safe, that an external validator is independent, or that a model ignores malicious text. An adopter must test those boundaries in its real implementation and report limitations.

@@ -1,0 +1,19 @@
+{
+  "claim_version": "1.0.0",
+  "profile_version": "0.10.0-candidate",
+  "level": "L3",
+  "consumer_scope": "synthetic-example-only",
+  "implementation_ref": "unimplemented-reference",
+  "policy_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "upstream_commit": "503591a6e80e6e1affdd6403341e25269141f046",
+  "evaluation_time": "2026-11-14T04:00:00Z",
+  "valid_until": "2026-11-15T04:00:00Z",
+  "claim_status": "not-assessed",
+  "evidence_class": "not-run",
+  "test_results": [],
+  "limitations": [
+    "No consumer implementation executed.",
+    "No independent reviewer or verified registry source evidence."
+  ],
+  "authorization": "not-evaluated"
+}

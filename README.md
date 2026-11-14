@@ -21,8 +21,17 @@ This repository packages the CSP as:
 | `docs/executable-rego-policy.md` | OPA installation, decision semantics, evidence and DTFC mapping |
 | `conformance/rego/` | Synthetic positive and adversarial fixtures |
 | `conformance/checklist.md` | Evidence-oriented checklist by conformance level |
-| `conformance/requirements.json` | Machine-readable index of 71 normative requirements and scenario coverage |
-| `conformance/test-cases.md` | 24 negative, boundary and acceptance scenarios (descriptive; not an executed full-stack CTS) |
+| `conformance/requirements.json` | Source-derived index of 105 candidate normative requirements, minimum levels, pinned upstream citations, and evidence status |
+| `conformance/test-cases.md` | 47 descriptive boundary, negative and positive acceptance scenarios; not an executed full-stack CTS |
+| `conformance/red-team-vectors.json` | Synthetic normalized-evidence adversarial decision fixtures (not live chain evidence) |
+| `scripts/run_conformance.py` | Deterministic local false-success regression harness |
+| `spec/upstream-erc8004-pin.json` | Immutable reviewed Draft ERC-8004 source and heading identifiers |
+| `policy/policy-v0.10.0.schema.json` | Separate unreleased v0.10.0 candidate policy configuration schema |
+| `policy/example-policy-v0.10.0.json` | Validated candidate configuration example |
+| `schemas/evidence-record.v0.10.0.schema.json` | Schema for synthetic illustrative consumer evidence record |
+| `schemas/conformance-claim.v0.10.0.schema.json` | Candidate versioned, expiring conformance claim record |
+| `examples/conformance-claim.v0.10.0.json` | Explicit not-assessed claim, never a certified implementation |
+| `docs/red-team-resolution-2026-11.md` | Source finding-to-control and evidence-limitation disposition |
 | `docs/architecture.md` | Reference architecture for implementers |
 | `docs/threat-model.md` | Consumer-focused threat model and attacker playbooks |
 | `docs/upstream-alignment-2026-11.md` | Upstream traceability, authority and evidence boundaries |
@@ -45,9 +54,9 @@ See the [expanded working-draft specification](spec/erc-8004-csp.md) for the sec
 
 ## Proposed next specification milestone
 
-A substantive revision is being prepared as a **v0.10.0 working-draft candidate**. Its [machine-readable index](conformance/requirements.json) derives 71 normative requirement IDs from the Markdown specification, with descriptive-scenario coverage explicitly separated from executed evidence. It adds detailed consumer evidence and threat requirements, upstream citations, identity/hash semantics and a broader acceptance-case catalogue. The [release assessment](docs/release-assessment-2026-11.md) determines that a new **specification** release is justified after acceptance and validation, since some wording changes are semantically significant. The [draft release notes](docs/release-notes-v0.10.0-draft.md) are not a published release. The last issued CSP tag remains **v0.9.1**.
+A substantive revision is being prepared as a **v0.10.0 working-draft candidate**. Its [machine-readable index](conformance/requirements.json) derives 105 candidate normative requirement IDs from the Markdown specification, with 47 descriptive acceptance scenarios and separately documented normalized-evidence tests. Scenario mappings are **not** full-stack execution evidence. It adds detailed consumer evidence and threat requirements, upstream citations, identity/hash semantics and a broader acceptance-case catalogue. The [release assessment](docs/release-assessment-2026-11.md) determines that a new **specification** release is justified after acceptance and validation, since some wording changes are semantically significant. The [draft release notes](docs/release-notes-v0.10.0-draft.md) are not a published release. The last issued CSP tag remains **v0.9.1**. The [red-team disposition](docs/red-team-resolution-2026-11.md) records which findings are specified, which have bounded synthetic evidence, and which require real implementing-system verification.
 
-**Compatibility:** the existing `policy/policy.schema.json` remains version `0.9.1`; the optional Rego input/output schemas remain experimental `1.0.0`. Neither is silently version-bumped by an editorial or normative draft expansion.
+**Compatibility:** the existing `policy/policy.schema.json` remains version `0.9.1`; an additive, separate [v0.10.0 candidate schema](policy/policy-v0.10.0.schema.json) and example represent proposed consumer controls. The optional Rego input/output schemas remain experimental `1.0.0`. None of these changes silently migrates a production consumer.
 
 ## v0.9.1 baseline highlights
 
