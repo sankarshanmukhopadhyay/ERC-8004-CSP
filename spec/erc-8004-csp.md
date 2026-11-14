@@ -85,20 +85,42 @@ The minimum logical pipeline is **chain resolver → event/state reconciler → 
 
 An indexer-generated summary is a derived view; it is never an additional authoritative registry. This applies to cached `agentURI` content, selected reputation sets, validation statuses, display ratings and stored Rego execution records.
 
-### 3.1 Example consumer evidence record (informative)
+### 3.1 Example consumer evidence record (informative, schema-validated)
+
+This synthetic example is checked against [the candidate evidence-record schema](../schemas/evidence-record.v0.10.0.schema.json) in CI. It is **not** a canonical ERC-8004 wire format, a verified on-chain observation, a production conformance result or a claim of externally qualified evidence. `indeterminate` explicitly prevents successful HTTP retrieval without an integrity anchor from becoming a positive consumer assertion.
 
 ```json
 {
-  "subject": {"agentRegistry": "eip155:1:0x1111111111111111111111111111111111111111", "agentId": "42"},
-  "source": {"chainId": 1, "blockNumber": 123456, "blockHash": "0x...", "finality": "confirmed-by-consumer-policy"},
-  "content": {"uri": "https://example.org/agent.json", "integrityState": "retrieved-unanchored"},
-  "decision": {"kind": "registration-display", "status": "qualified", "policyVersion": "consumer-policy-id"},
-  "evidenceState": "observed",
-  "note": "Illustrative shape, not an upstream ERC or versioned CSP schema"
+  "profileVersion": "0.10.0-candidate",
+  "subject": {
+    "agentRegistry": "eip155:1:0x1111111111111111111111111111111111111111",
+    "agentId": "42"
+  },
+  "source": {
+    "chainId": "1",
+    "registryAddress": "0x1111111111111111111111111111111111111111",
+    "blockNumber": "123456",
+    "blockHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "finality": "finalized"
+  },
+  "content": {
+    "uri": "https://example.org/agent.json",
+    "integrityState": "retrieved-unanchored"
+  },
+  "decision": {
+    "kind": "registration-display",
+    "status": "indeterminate",
+    "policyDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "authorization": "not-evaluated",
+    "reasonCodes": [
+      "UNANCHORED_CONTENT"
+    ]
+  },
+  "executionClass": "synthetic-illustration"
 }
 ```
 
-The example's block hash is deliberately abbreviated and is **not** an input accepted by a published schema. Implementers MUST NOT infer a canonical JSON evidence API from this example. If such an API is standardized later, it requires its own contract and conformance vectors.
+The authoritative copy of the example is [examples/evidence-record.v0.10.0.json](../examples/evidence-record.v0.10.0.json). Its complete-length block hash and schema-valid value types make it machine-checkable; the numbers, address and digests are fictional, and the schema is offered only as a bounded illustration.
 
 ## 4. Conformance model and claims
 
@@ -122,7 +144,7 @@ CSP levels are cumulative: **L0** parsing/discovery; **L1** safe retrieval, inte
 
 ### 5.2 Transfer, wallet rebinding and agentURI
 
-**CSP-ID-04:** Following ERC-721 `Transfer`, consumers MUST treat prior owner-linked continuity indicators as superseded and any old `agentWallet` binding as cleared until current registry state establishes a new binding. **CSP-ID-05:** A consumer MUST NOT infer new owner-controlled wallet proof from an earlier EOA or ERC-1271 verification. **CSP-ID-06:** When `agentURI` changes, consumers MUST reclassify retrieval and integrity and re-evaluate any validations whose assessed artifact or endpoint could have changed. **CSP-ID-07:** A pending or unresolved chain reorganization MUST prevent affirmative presentation of present owner/wallet/URI state. Sources: [ERC-8004, On-chain metadata](https://eips.ethereum.org/EIPS/eip-8004#on-chain-metadata), [Update agentURI](https://eips.ethereum.org/EIPS/eip-8004#update-agenturi).
+**CSP-ID-04:** Following ERC-721 `Transfer`, consumers MUST treat prior owner-linked continuity indicators as superseded and any old `agentWallet` binding as cleared until current registry state establishes a new binding. **CSP-ID-05:** A consumer MUST NOT infer new owner-controlled wallet proof from an earlier EOA or ERC-1271 verification. **CSP-ID-06:** When `agentURI` changes, consumers MUST reclassify retrieval and integrity and MUST mark dependent validations stale until a verified artifact/scope binding demonstrates that the evaluated object was unchanged or a new evaluation is completed. **CSP-ID-07:** A pending or unresolved chain reorganization MUST prevent affirmative presentation of present owner/wallet/URI state. Sources: [ERC-8004, On-chain metadata](https://eips.ethereum.org/EIPS/eip-8004#on-chain-metadata), [Update agentURI](https://eips.ethereum.org/EIPS/eip-8004#update-agenturi).
 
 An ordinary URI change is not automatically proof that the agent is malicious. It is a provenance and scope break requiring reassessment. For EIP-712 wallet-control verification, consumers MUST preserve which typed domain, chain, verifying contract and expiration/deadline were actually verified; for ERC-1271, the verification result may change as the contract state changes. These are preconditions for claiming verified wallet control, not claims of action delegation.
 
@@ -212,7 +234,7 @@ ERC-8004 expressly leaves validator incentives and slashing to the chosen valida
 
 ### 12.1 Claim record
 
-A claim of a CSP level SHOULD include: repository/ref, profile version, implementation commit, consumer-policy file/digest, independent chain/evidence resolver identity, evaluation block/time, supported functions, test-case IDs and results, missing/unimplemented features, and a statement of reviewer independence. A green CI run only establishes what that workflow actually executed. Synthetic Rego fixture success is **not** verified on-chain interoperability.
+A published claim of a CSP level MUST include: repository/ref, profile version, implementation commit, consumer-policy file/digest, chain/evidence resolver identity and its verification limitations, evaluation block/time, supported functions, test-case IDs and actual execution/inspection results, missing or unimplemented features, validity period and a statement of reviewer independence. A green CI run only establishes what that workflow actually executed. Synthetic Rego fixture success is **not** verified on-chain interoperability.
 
 ### 12.2 Minimum negative and boundary tests
 
@@ -238,7 +260,7 @@ A consumer caches an anchored registration file and a successful validation; the
 
 ## 13. Compatibility, implementation contracts and migrations
 
-The published `policy/policy.schema.json` remains fixed to `version: 0.9.1` with the established identity, safeFetch, reputation, validation and disclosure blocks. This revision does **not** modify that schema or its example. The optional `policy/rego/input.schema.json` and `output.schema.json` separately use contract version `1.0.0` and are not replacements for the comprehensive consumer-policy schema. A consumer cannot infer full CSP conformance from successful execution of the Rego sample.
+The published `policy/policy.schema.json` remains fixed to `version: 0.9.1` with the established identity, safeFetch, reputation, validation and disclosure blocks. This revision does **not** modify that schema or its example. An additive, **unreleased** candidate [policy configuration schema v0.10.0](../policy/policy-v0.10.0.schema.json) with [validated example](../policy/example-policy-v0.10.0.json) separately expresses registry recognition, evidence finality, owner epochs, content safeguards, reviewer selection and validator qualification. It is not a production enforcement engine. The optional `policy/rego/input.schema.json` and `output.schema.json` separately use contract version `1.0.0` and are not replacements for the comprehensive consumer-policy schema. A consumer cannot infer full CSP conformance from successful execution of the Rego sample.
 
 **Compatibility-sensitive clarifications:** (i) full namespace-qualified `agentRegistry` identity must not be conflated with the Rego adapter's address-only field; (ii) embedded `data:` URI bytes require source-block validation and must not be mislabelled as independent digest verification; (iii) KECCAK-256 on-chain commitments are distinct from local SHA-256 evidence identifiers; (iv) unknown or stale source state cannot become PASS. These refinements may require migration for downstream systems relying on the broader v0.9.1 wording. This revision therefore merits an explicit **new versioned compatibility baseline if adopted**, not a silent replacement of the published v0.9.1 tag.
 
@@ -353,7 +375,7 @@ Sources: [pinned ERC-8004 registration and URI events](https://github.com/ethere
 
 **CSP-IN-09:** For `feedbackHash` and `responseHash`, `bytes32(0)` is an **absent commitment**, not a zero digest to compare. A content-addressed URI MAY establish integrity via locally verified content addressing; a non-content-addressed URI with no applicable commitment remains `retrieved-unanchored` and MUST NOT be upgraded to verified evidence. The upstream text permits omission for content-addressed URIs; this CSP rule controls consumer evidence admission.
 
-**CSP-IN-10:** `KECCAK-256` means the Ethereum/Keccak padding variant (EVM `KECCAK256`), **not** NIST FIPS-202 SHA3-256. The hash input is the exact committed file-content bytes, without JSON reserialization or Unicode normalization. Two required regression vectors: Keccak-256(empty) = `c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470`; Keccak-256(`abc`) = `4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45`. Local `sha256:` identifiers remain a distinct CSP evidence namespace.
+**CSP-IN-10:** Consumers MUST interpret `KECCAK-256` as the Ethereum/Keccak padding variant (EVM `KECCAK256`), **not** NIST FIPS-202 SHA3-256. The hash input is the exact committed file-content bytes, without JSON reserialization or Unicode normalization. Two required regression vectors: Keccak-256(empty) = `c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470`; Keccak-256(`abc`) = `4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45`. Local `sha256:` identifiers remain a distinct CSP evidence namespace.
 
 **CSP-IN-11:** A content-addressed URI claim MUST be verified under the actual CID/multihash algorithm and referenced DAG path, with local validation of returned blocks/CAR where necessary. Unsupported or unacceptable hash algorithms, identity multihashes used as independent remote anchoring, unverified gateways, and mutable IPNS/DNSLink/ENS indirection MUST NOT be called independently anchored. CIDv0/CIDv1 representations MAY normalize only with verified semantic equivalence.
 
