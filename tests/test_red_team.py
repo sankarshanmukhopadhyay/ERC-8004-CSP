@@ -16,6 +16,15 @@ class BoundaryTests(unittest.TestCase):
         Draft202012Validator(old).validate(obj)
         self.assertEqual(obj["version"],"0.9.1")
 
+    def test_synthetic_evidence_example_is_schema_valid(self):
+        schema=json.loads((ROOT/"schemas/evidence-record.v0.10.0.schema.json").read_text())
+        record=json.loads((ROOT/"examples/evidence-record.v0.10.0.json").read_text())
+        Draft202012Validator.check_schema(schema)
+        Draft202012Validator(schema).validate(record)
+        self.assertEqual(record["decision"]["authorization"],"not-evaluated")
+        self.assertEqual(record["decision"]["status"],"indeterminate")
+        self.assertEqual(record["executionClass"],"synthetic-illustration")
+
     def test_v010_candidate_config_schema_and_example(self):
         schema=json.loads((ROOT/"policy/policy-v0.10.0.schema.json").read_text())
         obj=json.loads((ROOT/"policy/example-policy-v0.10.0.json").read_text())
