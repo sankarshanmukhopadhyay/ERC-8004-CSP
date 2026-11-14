@@ -25,7 +25,7 @@ def evaluate(signal: dict) -> dict:
     """Return disposition of *asserted* normalized evidence; no source verification."""
     category = signal.get("kind")
     evidence = signal.get("evidence", {})
-    if category not in {"identity", "integrity", "reputation", "validation"} or not isinstance(evidence, dict):
+    if category not in {"discovery", "identity", "integrity", "reputation", "validation", "economic"} or not isinstance(evidence, dict):
         return {"status": "indeterminate", "reason_codes": ["UNSUPPORTED_INPUT"], "authorization": "not-evaluated"}
 
     negative, unknown = set(), set()
@@ -45,7 +45,25 @@ def evaluate(signal: dict) -> dict:
         # admissible registration. The fixture is expected to show suppression.
         negative.add("UNTRUSTED_INSTRUCTION")
 
-    if category == "identity":
+    if category == "discovery":
+        # L0 can establish correctly qualified discovery only, never trust or execution.
+        if evidence.get("registration_parsed") is not True:
+            negative.add("DISCOVERY_NOT_ESTABLISHED")
+        if evidence.get("claims_action_authority") is True:
+            negative.add("AUTHORITY_LAUNDERING")
+
+    elif category == "economic":
+        for key, reason in (
+            ("external_mechanism_verified", "EXTERNAL_MECHANISM_UNVERIFIED"),
+            ("coverage_active_at_reliance", "COVERAGE_NOT_EFFECTIVE"),
+            ("exposure_scope_verified", "COVERAGE_SCOPE_UNVERIFIED"),
+            ("value_at_risk_qualified", "VALUE_AT_RISK_UNQUALIFIED"),
+        ):
+            state = evidence.get(key)
+            if state is False: negative.add(reason)
+            elif state is not True: unknown.add("UNKNOWN_" + key.upper())
+
+    elif category == "identity":
         if evidence.get("canonical_subject") is False:
             negative.add("NONCANONICAL_IDENTITY")
         elif evidence.get("canonical_subject") is not True:
