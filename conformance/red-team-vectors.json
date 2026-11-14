@@ -505,5 +505,89 @@
         "UNQUALIFIED_REVIEWER_SELECTION"
       ]
     }
+  },
+  {
+    "id": "T44",
+    "level": "L0",
+    "input": {
+      "kind": "discovery",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "registration_parsed": true,
+        "claims_action_authority": false
+      }
+    },
+    "expected": {
+      "status": "affirmative",
+      "reason_codes": []
+    }
+  },
+  {
+    "id": "T45",
+    "level": "L0",
+    "input": {
+      "kind": "discovery",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "registration_parsed": true,
+        "claims_action_authority": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "AUTHORITY_LAUNDERING"
+      ]
+    }
+  },
+  {
+    "id": "T46",
+    "level": "L4",
+    "input": {
+      "kind": "economic",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "external_mechanism_verified": true,
+        "coverage_active_at_reliance": true,
+        "exposure_scope_verified": true,
+        "value_at_risk_qualified": true
+      }
+    },
+    "expected": {
+      "status": "affirmative",
+      "reason_codes": []
+    }
+  },
+  {
+    "id": "T47",
+    "level": "L4",
+    "input": {
+      "kind": "economic",
+      "evidence": {
+        "recognized_registry": true,
+        "supported_abi": true,
+        "code_unchanged": true,
+        "source_finality": "verified",
+        "external_mechanism_verified": true,
+        "coverage_active_at_reliance": false,
+        "exposure_scope_verified": true,
+        "value_at_risk_qualified": true
+      }
+    },
+    "expected": {
+      "status": "negative",
+      "reason_codes": [
+        "COVERAGE_NOT_EFFECTIVE"
+      ]
+    }
   }
 ]
