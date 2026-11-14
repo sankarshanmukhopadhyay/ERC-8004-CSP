@@ -6,7 +6,7 @@ This repository packages the CSP as:
 - A **human-readable profile** with normative **MUST/SHOULD/MAY** language.
 - A **machine-readable policy schema** for consumer policy enforcement.
 - A **conformance checklist** and **test cases** that can be wired into CI and release gates.
-- A **static-site generator** and checked-in HTML snapshot. Automated GitHub Pages deployment is **not currently configured** in this repository.
+- A **GitHub Actions Pages publication workflow** that builds a navigable, complete repository-content catalogue from tracked source files.
 
 > ERC-8004 is a discovery and signal layer, not a guarantee layer. This CSP defines how to consume those signals without wandering into badge theater.
 
@@ -27,6 +27,7 @@ This repository packages the CSP as:
 | `docs/upstream-alignment-2026-11.md` | Upstream traceability, authority and evidence boundaries |
 | `docs/rego-feasibility.md` | Bounded Rego feasibility decision and falsification requirements |
 | `.github/workflows/rego-conformance.yml` | Executable Rego conformance checks |
+| `.github/workflows/pages.yml` | Full-content GitHub Pages build, validation and deployment |
 | `scripts/build_pages.py` | Static site build script |
 
 ## Conformance levels
@@ -46,7 +47,7 @@ See `spec/erc-8004-csp.md` for the full requirements matrix.
 - Added **`registrations[]` cross-check requirements** to reduce continuity spoofing across registries and chains.
 - Tightened **validation request/response linkage** around `requestHash`, supersession, finality, and drift after `agentURI` changes.
 - Added stricter **`data:` URI safety controls** and clearer **`supportedTrust` interpretation**.
-- Added a static site build path; the present repository does **not** contain the advertised Pages deployment workflow.
+- Added the static-site generator; GitHub Actions now builds and publishes a complete derived site from tracked source files.
 
 ## Quick start
 
@@ -72,13 +73,25 @@ An optional [OPA/Rego validation-admission evaluator](docs/executable-rego-polic
 - Date: **2026-03-07**
 - License: **Apache-2.0**
 
-## Documentation publication status
+## GitHub Pages publication
 
-`scripts/build_pages.py` generates HTML into `site/`. The repository contains checked-in generated HTML, but there is currently no `.github/workflows/pages.yml` deployment workflow. Do not interpret this README or the checked-in HTML as evidence of a successful GitHub Pages deployment. The Markdown files are authoritative for the local CSP; the site snapshot is derived and may lag behind current Markdown.
+The [public documentation catalogue](https://sankarshanmukhopadhyay.github.io/ERC-8004-CSP/) is generated from tracked files by `scripts/build_pages.py` and published by `.github/workflows/pages.yml` using the GitHub Actions Pages source. It includes a safely rendered or escaped page for every tracked source file, navigable directory indexes, and downloadable original-source copies. Generated `site/` HTML is intentionally excluded to avoid an alternative canonical source.
+
+**Source files in the repository remain authoritative.** GitHub Pages is a derived publication surface, not a separate normative version, certification or conformance claim. The experimental Rego evaluator retains its own limitations.
+
+To reproduce the site locally:
+
+```sh
+python -m pip install 'Markdown==3.7' 'bleach==6.2.0'
+python scripts/build_pages.py
+python -m unittest tests/test_pages.py -v
+```
+
+The workflow builds and validates on pull requests and deploys on pushes to `main` or manual dispatch. Any new tracked file is automatically included in the catalogue on the next `main` deployment. Repository settings must retain **Pages → Build and deployment → Source: GitHub Actions**.
 
 ## Upstream alignment and executable policy
 
-The [November 2026 upstream mapping](docs/upstream-alignment-2026-11.md) distinguishes ERC-8004 registry semantics from CSP consumer guidance and from actual action authorization. The [Rego feasibility assessment](docs/rego-feasibility.md) proposes a narrow optional consumer-decision evaluator with false-success fixtures. **The released v0.9.1 baseline did not include executable Rego; the current development branch adds an experimental evaluator.** Identity, reputation and validation signals must not be treated as authority to act.
+The [November 2026 upstream mapping](docs/upstream-alignment-2026-11.md) distinguishes ERC-8004 registry semantics from CSP consumer guidance and from actual action authorization. The [Rego feasibility assessment](docs/rego-feasibility.md) proposes a narrow optional consumer-decision evaluator with false-success fixtures. **The released v0.9.1 baseline did not include executable Rego; the current repository includes an experimental evaluator without changing that released baseline.** Identity, reputation and validation signals must not be treated as authority to act.
 
 ## Upstream references
 
