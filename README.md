@@ -29,6 +29,8 @@ This repository packages the CSP as:
 | `policy/policy-v0.10.0.schema.json` | Separate unreleased v0.10.0 candidate policy configuration schema |
 | `policy/example-policy-v0.10.0.json` | Validated candidate configuration example |
 | `schemas/evidence-record.v0.10.0.schema.json` | Schema for synthetic illustrative consumer evidence record |
+| `schemas/conformance-claim.v0.10.0.schema.json` | Candidate versioned, expiring conformance claim record |
+| `examples/conformance-claim.v0.10.0.json` | Explicit not-assessed claim, never a certified implementation |
 | `docs/red-team-resolution-2026-11.md` | Source finding-to-control and evidence-limitation disposition |
 | `docs/architecture.md` | Reference architecture for implementers |
 | `docs/threat-model.md` | Consumer-focused threat model and attacker playbooks |
