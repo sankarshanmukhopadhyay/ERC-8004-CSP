@@ -229,6 +229,30 @@ The published `policy/policy.schema.json` remains fixed to `version: 0.9.1` with
 
 **Compatibility-sensitive clarifications:** (i) full namespace-qualified `agentRegistry` identity must not be conflated with the Rego adapter's address-only field; (ii) embedded `data:` URI bytes require source-block validation and must not be mislabelled as independent digest verification; (iii) KECCAK-256 on-chain commitments are distinct from local SHA-256 evidence identifiers; (iv) unknown or stale source state cannot become PASS. These refinements may require migration for downstream systems relying on the broader v0.9.1 wording. This revision therefore merits an explicit **new versioned compatibility baseline if adopted**, not a silent replacement of the published v0.9.1 tag.
 
+### 13.1 Consumer-policy schema mapping and its limits
+
+The current [consumer-policy schema](../policy/policy.schema.json) expresses some, but not all, obligations in this working draft. The schema version remains `0.9.1`, and a syntactically valid policy still needs a real consumer implementation, independently verified source evidence and an assurance result. The mappings below identify relevant fields rather than claiming automatic enforcement:
+
+| Existing v0.9.1 configuration | Consumer obligation | Evidence not established by schema validation |
+| --- | --- | --- |
+| `identity.requireCurrentRegistrationLink` | CSP-ID-08–09 | On-chain pair and independently resolved linked registrations |
+| `identity.requireWalletReverificationAfterTransfer`, `showWalletBindingStatus`, `showWalletVerificationType` | CSP-ID-03–07 | Actual ownership, transfer sequence and cryptographic verification at an identified block |
+| `identity.treatMissingSupportedTrustAsDiscoveryOnly` | CSP-ID-10 | Whether any advertised trust model has external supporting evidence |
+| `safeFetch.allowedSchemes`, `timeoutMs`, `maxBytes`, `followRedirects`, `maxRedirects`, `dataUriPolicy` | CSP-SF-01–09 | Enforcement at each redirect, DNS/network destination, decompression and rendering boundary |
+| `safeFetch.cache.separateUnanchoredCache` | CSP-IN-07 | Integrity algorithm, source snapshot and content classification correctness |
+| `reputation.weighting`, `rateLimits`, `display` | CSP-RP-01–08 | Reviewer independence, numeric scaling, actual rate limits, revocation state and selection provenance |
+| `validation.bindToRequestHash`, `requireScopeMethodFreshness`, `invalidateOnAgentUriChange` | CSP-VL-01–04, CSP-VL-08 | Verified KECCAK-256 linkage and independent artifact/scope binding |
+| `validation.finalityRule`, `validatorPolicy`, `showSupersededResponses` | CSP-VL-05–12 | Historical event chronology, validator qualification, conflict governance and latest canonical state |
+| `disclosures.*` | CSP-CF-01–04, CSP-VL-10–11 | Whether public claims match the actual evaluated evidence |
+| **No existing field** for independent economic mechanism verification | CSP-EC-01–04 | L4 effective state, scope and enforceability |
+| **No existing field** for runtime delegated authority | CSP-AB-01 | Action permission remains the responsibility of an external enforcement system |
+
+This table intentionally avoids adding fields to `policy/policy.schema.json` in a documentation-driven PR. Consumers that cannot represent a required obligation in that configuration MUST implement or evidence it through a separately documented enforcement mechanism, and MUST NOT count absence of a schema field as proof that the requirement is inapplicable.
+
+### 13.2 Claim outcomes
+
+For a consequential proposition, **admitted** means the selected consumer policy and required evidence support *that bounded proposition*; **denied** means an established disqualifying condition applies; **indeterminate** means evidence is missing, unavailable, stale, contradictory or insufficient to decide. An `indeterminate` status MUST NOT be displayed or passed downstream as an affirmative claim. A consumer implementation SHOULD retain reason codes and source/policy identities for independent reproduction. The Rego prototype demonstrates this pattern for a single validation-display operation; it does not define a universal CSP API or action-authorization result.
+
 No backward-incompatible change to existing JSON Schema field types is made here. An integration migration is needed only if the adopter previously collapsed the distinctions above, promoted unsupported trust assertions, or requires the expanded normative controls. Preserve historical claims under the version originally evaluated.
 
 ## 14. Traceability to upstream authority
