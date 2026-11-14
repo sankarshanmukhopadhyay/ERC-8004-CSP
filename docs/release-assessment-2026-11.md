@@ -1,67 +1,36 @@
-# Release assessment: CSP specification expansion (2026-11-14)
+# Release decision: ERC-8004 CSP v0.10.0 (14 November 2026)
 
-**Decision: release not yet warranted.** A **v0.10.0 working-draft specification milestone** is justified because the semantic contract has materially changed, but it should be tagged only after release-level acceptance and validation. The source working draft remains publishable in `main`; **no new release has been tagged**.
+**Disposition: release warranted as a published working-draft specification milestone.**
 
-## Why this is a release-worthy compatibility event
+The maintainer requested publication after the red-team convergence tranche. This decision authorizes a **versioned working draft**, not an external conformance or production-readiness attestation. The publication workflow is required to verify the exact release-head CI evidence before creating the tag or GitHub Release.
 
-The [red-team convergence analysis](red-team-resolution-2026-11.md) and revised [CSP specification](../spec/erc-8004-csp.md) establish 105 tracked requirements and 47 descriptive acceptance scenarios (including new positive cases at L0 and L4). This is not merely an editorial rewrite. It provides explicit requirement identifiers, a section-cited upstream-to-local authority crosswalk, more precise treatment of KECCAK-256 commitments and namespace-qualified identifiers, stronger evidence-state and fail-closed obligations, refined embedded-data URI semantics, detailed lifecycle requirements, and 24 acceptance scenarios. Consumers who used the broader v0.9.1 “cryptographically anchored” label for embedded data URIs, assumed the Rego sample's SHA-256 artifact digest was an ERC commitment, or conflated address-only and namespace-qualified registry identities may need to change displayed claims or mapping logic.
+## Scope accepted
 
-These are **semantic compatibility changes**, even though no published JSON Schema is modified. A silently replaced v0.9.1 specification would be misleading. A new documented version should identify the supersession, preserve the historical tag and state the local consumer obligations unambiguously.
+The v0.10.0 source records **105 individually indexed consumer requirements**, **47 descriptive acceptance scenarios**, pinned ERC-8004 Draft revision `ethereum/ERCs@503591a6e80e6e1affdd6403341e25269141f046`, **26 author-supplied normalized-evidence test vectors**, bounded Rego/OPA execution, and accompanying architecture, threat, conformance and red-team disposition documentation. These are reproducible *source and local regression* outputs. They do not establish independent verification of an operational CSP consumer.
 
-## Proposed release identity
+## Compatibility and breaking changes
 
-| Dimension | Proposed disposition |
+**BREAKING CHANGE (semantic):** embedded `data:` URI bytes are bound to the observed on-chain URI snapshot; they are not automatically an independently authenticated external digest. Consumers that previously showed an unqualified external-anchor claim must reclassify or re-evaluate that evidence.
+
+For adopters: retain the full ERC-8004 namespace-qualified registry identity; do not substitute the experimental Rego address-only field for it without a verified adapter. Use ERC-8004 KECCAK-256 for upstream request, feedback and response commitments; local `sha256:` identifiers do not replace them. Reconsider previous-owner reputation and validation, source finality, validator independence and economic effective-time evidence before making strengthened claims.
+
+| Contract or artifact | v0.10.0 release disposition |
 | --- | --- |
-| Spec/profile milestone | **v0.10.0** (next working draft after v0.9.1) |
-| Prior published baseline | v0.9.1 dated 2026-03-07, retained by tag |
-| Normative scope | ERC-8004 **consumer security profile**, not upstream ERC-8004 |
-| Policy configuration contract | Legacy `policy/policy.schema.json` remains **v0.9.1**. Separate `policy/policy-v0.10.0.schema.json` is a **candidate contract** with its own validated example, not a silent in-place change |
-| Experimental Rego input/output | Version **1.0.0**, separate from CSP and v0.9.1 policy schema |
-| Conformance levels | L0–L4 preserved, with more exact evidence and falsification requirements |
-| Independent assurance | **Not claimed** |
-| Evidence status | Prose scenarios T01–T47 are not an executed full-stack CTS; a bounded subset has normalized synthetic evidence. Rego integration tests remain separate bounded synthetic local evidence |
-| Documentation publication | GitHub Pages derives from `main`; tag contents remain the definitive release snapshot |
+| CSP normative source | **v0.10.0 published working draft** |
+| `policy/policy.schema.json` | **v0.9.1 retained**, backward compatible |
+| `policy/policy-v0.10.0.schema.json` | **Candidate**, explicitly adopted and externally enforced |
+| Rego input/output contracts | **v1.0.0**, experimental display-admission only |
+| Conformance evidence-record/claim schemas | **Candidate illustrative formats** |
+| L0–L4 level names | Retained; no automatic implementation conformance |
 
-A tag `v0.10.0` would version the **specification milestone**. It must not be presented as `policy.schema.json` version 0.10.0 or an independently tested implementation. The different version axes should remain visibly separate.
+## Acceptance and evidence
 
-## Acceptance checks before tagging
+The release workflow uses the validated `main` commit and requires the existing **Pages/traceability** and **OPA/Rego/security** workflows to succeed for that exact SHA before publishing. The GitHub Release body records the immutable source commit, run URLs and a link to the [red-team disposition](red-team-resolution-2026-11.md). Source snapshot and tests are reproducible from the tag. GitHub Pages continues to render the `main` source and is not the immutable release artifact.
 
-- [ ] Specification citations verified against the **current upstream draft**, especially ERC-8004 interface and section references.
-- [ ] Stable requirement IDs unique; conformance test IDs unique; all tests and checklist references resolve.
-- [ ] Maintainers accept revised **embedded-data URI** and **hash/identifier** semantics as substantive, potentially migration-requiring changes.
-- [ ] README, architecture, threat model, upstream crosswalk, conformance guidance, Rego limits and release notes align.
-- [ ] Required GitHub Actions checks green on the *intended tag commit*, including documentation Pages publication and Rego conformance.
-- [ ] Internal/public documentation links reachable and no misleading claims of external evidence.
-- [ ] Version and citation metadata updated for the **specification release only**, with no silent mutation of existing consumer policy JSON contracts.
-- [ ] DCO/CLA and contribution controls, if enabled, pass.
-- [ ] Human acceptance of the normative interpretation; automated lint and AI-assisted review do not replace it.
+**Outstanding independent evidence is not waived:** no live on-chain registry/ABI resolver, full CID/network safe-fetch verifier, agent prompt-injection isolation demonstration, qualified independent validator/TEE/zk verifier, effective economic insurance proof or separately governed action-authority evaluator is represented as completed. They remain evidence obligations for consumers claiming operational CSP conformance. See [Issue #10](https://github.com/sankarshanmukhopadhyay/ERC-8004-CSP/issues/10).
 
-## Compatibility and migration advice
+## Release notes and audit trail
 
-**BREAKING CHANGE (semantic, 0.x candidate milestone):** Consumers of the released 0.9.1 policy schema need not rewrite configuration files solely because of this spec revision, but must reassess claims that treated embedded on-chain `data:` bytes as independently digest-authenticated external content. Other behavioral dependencies are recorded in the red-team disposition and migration note below. They do need to reassess the meaning of any current display/assurance claims that (a) collapse embedded URI bytes into verified external anchoring; (b) substitute SHA-256 for KECCAK-256; (c) discard chain namespace; (d) promote missing or stale evidence to positive trust; or (e) infer action authorization from registry signals. Historical conformance claims should retain their evaluated version.
+The [published release notes](releases/v0.10.0.md) are the canonical migration and limitation record. The release API supplies tag, source SHA, and the two green CI run identities; do not hard-code unobserved run IDs into this decision document.
 
-## Release notes
-
-A publication-ready draft is in [v0.10.0 release notes](release-notes-v0.10.0-draft.md). It explicitly distinguishes verified local execution from unimplemented end-to-end assurance and identifies documentation-only and runtime boundaries.
-
-## Current disposition
-
-**The expanded specification is now integrated into `main` as a working draft; the repository and its Pages site do not acquire a new release version by that merge.** Complete the checklist above, obtain the appropriate release-level acceptance of its substantive normative interpretations, and then tag v0.10.0 against the validated source commit. Until then, v0.9.1 remains the last published release.
-
-## Red-team release blockers and acceptance classes
-
-The [candidate conformance claim schema](../schemas/conformance-claim.v0.10.0.schema.json) and [not-assessed example](../examples/conformance-claim.v0.10.0.json) prevent a synthetic unrun claim from being represented as an executed result at the schema boundary. Schema validation still cannot verify the independence or truth of attached evidence.
-
-The issue of a new specification tag is distinct from merging the draft and publishing its source. The [red-team disposition](red-team-resolution-2026-11.md) separates **specified normative controls**, **bounded runnable synthetic checks**, and **real-world evidence not yet supplied by an adopter**. The repository includes no independent proof of canonical Ethereum registry state, secured fetchers, independent validators, model-injection containment, or L4 economic enforceability.
-
-The release head must carry coherent citation and compatibility metadata, a completed source-pin/anchor check, green scenario/schema/Keccak and Rego tests, correct GitHub Pages output, and explicit acceptance of changed normative semantics. **Do not convert unrun T01–T47 descriptive scenarios into passing implementation results.**
-
-### Dependency and migration disposition
-
-- Legacy policy consumers may continue to load `policy/policy.schema.json` version 0.9.1; there is no implicit automatic upgrade.
-- A consumer electing to implement candidate 0.10.0 must separately adopt `policy/policy-v0.10.0.schema.json`, configure recognized registry/ABI identity, finality, epoch and source-admission rules, and provide actual enforcement evidence.
-- External Rego integrators retain input/output contract 1.0.0 and must supply their own verified namespace/chain/address and Keccak-to-artifact binding adapter; no adapter runtime is provided here.
-- Historic CSP claim records remain associated with their original specification and policy versions; claims depending on prior embedded-content interpretation require reassessment before presentation under the new candidate.
-- Use the [red-team convergence issue](https://github.com/sankarshanmukhopadhyay/ERC-8004-CSP/issues/10) for remaining externally dependent acceptance evidence. No completed external conformance is implied by closure of the original #4 alignment issue.
-
-**Release decision:** `release not yet warranted` until the above release acceptance is explicit; **commit-only** publication of the complete working draft is appropriate in the meantime.
+**No assertion of independent third-party audit, upstream ERC endorsement, agent authorization, L0–L4 implementation certification, or production interoperability is made.**
