@@ -12,7 +12,16 @@ CHECKLIST=(ROOT/"conformance/checklist.md").read_text(encoding="utf-8")
 README=(ROOT/"README.md").read_text(encoding="utf-8")
 RELEASE=(ROOT/"docs/release-assessment-2026-11.md").read_text(encoding="utf-8")
 
+from scripts.generate_spec_requirements import catalogue
+
 class SpecificationTraceabilityTests(unittest.TestCase):
+    def test_machine_readable_requirements_not_stale(self):
+        stored=json.loads((ROOT/"conformance/requirements.json").read_text(encoding="utf-8"))
+        self.assertEqual(stored,catalogue())
+        self.assertEqual(len(stored["requirements"]),len({x["id"] for x in stored["requirements"]}))
+        self.assertTrue(all(x["verification_status"] in (
+            "descriptive-scenario-only","inspection-required") for x in stored["requirements"]))
+
     def test_requirement_ids_are_uniquely_declared(self):
         declared=re.findall(r"\*\*(CSP-[A-Z]{2}-[0-9]{2}):\*\*",SPEC)
         self.assertGreaterEqual(len(declared),65)
