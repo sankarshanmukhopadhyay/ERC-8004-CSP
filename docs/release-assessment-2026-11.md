@@ -1,6 +1,6 @@
 # Release assessment: CSP specification expansion (2026-11-14)
 
-**Decision:** **Release warranted after acceptance and validation**, as a new **CSP v0.10.0 working-draft specification milestone**; **do not tag or publish a release yet** while the revision remains in review.
+**Decision:** **Release warranted after release-level acceptance and validation**, as a new **CSP v0.10.0 working-draft specification milestone**. The expanded working draft has been merged into `main`, but **no new release has been tagged**. Do not tag or publish the milestone until the release gates below are satisfied.
 
 ## Why this is a release-worthy compatibility event
 
@@ -46,4 +46,4 @@ A publication-ready draft is in [v0.10.0 release notes](release-notes-v0.10.0-dr
 
 ## Current disposition
 
-**Implement as a reviewable PR, validate it, and merge only with accepted normative changes.** The current work does not justify a premature release while the profile interpretation is still under review. Once merged, complete the checklist above and tag v0.10.0. Until then, v0.9.1 remains the last published release.
+**The expanded specification is now integrated into `main` as a working draft; the repository and its Pages site do not acquire a new release version by that merge.** Complete the checklist above, obtain the appropriate release-level acceptance of its substantive normative interpretations, and then tag v0.10.0 against the validated source commit. Until then, v0.9.1 remains the last published release.
