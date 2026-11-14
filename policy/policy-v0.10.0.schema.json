@@ -1,0 +1,603 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/sankarshanmukhopadhyay/ERC-8004-CSP/blob/main/policy/policy-v0.10.0.schema.json",
+  "title": "ERC-8004 CSP v0.10.0 Candidate Consumer Policy (UNRELEASED)",
+  "type": "object",
+  "required": [
+    "version",
+    "conformanceLevel",
+    "identity",
+    "safeFetch",
+    "reputation",
+    "validation",
+    "disclosures",
+    "registryRecognition",
+    "sourceFinality",
+    "ownerEpoch",
+    "contentAdmission",
+    "reviewerSelection",
+    "validationAdmission"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^0\\.10\\.0$"
+    },
+    "conformanceLevel": {
+      "type": "string",
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3",
+        "L4"
+      ]
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "requireCurrentRegistrationLink",
+        "treatMissingSupportedTrustAsDiscoveryOnly",
+        "requireWalletReverificationAfterTransfer",
+        "showWalletBindingStatus",
+        "showWalletVerificationType"
+      ],
+      "properties": {
+        "requireCurrentRegistrationLink": {
+          "type": "boolean"
+        },
+        "treatMissingSupportedTrustAsDiscoveryOnly": {
+          "type": "boolean"
+        },
+        "requireWalletReverificationAfterTransfer": {
+          "type": "boolean"
+        },
+        "showWalletBindingStatus": {
+          "type": "boolean"
+        },
+        "showWalletVerificationType": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "safeFetch": {
+      "type": "object",
+      "required": [
+        "timeoutMs",
+        "maxBytes",
+        "allowedSchemes",
+        "allowedContentTypes",
+        "followRedirects",
+        "maxRedirects",
+        "dataUriPolicy"
+      ],
+      "properties": {
+        "timeoutMs": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 60000
+        },
+        "maxBytes": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 104857600
+        },
+        "allowedSchemes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "allowedContentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "followRedirects": {
+          "type": "boolean"
+        },
+        "maxRedirects": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "ipfsGateways": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "cache": {
+          "type": "object",
+          "required": [
+            "enabled",
+            "retentionDays",
+            "separateUnanchoredCache"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "retentionDays": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3650
+            },
+            "separateUnanchoredCache": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "dataUriPolicy": {
+          "type": "object",
+          "required": [
+            "enabled",
+            "maxBytes",
+            "allowedMediaTypes",
+            "inertOnly"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "maxBytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10485760
+            },
+            "allowedMediaTypes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "inertOnly": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "reputation": {
+      "type": "object",
+      "required": [
+        "weighting",
+        "rateLimits",
+        "display"
+      ],
+      "properties": {
+        "weighting": {
+          "type": "object",
+          "required": [
+            "ageDecayHalfLifeDays",
+            "clientAccountAgeWeight",
+            "clientProofWeights",
+            "stakeWeight",
+            "reliabilityWeight"
+          ],
+          "properties": {
+            "ageDecayHalfLifeDays": {
+              "type": "number",
+              "minimum": 1
+            },
+            "clientAccountAgeWeight": {
+              "type": "number",
+              "minimum": 0
+            },
+            "clientProofWeights": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "stakeWeight": {
+              "type": "number",
+              "minimum": 0
+            },
+            "reliabilityWeight": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "rateLimits": {
+          "type": "object",
+          "required": [
+            "maxFeedbackPerAgentPerDay",
+            "maxResponsesPerFeedback",
+            "maxFetchesPerHostPerMinute"
+          ],
+          "properties": {
+            "maxFeedbackPerAgentPerDay": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "maxResponsesPerFeedback": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maxFetchesPerHostPerMinute": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "display": {
+          "type": "object",
+          "required": [
+            "showScalarScore",
+            "showConfidence",
+            "appendResponsePolicy",
+            "distinguishResponseTypes"
+          ],
+          "properties": {
+            "showScalarScore": {
+              "type": "boolean"
+            },
+            "showConfidence": {
+              "type": "boolean"
+            },
+            "appendResponsePolicy": {
+              "type": "string",
+              "enum": [
+                "hide",
+                "showAll",
+                "gatedByResponderPolicy"
+              ]
+            },
+            "distinguishResponseTypes": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "validation": {
+      "type": "object",
+      "required": [
+        "requireScopeMethodFreshness",
+        "bindToRequestHash",
+        "invalidateOnAgentUriChange",
+        "showSupersededResponses",
+        "finalityRule",
+        "validatorPolicy"
+      ],
+      "properties": {
+        "requireScopeMethodFreshness": {
+          "type": "boolean"
+        },
+        "bindToRequestHash": {
+          "type": "boolean"
+        },
+        "invalidateOnAgentUriChange": {
+          "type": "boolean"
+        },
+        "showSupersededResponses": {
+          "type": "boolean"
+        },
+        "finalityRule": {
+          "type": "string",
+          "enum": [
+            "latestWithinWindow",
+            "quorum",
+            "twoPhase"
+          ]
+        },
+        "validatorPolicy": {
+          "type": "object",
+          "required": [
+            "mode",
+            "validators",
+            "freshnessWindowHours"
+          ],
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "allowlist",
+                "weightedAllowlist",
+                "openButDownrank"
+              ]
+            },
+            "freshnessWindowHours": {
+              "type": "number",
+              "minimum": 0.1
+            },
+            "validators": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "validatorAddress",
+                  "methodologyURI",
+                  "scopeTags",
+                  "weight",
+                  "conflictRule"
+                ],
+                "properties": {
+                  "validatorAddress": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{40}$"
+                  },
+                  "methodologyURI": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "scopeTags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1
+                  },
+                  "weight": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "conflictRule": {
+                    "type": "string",
+                    "enum": [
+                      "preferHigherWeight",
+                      "preferQuorum",
+                      "markConflicted"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "disclosures": {
+      "type": "object",
+      "required": [
+        "integrityDefinition",
+        "reputationPolicyDisclosure",
+        "validatorDisclosure",
+        "economicDependenciesDisclosure"
+      ],
+      "properties": {
+        "integrityDefinition": {
+          "type": "string"
+        },
+        "reputationPolicyDisclosure": {
+          "type": "string"
+        },
+        "validatorDisclosure": {
+          "type": "string"
+        },
+        "economicDependenciesDisclosure": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "registryRecognition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "namespace",
+        "chainId",
+        "identityRegistry",
+        "reputationRegistry",
+        "validationRegistry",
+        "abiRevision",
+        "codeHash",
+        "recognitionSource"
+      ],
+      "properties": {
+        "namespace": {
+          "const": "eip155"
+        },
+        "chainId": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$"
+        },
+        "identityRegistry": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "reputationRegistry": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "validationRegistry": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "abiRevision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "codeHash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{64}$"
+        },
+        "recognitionSource": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "sourceFinality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule",
+        "maxSnapshotAgeSeconds",
+        "maxClockSkewSeconds",
+        "proofBasis"
+      ],
+      "properties": {
+        "rule": {
+          "enum": [
+            "safe",
+            "finalized",
+            "l1-posted",
+            "challenge-window-elapsed",
+            "confirmations"
+          ]
+        },
+        "confirmations": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxSnapshotAgeSeconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxClockSkewSeconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "proofBasis": {
+          "enum": [
+            "state-proof",
+            "light-client",
+            "independent-provider-cross-check",
+            "documented-other"
+          ]
+        }
+      }
+    },
+    "ownerEpoch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resetOnTransfer",
+        "priorEpochScoreMode",
+        "invalidateOnUriChange"
+      ],
+      "properties": {
+        "resetOnTransfer": {
+          "const": true
+        },
+        "priorEpochScoreMode": {
+          "enum": [
+            "exclude-from-current",
+            "disclosed-discount",
+            "separate-history-only"
+          ]
+        },
+        "invalidateOnUriChange": {
+          "const": true
+        },
+        "probationBlocks": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "contentAdmission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reuseVerifiedBytes",
+        "rejectZeroHashAsCommitment",
+        "rejectDuplicateJsonKeys",
+        "isolateNaturalLanguage",
+        "requireSafeNetworkEgress"
+      ],
+      "properties": {
+        "reuseVerifiedBytes": {
+          "const": true
+        },
+        "rejectZeroHashAsCommitment": {
+          "const": true
+        },
+        "rejectDuplicateJsonKeys": {
+          "const": true
+        },
+        "isolateNaturalLanguage": {
+          "const": true
+        },
+        "requireSafeNetworkEgress": {
+          "const": true
+        }
+      }
+    },
+    "reviewerSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selectionBasis",
+        "excludeCurrentOwnerAndOperators",
+        "zeroCountMeansNoData",
+        "requireCohortDisclosure"
+      ],
+      "properties": {
+        "selectionBasis": {
+          "enum": [
+            "curated-allowlist",
+            "graph-derived",
+            "payment-evidenced-verified",
+            "unfiltered"
+          ]
+        },
+        "excludeCurrentOwnerAndOperators": {
+          "const": true
+        },
+        "zeroCountMeansNoData": {
+          "const": true
+        },
+        "requireCohortDisclosure": {
+          "const": true
+        }
+      }
+    },
+    "validationAdmission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bindRegistryChain",
+        "requireRequestCommitment",
+        "independencePolicy",
+        "reconcileLatestState",
+        "unknownIndependence"
+      ],
+      "properties": {
+        "bindRegistryChain": {
+          "const": true
+        },
+        "requireRequestCommitment": {
+          "const": true
+        },
+        "independencePolicy": {
+          "enum": [
+            "documented-qualification",
+            "conflict-screened",
+            "no-independence-claim"
+          ]
+        },
+        "reconcileLatestState": {
+          "const": true
+        },
+        "unknownIndependence": {
+          "enum": [
+            "indeterminate",
+            "unqualified"
+          ]
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
