@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CSP validation admission input v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "policy_version",
+    "evaluation_time",
+    "subject",
+    "request",
+    "response",
+    "evidence",
+    "control",
+    "consumer_policy"
+  ],
+  "properties": {
+    "policy_version": {
+      "const": "1.0.0"
+    },
+    "evaluation_time": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chain_id",
+        "agent_registry",
+        "agent_id"
+      ],
+      "properties": {
+        "chain_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "agent_registry": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "agent_id": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        }
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_hash",
+        "artifact_digest",
+        "scope"
+      ],
+      "properties": {
+        "request_hash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{64}$"
+        },
+        "artifact_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_hash",
+        "artifact_digest",
+        "scope",
+        "validator",
+        "methodology_uri",
+        "value",
+        "observed_at",
+        "lifecycle"
+      ],
+      "properties": {
+        "request_hash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{64}$"
+        },
+        "artifact_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "validator": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "methodology_uri": {
+          "type": "string",
+          "pattern": "^https://",
+          "maxLength": 2048
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "observed_at": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "lifecycle": {
+          "enum": [
+            "current",
+            "superseded",
+            "conflicted"
+          ]
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshot_id",
+        "agent_registry",
+        "agent_id",
+        "verified_at",
+        "verification_status",
+        "chain_finality",
+        "integrity"
+      ],
+      "properties": {
+        "snapshot_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "agent_registry": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "agent_id": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        },
+        "verified_at": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "verification_status": {
+          "enum": [
+            "verified",
+            "unknown",
+            "unavailable"
+          ]
+        },
+        "chain_finality": {
+          "enum": [
+            "finalized",
+            "unconfirmed",
+            "reorg"
+          ]
+        },
+        "integrity": {
+          "enum": [
+            "anchored",
+            "unanchored",
+            "mismatch",
+            "unavailable"
+          ]
+        }
+      }
+    },
+    "control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "unchanged",
+            "transfer",
+            "uri_drift"
+          ]
+        }
+      }
+    },
+    "consumer_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "validators",
+        "allowed_scopes",
+        "methodology_uri",
+        "min_response_value",
+        "max_validation_age_seconds",
+        "max_index_lag_seconds"
+      ],
+      "properties": {
+        "validators": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          }
+        },
+        "allowed_scopes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "methodology_uri": {
+          "type": "string",
+          "pattern": "^https://",
+          "maxLength": 2048
+        },
+        "min_response_value": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "max_validation_age_seconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_index_lag_seconds": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}
