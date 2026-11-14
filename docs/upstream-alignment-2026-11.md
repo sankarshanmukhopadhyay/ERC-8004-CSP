@@ -43,3 +43,19 @@ An on-chain record establishes a bounded source observation. An indexer gives a 
 - [Consumer policy schema](../policy/policy.schema.json) remains the released v0.9.1 policy configuration contract.
 
 Reference authority remains with [ERC-8004](https://eips.ethereum.org/EIPS/eip-8004), [ERC-721](https://eips.ethereum.org/EIPS/eip-721), [EIP-712](https://eips.ethereum.org/EIPS/eip-712), and [ERC-1271](https://eips.ethereum.org/EIPS/eip-1271). An upstream draft revision needs a fresh applicability review rather than an automatic local normative update.
+
+
+## Immutable upstream revision and applicability
+
+This CSP candidate is based on **ethereum/ERCs commit [503591a6](https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md)**, Git blob SHA \`7653a80922c0bf0243669f30e7a2d4aabfe006aa\`, reviewed on 2026-11-14 while ERC-8004 remained a Draft. The [upstream pin manifest](../spec/upstream-erc8004-pin.json) records its section anchors, which are checked in CI. Floating EIP URLs are informative convenience links; they do not silently replace the pinned version.
+
+**Registry deployment conformance is not implied by a source pin.** An implementer must independently establish chain, Identity/Reputation/Validation Registry addresses, linked Identity Registry (where exposed), ABI revision, code/proxy implementation and source-block evidence. Earlier ERC drafts may use a different ABI; legacy records require an explicitly governed adapter and cannot be decoded as this revision by assumption.
+
+**Specific protocol distinctions clarified by the red-team review:**
+- The [pinned Giving Feedback section](https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#giving-feedback) prohibits owner/operator feedback at submission; consumer scoring also needs the relevant *current* owner/operator conflict view after transfers.
+- The [pinned Feedback hash](https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#giving-feedback) supports optional zero commitment for content-addressed URIs; CSP locally requires verified CID/DAG integrity before evidence promotion. For non-content-addressed sources, an absent hash cannot establish byte integrity.
+- The [pinned Validation Request](https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#validation-request) is created by an owner/operator choosing the validator, so independent validation quality cannot be inferred from contract success.
+- The [pinned Validation Read Functions](https://github.com/ethereum/ERCs/blob/503591a6e80e6e1affdd6403341e25269141f046/ERCS/erc-8004.md#read-functions-1) report latest request status, not immutable historical independent evidence.
+- A **consumer-local** \`sha256:\` artifact/policy digest and the source's \`keccak256\` request/content commitment are not interchangeable.
+
+CSP's new §§16–22 requirements are consumer-derived obligations, not new upstream MUST clauses. See the [generated individual-requirement index](../conformance/requirements.json), which now carries the upstream source pin and descriptive/inspection evidence status.
