@@ -37,4 +37,4 @@ evidence:
     - action authorization and independent third-party assurance are not provided
     - red-team source recognition, chain finality, secure fetch, validator independence, and economic enforcement require external implementation evidence
     - prose T01-T47 scenarios are not fully executed consumer conformance tests
-    - v0.10.0 specification and policy contracts remain unreleased candidates
+    - v0.10.0 is published as a working-draft specification; companion policy and conformance contracts remain candidate examples without independent assurance
