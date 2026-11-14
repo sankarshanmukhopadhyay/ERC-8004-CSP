@@ -89,3 +89,14 @@ The following scenarios extend T01–T24. They describe expected consumer dispos
 | **T42** | L2 | fail | Feedback author later becomes approved token operator | self-interested; excluded or quarantined | CSP-RP-09 |
 | **T43** | L3 | fail | `getValidationStatus` conflicts with indexed event history | contradictory, no admitted display | CSP-VL-15, CSP-VL-18 |
 
+
+## Cross-level positive and negative boundary cases
+
+These four further scenarios establish a positive and a prohibited false-success case at the two outer conformance levels. The normalized-evidence examples are **synthetic** and cannot constitute an actual consumer L0 or L4 certification.
+
+| ID | Level | Polarity | Adversarial setup / action | Expected consumer result | Requirement basis |
+| --- | --- | --- | --- | --- | --- |
+| **T44** | L0 | pass | Recognized registry and correctly parsed discovery entry with no assurance claims | Qualified discovery only | CSP-UP-01, CSP-CF-04 |
+| **T45** | L0 | fail | Registry entry interpreted as authority to execute | No authorization; authority-laundering reason | CSP-AB-01, CSP-AB-02 |
+| **T46** | L4 | pass | Independently evidenced mechanism, effective exposure and coverage at reliance time | Scope-qualified L4 evidence *input*; no certification | CSP-EC-01–06 |
+| **T47** | L4 | fail | Previously covered stake is withdrawn before reliance | No current L4 exposure claim | CSP-EC-02, CSP-EC-06 |
