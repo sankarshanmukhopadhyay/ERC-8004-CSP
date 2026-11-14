@@ -21,6 +21,7 @@ This repository packages the CSP as:
 | `docs/executable-rego-policy.md` | OPA installation, decision semantics, evidence and DTFC mapping |
 | `conformance/rego/` | Synthetic positive and adversarial fixtures |
 | `conformance/checklist.md` | Evidence-oriented checklist by conformance level |
+| `conformance/requirements.json` | Machine-readable index of 71 normative requirements and scenario coverage |
 | `conformance/test-cases.md` | 24 negative, boundary and acceptance scenarios (descriptive; not an executed full-stack CTS) |
 | `docs/architecture.md` | Reference architecture for implementers |
 | `docs/threat-model.md` | Consumer-focused threat model and attacker playbooks |
@@ -44,7 +45,7 @@ See the [expanded working-draft specification](spec/erc-8004-csp.md) for the sec
 
 ## Proposed next specification milestone
 
-A substantive revision is being prepared as a **v0.10.0 working-draft candidate**. It adds detailed consumer evidence and threat requirements, upstream citations, identity/hash semantics and a broader acceptance-case catalogue. The [release assessment](docs/release-assessment-2026-11.md) determines that a new **specification** release is justified after acceptance and validation, since some wording changes are semantically significant. The [draft release notes](docs/release-notes-v0.10.0-draft.md) are not a published release. The last issued CSP tag remains **v0.9.1**.
+A substantive revision is being prepared as a **v0.10.0 working-draft candidate**. Its [machine-readable index](conformance/requirements.json) derives 71 normative requirement IDs from the Markdown specification, with descriptive-scenario coverage explicitly separated from executed evidence. It adds detailed consumer evidence and threat requirements, upstream citations, identity/hash semantics and a broader acceptance-case catalogue. The [release assessment](docs/release-assessment-2026-11.md) determines that a new **specification** release is justified after acceptance and validation, since some wording changes are semantically significant. The [draft release notes](docs/release-notes-v0.10.0-draft.md) are not a published release. The last issued CSP tag remains **v0.9.1**.
 
 **Compatibility:** the existing `policy/policy.schema.json` remains version `0.9.1`; the optional Rego input/output schemas remain experimental `1.0.0`. Neither is silently version-bumped by an editorial or normative draft expansion.
 
