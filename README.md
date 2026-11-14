@@ -6,7 +6,7 @@ This repository packages the CSP as:
 - A **human-readable profile** with normative **MUST/SHOULD/MAY** language.
 - A **machine-readable policy schema** for consumer policy enforcement.
 - A **conformance checklist** and **test cases** that can be wired into CI and release gates.
-- A **GitHub Pages build pipeline** that publishes the profile as a static documentation site.
+- A **static-site generator** and checked-in HTML snapshot. Automated GitHub Pages deployment is **not currently configured** in this repository.
 
 > ERC-8004 is a discovery and signal layer, not a guarantee layer. This CSP defines how to consume those signals without wandering into badge theater.
 
@@ -21,6 +21,8 @@ This repository packages the CSP as:
 | `conformance/test-cases.md` | Test case suite |
 | `docs/architecture.md` | Reference architecture for implementers |
 | `docs/threat-model.md` | Consumer-focused threat model and attacker playbooks |
+| `docs/upstream-alignment-2026-11.md` | Upstream traceability, authority and evidence boundaries |
+| `docs/rego-feasibility.md` | Bounded Rego feasibility decision and falsification requirements |
 | `.github/workflows/pages.yml` | GitHub Pages deployment workflow |
 | `scripts/build_pages.py` | Static site build script |
 
@@ -41,7 +43,7 @@ See `spec/erc-8004-csp.md` for the full requirements matrix.
 - Added **`registrations[]` cross-check requirements** to reduce continuity spoofing across registries and chains.
 - Tightened **validation request/response linkage** around `requestHash`, supersession, finality, and drift after `agentURI` changes.
 - Added stricter **`data:` URI safety controls** and clearer **`supportedTrust` interpretation**.
-- Added a **GitHub Pages** workflow and static site build path.
+- Added a static site build path; the present repository does **not** contain the advertised Pages deployment workflow.
 
 ## Quick start
 
@@ -63,14 +65,13 @@ See `spec/erc-8004-csp.md` for the full requirements matrix.
 - Date: **2026-03-07**
 - License: **Apache-2.0**
 
-## GitHub Pages
+## Documentation publication status
 
-The repository includes an Actions-based Pages workflow in `.github/workflows/pages.yml`.
+`scripts/build_pages.py` generates HTML into `site/`. The repository contains checked-in generated HTML, but there is currently no `.github/workflows/pages.yml` deployment workflow. Do not interpret this README or the checked-in HTML as evidence of a successful GitHub Pages deployment. The Markdown files are authoritative for the local CSP; the site snapshot is derived and may lag behind current Markdown.
 
-After pushing to the default branch:
-1. In repository settings, set **Pages** to use **GitHub Actions** as the source.
-2. The workflow will build a static site from the repository Markdown.
-3. The deployed site will expose the CSP and supporting docs as browsable HTML.
+## Upstream alignment and executable policy
+
+The [November 2026 upstream mapping](docs/upstream-alignment-2026-11.md) distinguishes ERC-8004 registry semantics from CSP consumer guidance and from actual action authorization. The [Rego feasibility assessment](docs/rego-feasibility.md) proposes a narrow optional consumer-decision evaluator with false-success fixtures. **No Rego engine or executable conformance is implemented in v0.9.1.** Identity, reputation and validation signals must not be treated as authority to act.
 
 ## Upstream references
 
