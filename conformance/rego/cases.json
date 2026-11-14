@@ -118,7 +118,7 @@
     ]
   },
   {
-    "id": "P09",
+    "id": "P20",
     "status": "indeterminate",
     "reasons": [
       "CHAIN_FINALITY_UNCERTAIN"
@@ -132,6 +132,12 @@
         "value": "reorg"
       }
     ]
+  },
+  {
+    "id": "P09",
+    "status": "admitted",
+    "reasons": [],
+    "changes": []
   },
   {
     "id": "P11",
