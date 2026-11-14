@@ -25,6 +25,18 @@ class BoundaryTests(unittest.TestCase):
         self.assertEqual(record["decision"]["status"],"indeterminate")
         self.assertEqual(record["executionClass"],"synthetic-illustration")
 
+    def test_conformance_claim_cannot_promote_unrun_evidence(self):
+        schema=json.loads((ROOT/"schemas/conformance-claim.v0.10.0.schema.json").read_text())
+        obj=json.loads((ROOT/"examples/conformance-claim.v0.10.0.json").read_text())
+        Draft202012Validator.check_schema(schema)
+        Draft202012Validator(schema).validate(obj)
+        obj["claim_status"]="qualified"
+        with self.assertRaises(Exception):
+            Draft202012Validator(schema).validate(obj)
+        obj["evidence_class"]="implementation-executed"
+        with self.assertRaises(Exception):
+            Draft202012Validator(schema).validate(obj)
+
     def test_v010_candidate_config_schema_and_example(self):
         schema=json.loads((ROOT/"policy/policy-v0.10.0.schema.json").read_text())
         obj=json.loads((ROOT/"policy/example-policy-v0.10.0.json").read_text())
