@@ -21,6 +21,8 @@ A conforming consumer distinguishes (1) registry existence and current chain sta
 
 The capitalized terms **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT** and **MAY** have the meaning defined by [RFC 2119 `1](https://www.rfc-editor.org/rfc/rfc2119#section-1) and [RFC 8174 `2](https://www.rfc-editor.org/rfc/rfc8174#section-2) only when capitalized. Requirement IDs of the form **CSP-XX-NN** designate *local* requirements; they are **not** identifiers in ERC-8004. Where this profile explains upstream facts, the upstream specification governs them. Where CSP imposes stricter filtering, display or operational rules, this document governs only consumers claiming CSP conformance. Upstream changes are reviewed, not silently imported.
 
+**Document conventions.** Clauses carrying a CSP requirement ID are normative for the stated consumer conformance level. Supporting explanation, examples, illustrative JSON, non-BPC-14 statements and crosswalk commentary are informative unless explicitly incorporated by a requirement. The profile's primary conformance target is a **registry-signal consumer**; an indexer, wallet, marketplace or explorer declares this target only for the operations it actually performs. The source-derived [requirement index](../conformance/requirements.json) assists traceability but is subordinate to this Markdown specification, and its descriptive test mappings are **not** execution evidence.
+
 Normative dependencies: [ERC-8004, Identity Registry](https://eips.ethereum.org/EIPS/eip-8004#identity-registry), [Reputation Registry](https://eips.ethereum.org/EIPS/eip-8004#reputation-registry), [Validation Registry](https://eips.ethereum.org/EIPS/eip-8004#validation-registry); [ERC-721, Specification](https://eips.ethereum.org/EIPS/eip-721#specification); [EIP-712, Specification](https://eips.ethereum.org/EIPS/eip-712#specification); [ERC-1271, Specification](https://eips.ethereum.org/EIPS/eip-1271#specification). Informative consumer-security references include [RFC 3986 ``3, 6, 7](https://www.rfc-editor.org/rfc/rfc3986), [RFC 9110 `15](https://www.rfc-editor.org/rfc/rfc9110), and [OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html). References to these external standards do not assert that all of their requirements have been independently tested here.
 
 ### 1.3 Scope and explicit exclusions
@@ -211,7 +213,7 @@ A claim of a CSP level SHOULD include: repository/ref, profile version, implemen
 | T19–T22 | Invalid trust-model claim, methodology mismatch, absent scope and approval substitution | No claim stronger than available evidence; no action authorization | CSP-AB-01, CSP-VL-01–14 |
 | T23–T24 | Inactive economic-security mechanism; unqualified external coverage | No L4 assurance | CSP-EC-01–04 |
 
-See [conformance test cases](../conformance/test-cases.md) and [checklist](../conformance/checklist.md). The tests are written as executable acceptance propositions for implementers; only the Rego-specific fixtures currently have actual-engine CI execution in this repository. Do not infer implemented full-stack conformance from the presence of test descriptions.
+See [conformance test cases](../conformance/test-cases.md), [checklist](../conformance/checklist.md), and the source-derived [machine-readable requirement index](../conformance/requirements.json). The tests are written as executable acceptance propositions for implementers; only the Rego-specific fixtures currently have actual-engine CI execution in this repository. Do not infer implemented full-stack conformance from the presence of test descriptions.
 
 ### 12.3 Adversarial example: validity laundering
 
@@ -244,6 +246,10 @@ The anchors below are intended to support independent source review. **“Local�
 | CSP-VL-01–14 | [Validation Registry](https://eips.ethereum.org/EIPS/eip-8004#validation-registry); [Validation Response](https://eips.ethereum.org/EIPS/eip-8004#validation-response) | Request-/artifact-specific method, freshness and finality rules. |
 | CSP-EC-01–04 | [ERC-8004 Validation Registry](https://eips.ethereum.org/EIPS/eip-8004#validation-registry); [Security Considerations](https://eips.ethereum.org/EIPS/eip-8004#security-considerations) | Require external economic evidence rather than infer L4 from ERC. |
 | CSP-EV, CSP-OP, CSP-PR, CSP-AB, CSP-CF | [ERC-8004 Security Considerations](https://eips.ethereum.org/EIPS/eip-8004#security-considerations); [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119); [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174) | Local governance, evidence, presentation, privacy and assurance boundaries. |
+
+### 14.1 Machine-readable requirement index
+
+[conformance/requirements.json](../conformance/requirements.json) is generated from the unique normative CSP requirement IDs in this document and mapped to any corresponding descriptive T01–T24 scenarios. It records `descriptive-scenario-only` separately from `inspection-required`; neither represents an executed conformance test. [scripts/generate_spec_requirements.py](../scripts/generate_spec_requirements.py) is the deterministic generator, and CI fails when the generated index no longer matches the normative source. The prose text remains authoritative in cases of conflict.
 
 ## 15. References and change governance
 
