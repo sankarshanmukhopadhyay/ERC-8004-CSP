@@ -45,7 +45,7 @@ class BoundaryTests(unittest.TestCase):
                 with self.assertRaises(ValueError): parse_evm_subject(registry,token)
 
     def test_duplicate_key_nonfinite_depth_and_utf8_rejected(self):
-        for value in [b'{"registrations":1,"registrations":2}',b'{"x":NaN}',b'\xff',
+        for value in [b'{"registrations":1,"registrations":2}',b'{"x":NaN}',b'{"x":1e309}',b'{"x":"\\ud800"}',b'\xff',
                       b'{"a":{"b":{"c":1}}}']:
             with self.subTest(value=value):
                 with self.assertRaises((ValueError,UnicodeError)):
