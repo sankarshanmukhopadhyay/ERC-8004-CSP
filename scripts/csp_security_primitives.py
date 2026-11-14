@@ -70,9 +70,20 @@ def is_safe_https_literal(url: str) -> bool:
         try:
             ip = ipaddress.ip_address(hostname)
         except ValueError:
-            # Hostname is not an asserted DNS-safe endpoint. Allow only syntactically
-            # reasonable names for further resolution; never skip connect-time checks.
+            # Reject ambiguous IPv4 notations sometimes resolved as numeric addresses
+            # by legacy clients (127.1, 0177.0.0.1, hex labels etc).
+            labels = hostname.lower().split(".")
+            if all(label.isdigit() for label in labels):
+                return False
+            if any(label.startswith("0x") for label in labels):
+                return False
+            # Hostnames still REQUIRE DNS rebinding and connect-time destination checks.
             return bool(re.fullmatch(r"[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+", hostname))
+        if isinstance(ip, ipaddress.IPv6Address):
+            if ip.ipv4_mapped is not None or ip.sixtofour is not None or ip.teredo is not None:
+                return False
+            if ip in ipaddress.ip_network("64:ff9b::/96"):
+                return False
         return ip.is_global
     except ValueError:
         return False
