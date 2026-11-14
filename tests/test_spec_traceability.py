@@ -24,7 +24,7 @@ class SpecificationTraceabilityTests(unittest.TestCase):
 
     def test_requirement_ids_are_uniquely_declared(self):
         declared=re.findall(r"\*\*(CSP-[A-Z]{2}-[0-9]{2}):\*\*",SPEC)
-        self.assertGreaterEqual(len(declared),65)
+        self.assertGreaterEqual(len(declared),100)
         self.assertEqual(len(declared),len(set(declared)),"Duplicate normative requirement ID")
 
     def test_required_families_and_levels(self):
@@ -38,7 +38,7 @@ class SpecificationTraceabilityTests(unittest.TestCase):
 
     def test_scenario_identifiers_are_complete_and_unique(self):
         ids=re.findall(r"\*\*T([0-9]{2})\*\*",CASES)
-        self.assertEqual(sorted(ids),[f"{n:02d}" for n in range(1,25)])
+        self.assertEqual(sorted(ids),[f"{n:02d}" for n in range(1,44)])
 
     def test_all_upstream_registers_and_relevant_specs_cited(self):
         required=[
