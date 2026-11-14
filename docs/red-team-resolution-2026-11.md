@@ -57,4 +57,4 @@ The runner reports a **local author-supplied normalized-fixture** execution clas
 
 The red-team convergence work is tracked under #10. Issue #4's earlier **upstream-mapping and bounded Rego feasibility/implementation** criteria are already satisfied by #5/#6/#8, and should be closed with a link to #10 rather than redefined as requiring a full ERC-8004 consumer stack.
 
-The v0.10.0 normative **working draft** may be merged and published through Pages while a tagged release remains on hold. Requirements that only have descriptive fixtures or inspection checks cannot be represented as passed full-stack conformance; no external deployer, independent reviewer or release acceptance is fabricated.
+The v0.10.0 **working-draft specification milestone** is published under tag v0.10.0 with explicit limitations; Pages remains a derived view of `main`. Requirements that only have descriptive fixtures or inspection checks cannot be represented as passed full-stack conformance; no external deployer, independent reviewer or release acceptance is fabricated.
