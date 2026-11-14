@@ -1,6 +1,6 @@
 # Release assessment: CSP specification expansion (2026-11-14)
 
-**Decision:** **Release warranted after release-level acceptance and validation**, as a new **CSP v0.10.0 working-draft specification milestone**. The expanded working draft has been merged into `main`, but **no new release has been tagged**. Do not tag or publish the milestone until the release gates below are satisfied.
+**Decision: release not yet warranted.** A **v0.10.0 working-draft specification milestone** is justified because the semantic contract has materially changed, but it should be tagged only after release-level acceptance and validation. The source working draft remains publishable in `main`; **no new release has been tagged**.
 
 ## Why this is a release-worthy compatibility event
 
@@ -49,6 +49,8 @@ A publication-ready draft is in [v0.10.0 release notes](release-notes-v0.10.0-dr
 **The expanded specification is now integrated into `main` as a working draft; the repository and its Pages site do not acquire a new release version by that merge.** Complete the checklist above, obtain the appropriate release-level acceptance of its substantive normative interpretations, and then tag v0.10.0 against the validated source commit. Until then, v0.9.1 remains the last published release.
 
 ## Red-team release blockers and acceptance classes
+
+The [candidate conformance claim schema](../schemas/conformance-claim.v0.10.0.schema.json) and [not-assessed example](../examples/conformance-claim.v0.10.0.json) prevent a synthetic unrun claim from being represented as an executed result at the schema boundary. Schema validation still cannot verify the independence or truth of attached evidence.
 
 The issue of a new specification tag is distinct from merging the draft and publishing its source. The [red-team disposition](red-team-resolution-2026-11.md) separates **specified normative controls**, **bounded runnable synthetic checks**, and **real-world evidence not yet supplied by an adopter**. The repository includes no independent proof of canonical Ethereum registry state, secured fetchers, independent validators, model-injection containment, or L4 economic enforceability.
 
