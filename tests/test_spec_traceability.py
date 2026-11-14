@@ -38,7 +38,7 @@ class SpecificationTraceabilityTests(unittest.TestCase):
 
     def test_scenario_identifiers_are_complete_and_unique(self):
         ids=re.findall(r"\*\*T([0-9]{2})\*\*",CASES)
-        self.assertEqual(sorted(ids),[f"{n:02d}" for n in range(1,44)])
+        self.assertEqual(sorted(ids),[f"{n:02d}" for n in range(1,48)])
 
     def test_all_upstream_registers_and_relevant_specs_cited(self):
         required=[
