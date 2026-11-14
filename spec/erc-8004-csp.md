@@ -1,6 +1,6 @@
 ---
-spec_version: "0.10.0-candidate"
-status: "unreleased-working-draft"
+spec_version: "0.10.0"
+status: "published-working-draft"
 published_baseline: "0.9.1"
 upstream_erc: 8004
 upstream_repository: "ethereum/ERCs"
@@ -14,13 +14,13 @@ upstream_reviewed: "2026-11-14"
 # ERC-8004 Consumer Security Profile (CSP)
 
 **Specification:** Consumer Security Profile for ERC-8004  
-**Document state:** working-draft revision, **not** an issued release  
-**Published baseline:** CSP v0.9.1 (2026-03-07)  
+**Document state:** **v0.10.0 published working draft**; not a mature ERC standard or independent assurance specification  
+**Previous published baseline:** CSP v0.9.1 (2026-03-07)  
 **Audience:** implementers of wallets, directories, indexers, marketplaces, explorers and relying applications  
 **Upstream:** [ERC-8004: Trustless Agents](https://eips.ethereum.org/EIPS/eip-8004) (**Draft**); ERC-721, EIP-712 and ERC-1271  
 **Repository authority:** this document specifies *consumer behavior only*. It cannot change Ethereum registry contracts or establish external recognition, delegation or certification.
 
-> **Status and compatibility.** This is a substantially expanded successor candidate to the published v0.9.1 text. It preserves the L0–L4 model and the existing v0.9.1 JSON consumer-policy schema as compatibility baselines. New requirement identifiers and more precise security interpretations are proposed here for review. Until explicitly versioned and released, the prior tag remains the published version. An implementation MUST NOT claim the revised profile or any level solely because its configuration file validates.
+> **Status and compatibility.** This **v0.10.0 working-draft specification milestone** supersedes the v0.9.1 text for readers choosing this version. Its 105 identified consumer requirements and refined evidence interpretation are published as a versioned draft, **not** as production implementation conformance or independent certification. The L0–L4 names and legacy v0.9.1 JSON policy schema are retained. The separate v0.10.0 consumer-policy schema remains an adoptable candidate. A conforming implementation MUST NOT claim the profile or any level solely because a configuration file validates.
 
 ## 1. Purpose, authority and interpretation
 
@@ -454,4 +454,4 @@ The candidate [conformance claim schema](../schemas/conformance-claim.v0.10.0.sc
 
 A claim that is `qualified` must be supported by applicable implementation-executed evidence and independent reviewer provenance where required by the claimed assurance process. The schema cannot establish that the evidence itself is correct, complete, independent or valid at reliance time. Revocation and re-evaluation therefore remain runtime and governance obligations under CSP-CF-05/06. External relying parties **MUST NOT** mistake an example's schema validity for audited conformance.
 
-**Release distinction:** the v0.10.0 specification, candidate policy schema, evidence-record illustration and conformance-claim schema are separately versioned and remain unreleased while [release acceptance](../docs/release-assessment-2026-11.md) is outstanding. This source can be published as a working draft without representing it as a certification.
+**Release distinction:** the **v0.10.0 specification** is a published **working draft**. The candidate policy schema, evidence-record illustration and conformance-claim schema remain separately versioned and experimental; their appearance in the release does not make them authoritative runtime contracts or attest independent certification. See the [release record](../docs/release-assessment-2026-11.md).

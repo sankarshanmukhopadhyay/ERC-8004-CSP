@@ -60,8 +60,8 @@ class SpecificationTraceabilityTests(unittest.TestCase):
         self.assertEqual(policy["properties"]["version"]["pattern"],r"^0\.9\.1$")
         rego=json.loads((ROOT/"policy/rego/input.schema.json").read_text())
         self.assertEqual(rego["properties"]["policy_version"]["const"],"1.0.0")
-        self.assertIn("not yet a tagged",README)
-        self.assertIn("no new release has been tagged", RELEASE.lower())
+        self.assertIn("published working-draft specification milestone", README)
+        self.assertIn("release warranted as a published working-draft", RELEASE.lower())
 
     def test_false_success_guards_documented(self):
         for needle in ("KECCAK-256","indeterminate","agentRegistry","sha256:",

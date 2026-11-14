@@ -14,19 +14,19 @@ This repository packages the CSP as:
 
 | Path | What it is |
 |---|---|
-| `spec/erc-8004-csp.md` | Expanded working-draft CSP specification with identified requirements and upstream section citations |
+| `spec/erc-8004-csp.md` | Published v0.10.0 working-draft CSP specification with identified requirements and upstream section citations |
 | `policy/policy.schema.json` | JSON Schema for a consumer policy |
 | `policy/example-policy.json` | Example consumer policy (L3-oriented baseline) |
 | `policy/rego/` | Experimental Rego validation-admission policy and versioned contracts |
 | `docs/executable-rego-policy.md` | OPA installation, decision semantics, evidence and DTFC mapping |
 | `conformance/rego/` | Synthetic positive and adversarial fixtures |
 | `conformance/checklist.md` | Evidence-oriented checklist by conformance level |
-| `conformance/requirements.json` | Source-derived index of 105 candidate normative requirements, minimum levels, pinned upstream citations, and evidence status |
+| `conformance/requirements.json` | Source-derived index of 105 v0.10.0 working-draft requirements, minimum levels, pinned upstream citations, and evidence status |
 | `conformance/test-cases.md` | 47 descriptive boundary, negative and positive acceptance scenarios; not an executed full-stack CTS |
 | `conformance/red-team-vectors.json` | Synthetic normalized-evidence adversarial decision fixtures (not live chain evidence) |
 | `scripts/run_conformance.py` | Deterministic local false-success regression harness |
 | `spec/upstream-erc8004-pin.json` | Immutable reviewed Draft ERC-8004 source and heading identifiers |
-| `policy/policy-v0.10.0.schema.json` | Separate unreleased v0.10.0 candidate policy configuration schema |
+| `policy/policy-v0.10.0.schema.json` | Separate v0.10.0 candidate policy configuration schema (not independently enforced) |
 | `policy/example-policy-v0.10.0.json` | Validated candidate configuration example |
 | `schemas/evidence-record.v0.10.0.schema.json` | Schema for synthetic illustrative consumer evidence record |
 | `schemas/conformance-claim.v0.10.0.schema.json` | Candidate versioned, expiring conformance claim record |
@@ -37,7 +37,8 @@ This repository packages the CSP as:
 | `docs/upstream-alignment-2026-11.md` | Upstream traceability, authority and evidence boundaries |
 | `docs/rego-feasibility.md` | Historical Rego feasibility decision and falsification requirements |
 | `docs/release-assessment-2026-11.md` | New specification milestone compatibility and release decision |
-| `docs/release-notes-v0.10.0-draft.md` | Draft v0.10.0 release notes (not yet published) |
+| `docs/release-notes-v0.10.0-draft.md` | Historical draft release-note pointer |
+| `docs/releases/v0.10.0.md` | Canonical v0.10.0 working-draft release notes, breaking changes and validation evidence |
 | `.github/workflows/rego-conformance.yml` | Executable Rego conformance checks |
 | `.github/workflows/pages.yml` | Full-content GitHub Pages build, validation and deployment |
 | `scripts/build_pages.py` | Static site build script |
@@ -50,13 +51,15 @@ This repository packages the CSP as:
 - **L3**: validation-meaningful consumption with deterministic rules.
 - **L4**: externally economically secured profile claims.
 
-See the [expanded working-draft specification](spec/erc-8004-csp.md) for the section-cited upstream interface assumptions, identified consumer requirements, evidence states and crosswalk. The L0–L4 labels are preserved; the expanded document is **not yet a tagged new CSP release**.
+See the [expanded working-draft specification](spec/erc-8004-csp.md) for the section-cited upstream interface assumptions, identified consumer requirements, evidence states and crosswalk. The L0–L4 labels are preserved; **v0.10.0 is a published working-draft specification milestone**, not proof of consumer conformance.
 
-## Proposed next specification milestone
+## Published v0.10.0 specification working draft
 
-A substantive revision is being prepared as a **v0.10.0 working-draft candidate**. Its [machine-readable index](conformance/requirements.json) derives 105 candidate normative requirement IDs from the Markdown specification, with 47 descriptive acceptance scenarios and separately documented normalized-evidence tests. Scenario mappings are **not** full-stack execution evidence. It adds detailed consumer evidence and threat requirements, upstream citations, identity/hash semantics and a broader acceptance-case catalogue. The [release assessment](docs/release-assessment-2026-11.md) determines that a new **specification** release is justified after acceptance and validation, since some wording changes are semantically significant. The [draft release notes](docs/release-notes-v0.10.0-draft.md) are not a published release. The last issued CSP tag remains **v0.9.1**. The [red-team disposition](docs/red-team-resolution-2026-11.md) records which findings are specified, which have bounded synthetic evidence, and which require real implementing-system verification.
+**Release:** [v0.10.0](https://github.com/sankarshanmukhopadhyay/ERC-8004-CSP/releases/tag/v0.10.0). The [canonical release notes](docs/releases/v0.10.0.md) describe the security and compatibility changes, migration boundaries, CI evidence and limitations. The [source-derived index](conformance/requirements.json) contains 105 v0.10.0 working-draft requirements and 47 descriptive scenarios. Scenario mappings are **not** executed full-stack assurance.
 
-**Compatibility:** the existing `policy/policy.schema.json` remains version `0.9.1`; an additive, separate [v0.10.0 candidate schema](policy/policy-v0.10.0.schema.json) and example represent proposed consumer controls. The optional Rego input/output schemas remain experimental `1.0.0`. None of these changes silently migrates a production consumer.
+**Versions are distinct:** the existing [consumer-policy schema](policy/policy.schema.json) remains at `0.9.1`; a separate [candidate v0.10.0 policy schema](policy/policy-v0.10.0.schema.json) requires deliberate adoption and real enforcement evidence. The optional Rego input/output schemas remain experimental at `1.0.0`. None of these documents establishes production certification, a chain resolver, secure fetcher, external validator independence, effective economic coverage or delegated action authority.
+
+The [red-team disposition](docs/red-team-resolution-2026-11.md) separates normative guidance, local synthetic regression evidence and unverified external consumer-path controls. A prior v0.9.1 evidence claim is not upgraded by this release.
 
 ## v0.9.1 baseline highlights
 

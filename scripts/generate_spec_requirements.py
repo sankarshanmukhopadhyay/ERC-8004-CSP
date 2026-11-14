@@ -79,7 +79,7 @@ def catalogue() -> dict:
             entry["verification_status"]="descriptive-scenario-only"
     return {
         "schema_version":"1.1.0",
-        "profile_status":"unreleased-working-draft",
+        "profile_status":"published-working-draft",
         "proposed_profile_version":"0.10.0",
         "upstream_pin":PIN["commit"],
         "canonical_specification":"spec/erc-8004-csp.md",
