@@ -17,6 +17,9 @@ This repository packages the CSP as:
 | `spec/erc-8004-csp.md` | The normative CSP document |
 | `policy/policy.schema.json` | JSON Schema for a consumer policy |
 | `policy/example-policy.json` | Example consumer policy (L3-oriented baseline) |
+| `policy/rego/` | Experimental executable validation-admission policy and versioned contracts |
+| `docs/executable-rego-policy.md` | OPA installation, decision semantics, assurance evidence, DTFC mapping |
+| `conformance/rego/` | Synthetic positive, adversarial, and paired defective-policy fixtures |
 | `conformance/checklist.md` | Checklist by conformance level |
 | `conformance/test-cases.md` | Test case suite |
 | `docs/architecture.md` | Reference architecture for implementers |
@@ -56,6 +59,12 @@ See `spec/erc-8004-csp.md` for the full requirements matrix.
    - validator policy and finality rules
    - stale-validation handling on profile drift
 4. Run `conformance/checklist.md` and `conformance/test-cases.md` in release gates.
+
+## Experimental executable validation policy
+
+The repository now contains an **optional OPA/Rego evaluator** for admitting an already verified ERC-8004 validation signal to a consumer display. This is not action authorization and does not replace the v0.9.1 consumer policy schema or L0–L4 conformance obligations. Decisions are `admitted`, `denied`, or `indeterminate`, with stable reason codes and reproducible execution digests.
+
+See [Executable Rego policy](docs/executable-rego-policy.md) for a complete local command, input/output contracts, adversarial fixtures, DTFC mappings, and limitations. CI checks the evaluator using a checksum-pinned OPA engine. An external evidence verifier and independent assurance are **not** provided.
 
 ## Repository status
 
