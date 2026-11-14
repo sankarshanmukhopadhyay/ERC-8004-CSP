@@ -1,0 +1,48 @@
+{
+  "policy_version": "1.0.0",
+  "evaluation_time": 1800000000,
+  "subject": {
+    "chain_id": 1,
+    "agent_registry": "0x1111111111111111111111111111111111111111",
+    "agent_id": "42"
+  },
+  "request": {
+    "request_hash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "artifact_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "scope": "metadata-integrity"
+  },
+  "response": {
+    "request_hash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "artifact_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "scope": "metadata-integrity",
+    "validator": "0x2222222222222222222222222222222222222222",
+    "methodology_uri": "https://example.org/validator/method",
+    "value": 90,
+    "observed_at": 1799999900,
+    "lifecycle": "current"
+  },
+  "evidence": {
+    "snapshot_id": "synthetic-snapshot-001",
+    "agent_registry": "0x1111111111111111111111111111111111111111",
+    "agent_id": "42",
+    "verified_at": 1799999950,
+    "verification_status": "verified",
+    "chain_finality": "finalized",
+    "integrity": "anchored"
+  },
+  "control": {
+    "state": "unchanged"
+  },
+  "consumer_policy": {
+    "validators": [
+      "0x2222222222222222222222222222222222222222"
+    ],
+    "allowed_scopes": [
+      "metadata-integrity"
+    ],
+    "methodology_uri": "https://example.org/validator/method",
+    "min_response_value": 80,
+    "max_validation_age_seconds": 3600,
+    "max_index_lag_seconds": 600
+  }
+}

@@ -25,7 +25,11 @@ authority:
 evidence:
   validation_commands:
     - git diff --check
-  evidence_outputs: []
+    - CSP_OPA_BIN=/path/to/verified/opa python -m unittest discover -s tests -v
+  evidence_outputs:
+    - GitHub Actions rego-conformance workflow run results
   known_limitations:
     - repository-specific automated conformance coverage is not asserted by this declaration
     - upstream ERC-8004 authority is explicitly outside scope
+    - Rego evaluator uses synthetic data and externally supplied normalization and verification claims
+    - action authorization and independent third-party assurance are not provided

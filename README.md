@@ -17,13 +17,16 @@ This repository packages the CSP as:
 | `spec/erc-8004-csp.md` | The normative CSP document |
 | `policy/policy.schema.json` | JSON Schema for a consumer policy |
 | `policy/example-policy.json` | Example consumer policy (L3-oriented baseline) |
+| `policy/rego/` | Experimental Rego validation-admission policy and versioned contracts |
+| `docs/executable-rego-policy.md` | OPA installation, decision semantics, evidence and DTFC mapping |
+| `conformance/rego/` | Synthetic positive and adversarial fixtures |
 | `conformance/checklist.md` | Checklist by conformance level |
 | `conformance/test-cases.md` | Test case suite |
 | `docs/architecture.md` | Reference architecture for implementers |
 | `docs/threat-model.md` | Consumer-focused threat model and attacker playbooks |
 | `docs/upstream-alignment-2026-11.md` | Upstream traceability, authority and evidence boundaries |
 | `docs/rego-feasibility.md` | Bounded Rego feasibility decision and falsification requirements |
-| `.github/workflows/pages.yml` | GitHub Pages deployment workflow |
+| `.github/workflows/rego-conformance.yml` | Executable Rego conformance checks |
 | `scripts/build_pages.py` | Static site build script |
 
 ## Conformance levels
@@ -59,6 +62,10 @@ See `spec/erc-8004-csp.md` for the full requirements matrix.
    - stale-validation handling on profile drift
 4. Run `conformance/checklist.md` and `conformance/test-cases.md` in release gates.
 
+## Experimental executable validation policy
+
+An optional [OPA/Rego validation-admission evaluator](docs/executable-rego-policy.md) consumes externally verified, normalized ERC-8004 evidence and makes an explicit consumer display decision (`admitted`, `denied`, or `indeterminate`). It records deterministic reason codes and reproducible execution digests. It does **not** authorize agent actions or establish on-chain verification, validator qualification, or independent assurance. The implementation is experimental and does not modify the released v0.9.1 normative CSP or its L0–L4 levels.
+
 ## Repository status
 
 - Version: **CSP v0.9.1**
@@ -71,7 +78,7 @@ See `spec/erc-8004-csp.md` for the full requirements matrix.
 
 ## Upstream alignment and executable policy
 
-The [November 2026 upstream mapping](docs/upstream-alignment-2026-11.md) distinguishes ERC-8004 registry semantics from CSP consumer guidance and from actual action authorization. The [Rego feasibility assessment](docs/rego-feasibility.md) proposes a narrow optional consumer-decision evaluator with false-success fixtures. **No Rego engine or executable conformance is implemented in v0.9.1.** Identity, reputation and validation signals must not be treated as authority to act.
+The [November 2026 upstream mapping](docs/upstream-alignment-2026-11.md) distinguishes ERC-8004 registry semantics from CSP consumer guidance and from actual action authorization. The [Rego feasibility assessment](docs/rego-feasibility.md) proposes a narrow optional consumer-decision evaluator with false-success fixtures. **The released v0.9.1 baseline did not include executable Rego; the current development branch adds an experimental evaluator.** Identity, reputation and validation signals must not be treated as authority to act.
 
 ## Upstream references
 

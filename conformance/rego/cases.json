@@ -1,0 +1,286 @@
+[
+  {
+    "id": "P01",
+    "status": "admitted",
+    "reasons": [],
+    "changes": []
+  },
+  {
+    "id": "P02",
+    "status": "denied",
+    "reasons": [
+      "REQUEST_HASH_MISMATCH"
+    ],
+    "changes": [
+      {
+        "path": [
+          "response",
+          "request_hash"
+        ],
+        "value": "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "status": "indeterminate",
+    "reasons": [
+      "EVIDENCE_UNVERIFIED"
+    ],
+    "changes": [
+      {
+        "path": [
+          "evidence",
+          "verification_status"
+        ],
+        "value": "unavailable"
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "status": "denied",
+    "reasons": [
+      "VALIDATION_EXPIRED"
+    ],
+    "changes": [
+      {
+        "path": [
+          "response",
+          "observed_at"
+        ],
+        "value": 1799990000
+      }
+    ]
+  },
+  {
+    "id": "P05",
+    "status": "denied",
+    "reasons": [
+      "REGISTRATION_CONTROL_CHANGED"
+    ],
+    "changes": [
+      {
+        "path": [
+          "control",
+          "state"
+        ],
+        "value": "uri_drift"
+      }
+    ]
+  },
+  {
+    "id": "P06",
+    "status": "denied",
+    "reasons": [
+      "REGISTRATION_CONTROL_CHANGED"
+    ],
+    "changes": [
+      {
+        "path": [
+          "control",
+          "state"
+        ],
+        "value": "transfer"
+      }
+    ]
+  },
+  {
+    "id": "P07",
+    "status": "indeterminate",
+    "reasons": [
+      "RESPONSE_CONFLICT"
+    ],
+    "changes": [
+      {
+        "path": [
+          "response",
+          "lifecycle"
+        ],
+        "value": "conflicted"
+      }
+    ]
+  },
+  {
+    "id": "P08",
+    "status": "denied",
+    "reasons": [
+      "SCOPE_MISMATCH"
+    ],
+    "changes": [
+      {
+        "path": [
+          "response",
+          "scope"
+        ],
+        "value": "endpoint-availability"
+      }
+    ]
+  },
+  {
+    "id": "P20",
+    "status": "indeterminate",
+    "reasons": [
+      "CHAIN_FINALITY_UNCERTAIN"
+    ],
+    "changes": [
+      {
+        "path": [
+          "evidence",
+          "chain_finality"
+        ],
+        "value": "reorg"
+      }
+    ]
+  },
+  {
+    "id": "P09",
+    "status": "admitted",
+    "reasons": [],
+    "changes": []
+  },
+  {
+    "id": "P11",
+    "status": "denied",
+    "reasons": [
+      "VALIDATOR_NOT_ALLOWED"
+    ],
+    "changes": [
+      {
+        "path": [
+          "response",
+          "validator"
+        ],
+        "value": "0x3333333333333333333333333333333333333333"
+      }
+    ]
+  },
+  {
+    "id": "P12",
+    "status": "indeterminate",
+    "reasons": [
+      "INDEXER_SNAPSHOT_STALE"
+    ],
+    "changes": [
+      {
+        "path": [
+          "evidence",
+          "verified_at"
+        ],
+        "value": 1799990000
+      }
+    ]
+  },
+  {
+    "id": "P13",
+    "status": "denied",
+    "reasons": [
+      "CONTENT_NOT_ANCHORED"
+    ],
+    "changes": [
+      {
+        "path": [
+          "evidence",
+          "integrity"
+        ],
+        "value": "unanchored"
+      }
+    ]
+  },
+  {
+    "id": "P14",
+    "status": "denied",
+    "reasons": [
+      "RESPONSE_SUPERSEDED"
+    ],
+    "changes": [
+      {
+        "path": [
+          "response",
+          "lifecycle"
+        ],
+        "value": "superseded"
+      }
+    ]
+  },
+  {
+    "id": "P15",
+    "status": "denied",
+    "reasons": [
+      "BELOW_THRESHOLD"
+    ],
+    "changes": [
+      {
+        "path": [
+          "response",
+          "value"
+        ],
+        "value": 79
+      }
+    ]
+  },
+  {
+    "id": "P16",
+    "status": "denied",
+    "reasons": [
+      "ARTIFACT_MISMATCH"
+    ],
+    "changes": [
+      {
+        "path": [
+          "response",
+          "artifact_digest"
+        ],
+        "value": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      }
+    ]
+  },
+  {
+    "id": "P17",
+    "status": "denied",
+    "reasons": [
+      "METHODOLOGY_MISMATCH"
+    ],
+    "changes": [
+      {
+        "path": [
+          "response",
+          "methodology_uri"
+        ],
+        "value": "https://example.org/other"
+      }
+    ]
+  },
+  {
+    "id": "P18",
+    "status": "indeterminate",
+    "reasons": [
+      "EVIDENCE_TIMESTAMP_IN_FUTURE"
+    ],
+    "changes": [
+      {
+        "path": [
+          "evidence",
+          "verified_at"
+        ],
+        "value": 1800001000
+      }
+    ]
+  },
+  {
+    "id": "P19",
+    "status": "denied",
+    "reasons": [
+      "EVIDENCE_SNAPSHOT_MISMATCH"
+    ],
+    "changes": [
+      {
+        "path": [
+          "evidence",
+          "agent_registry"
+        ],
+        "value": "0x4444444444444444444444444444444444444444"
+      }
+    ]
+  }
+]
