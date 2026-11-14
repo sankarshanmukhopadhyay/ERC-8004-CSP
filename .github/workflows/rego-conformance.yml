@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install JSON Schema validator
-        run: python -m pip install 'jsonschema==4.23.0'
+        run: python -m pip install 'jsonschema==4.23.0' 'pycryptodome==3.23.0'
       - name: Fetch checksum-pinned OPA v1.9.0
         shell: bash
         run: |
@@ -36,7 +36,7 @@ jobs:
       - name: Run schema and real-engine conformance
         env:
           CSP_OPA_BIN: /tmp/opa
-        run: python -m unittest discover -s tests -p 'test_rego_policy.py' -v
+        run: python -m unittest tests.test_rego_policy tests.test_red_team -v
       - name: Exercise canonical consumer CLI
         run: |
           python scripts/evaluate_validation.py \
@@ -44,3 +44,8 @@ jobs:
             --input conformance/rego/admissible.json \
             --output /tmp/csp-result.json
           python -c "import json; d=json.load(open('/tmp/csp-result.json')); assert d['decision']['status']=='admitted'; assert len(d['execution']['policy_sha256'])==64"
+
+      - name: Execute bounded red-team normalized-evidence vectors
+        run: |
+          python scripts/run_conformance.py --output /tmp/csp-red-team-report.json
+          python -c "import json; r=json.load(open('/tmp/csp-red-team-report.json')); assert r['case_count'] >= 20 and r['violated'] == 0"
