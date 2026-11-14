@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CSP validation admission output v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "status",
+    "admit",
+    "reason_codes",
+    "policy_version",
+    "evidence_snapshot_id"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "enum": [
+        "admitted",
+        "denied",
+        "indeterminate"
+      ]
+    },
+    "admit": {
+      "type": "boolean"
+    },
+    "reason_codes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z_]+$"
+      }
+    },
+    "policy_version": {
+      "const": "1.0.0"
+    },
+    "evidence_snapshot_id": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "admitted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "admit": {
+            "const": true
+          },
+          "reason_codes": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "denied",
+              "indeterminate"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "admit": {
+            "const": false
+          },
+          "reason_codes": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}
