@@ -1,0 +1,124 @@
+name: Publish CSP v0.10.0 working-draft release
+
+on:
+  workflow_run:
+    workflows:
+      - Publish complete repository documentation
+      - CSP Rego decision conformance
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: publish-csp-v0.10.0
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.event.workflow_run.event == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Publish if both checks passed on the same immutable main commit
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const tag = 'v0.10.0';
+            const sha = context.payload.workflow_run.head_sha;
+            if (owner !== 'sankarshanmukhopadhyay' || repo !== 'ERC-8004-CSP') {
+              core.setFailed('Unrecognized release authority');
+              return;
+            }
+            const branch = await github.rest.git.getRef({owner, repo, ref:'heads/main'});
+            if (sha !== branch.data.object.sha) {
+              core.info('Stale source commit; no release');
+              return;
+            }
+            const spec = fs.readFileSync('spec/erc-8004-csp.md','utf8');
+            const citation = fs.readFileSync('CITATION.cff','utf8');
+            const index = JSON.parse(fs.readFileSync('conformance/requirements.json','utf8'));
+            const notes = fs.readFileSync('docs/releases/v0.10.0.md','utf8');
+            if (!spec.includes('spec_version: "0.10.0"') ||
+                !spec.includes('status: "published-working-draft"') ||
+                !citation.includes('version: "0.10.0"') ||
+                index.profile_status !== 'published-working-draft' ||
+                index.requirements.length !== 105 ||
+                !notes.includes('BREAKING CHANGE')) {
+              core.setFailed('Version, source and release-note gates are inconsistent');
+              return;
+            }
+            const required = [
+              'Publish complete repository documentation',
+              'CSP Rego decision conformance',
+            ];
+            const listed = await github.rest.actions.listWorkflowRunsForRepo({
+              owner, repo, head_sha:sha, per_page:100,
+            });
+            const verified = [];
+            for (const name of required) {
+              const matches = listed.data.workflow_runs.filter(run =>
+                run.name === name &&
+                run.head_sha === sha &&
+                run.head_branch === 'main' &&
+                run.event === 'push' &&
+                run.status === 'completed' &&
+                run.conclusion === 'success'
+              );
+              if (matches.length === 0) {
+                core.info('Missing passing main-head workflow: ' + name);
+                return;
+              }
+              matches.sort((a,b) => b.id - a.id);
+              verified.push({name, url:matches[0].html_url});
+            }
+            const confirmedHead = await github.rest.git.getRef({owner,repo,ref:'heads/main'});
+            if (confirmedHead.data.object.sha !== sha) {
+              core.setFailed('main advanced during release acceptance');
+              return;
+            }
+            try {
+              const found = await github.rest.git.getRef({owner,repo,ref:'tags/'+tag});
+              if (found.data.object.sha !== sha) {
+                core.setFailed('Existing release tag points at another commit');
+                return;
+              }
+            } catch (err) {
+              if (err.status !== 404) throw err;
+              await github.rest.git.createRef({owner,repo,ref:'refs/tags/'+tag,sha});
+              core.info('Created tag ' + tag + ' at ' + sha);
+            }
+            try {
+              const existing = await github.rest.repos.getReleaseByTag({owner,repo,tag});
+              if (existing.data.draft || !existing.data.prerelease) {
+                core.setFailed('Existing release conflicts with working-draft status');
+                return;
+              }
+              core.info('Already published: ' + existing.data.html_url);
+              return;
+            } catch (err) {
+              if (err.status !== 404) throw err;
+            }
+            const evidence = verified.map(x => '- ' + x.name + ': ' + x.url).join('\n');
+            const body = notes + '\n\n## Immutable release evidence\n\n' +
+              '- Source commit: ' + sha + '\n' +
+              '- Tag: ' + tag + '\n' +
+              '- CI on the exact source commit:\n' + evidence + '\n' +
+              '- Independent implementation conformance: **not claimed**.\n';
+            const created = await github.rest.repos.createRelease({
+              owner,repo,tag_name:tag,target_commitish:sha,
+              name:'ERC-8004 CSP v0.10.0 — Working Draft',
+              body,draft:false,prerelease:true,make_latest:'false',
+              generate_release_notes:false,
+            });
+            core.info('Published ' + created.data.html_url);
