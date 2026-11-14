@@ -51,7 +51,7 @@ A substantive revision is being prepared as a **v0.10.0 working-draft candidate*
 
 ## v0.9.1 baseline highlights
 
-- Corrected the integrity model for registration files so that **content-addressed URIs, `data:` URIs, or extension-level digests** are treated as cryptographically anchored, while plain `https://` retrieval without a digest is treated as retrieved but **not cryptographically anchored**.
+- The v0.9.1 baseline grouped content-addressed URIs, embedded `data:` URIs and extension-level digests within its anchoring classification. **The expanded working draft narrows this interpretation:** embedded bytes are tied to the observed on-chain URI but do not independently establish an external digest commitment. Plain HTTPS without a binding digest remains unanchored.
 - Added explicit handling for **`agentWallet` freshness**, **post-transfer invalidation**, and **EOA vs ERC-1271 wallet binding semantics**.
 - Added **`registrations[]` cross-check requirements** to reduce continuity spoofing across registries and chains.
 - Tightened **validation request/response linkage** around `requestHash`, supersession, finality, and drift after `agentURI` changes.
