@@ -447,3 +447,11 @@ The [descriptive conformance catalogue](../conformance/test-cases.md) is extende
 
 The controlling [release assessment](../docs/release-assessment-2026-11.md) remains **release on hold** until reference fidelity, semantic changes, conformance evidence, schema compatibility and publication are accepted under the source instructions. Neither this document nor any generated index constitutes independent certification.
 
+
+## 23. Conformance claims as governed, expiring assertions
+
+The candidate [conformance claim schema](../schemas/conformance-claim.v0.10.0.schema.json) expresses profile version, level, consumer scope, implementation reference, policy digest, pinned upstream revision, validity period, actual test dispositions, evidence class and limitations. The [example claim](../examples/conformance-claim.v0.10.0.json) deliberately says `not-assessed` and `not-run`. It illustrates record structure without claiming that any implementation has met a CSP level.
+
+A claim that is `qualified` must be supported by applicable implementation-executed evidence and independent reviewer provenance where required by the claimed assurance process. The schema cannot establish that the evidence itself is correct, complete, independent or valid at reliance time. Revocation and re-evaluation therefore remain runtime and governance obligations under CSP-CF-05/06. External relying parties **MUST NOT** mistake an example's schema validity for audited conformance.
+
+**Release distinction:** the v0.10.0 specification, candidate policy schema, evidence-record illustration and conformance-claim schema are separately versioned and remain unreleased while [release acceptance](../docs/release-assessment-2026-11.md) is outstanding. This source can be published as a working draft without representing it as a certification.
