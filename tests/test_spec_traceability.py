@@ -61,7 +61,7 @@ class SpecificationTraceabilityTests(unittest.TestCase):
         rego=json.loads((ROOT/"policy/rego/input.schema.json").read_text())
         self.assertEqual(rego["properties"]["policy_version"]["const"],"1.0.0")
         self.assertIn("not yet a tagged",README)
-        self.assertIn("do not tag or publish a release yet",RELEASE)
+        self.assertIn("no new release has been tagged", RELEASE.lower())
 
     def test_false_success_guards_documented(self):
         for needle in ("KECCAK-256","indeterminate","agentRegistry","sha256:",
