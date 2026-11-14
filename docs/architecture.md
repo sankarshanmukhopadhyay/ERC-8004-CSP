@@ -43,3 +43,16 @@ For test evidence, use [CSP conformance cases](../conformance/test-cases.md) and
 ## Architecture threats
 
 Protect against SSRF on each redirect and DNS resolution, decompression/size bombs, malicious HTML and service metadata, correlation leaks to external gateways, duplicate/replayed events, indexer chain forks, unbounded feedback fan-out, false reviewer independence, and validator-policy drift. See [consumer threat model](threat-model.md), [RFC 3986 `7](https://www.rfc-editor.org/rfc/rfc3986#section-7), and [OWASP SSRF Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html).
+
+
+## Red-team hardening: recognized evidence before consumer admission
+
+The canonical source resolver must bind a *recognized deployment*, not merely a syntactically valid event. The [pinned upstream ERC-8004 revision](../spec/upstream-erc8004-pin.json) identifies the interface version reviewed by CSP; **a deployment recognition policy** separately binds chain, Identity Registry, Reputation Registry, Validation Registry, code/proxy state and supported ABI. Proxy upgrades, unexpected implementation code and inconsistent registry-to-identity relationships invalidate prior recognized-source conclusions. See [CSP §§16–17](../spec/erc-8004-csp.md).
+
+An ownership transfer opens a new **owner epoch**. Reputation and validation evidence remain queryable as history, but current-owner assurance cannot silently inherit earlier-owner quality. A material URI change, wallet rebind or reorganization triggers withdrawal and re-evaluation of affected assertions, not erasure of the audit history. The correct wallet source is the current \`getAgentWallet\` state at a declared block, not a reconstructed event-only value. Authority to transact remains external to CSP.
+
+The integrity verifier must use the **same verified byte snapshot** for rendering and interpretation. A zero on-chain hash is absent, not a commitment; a CID must be locally checked under its multihash and path semantics; upstream Ethereum Keccak-256 is not NIST SHA3-256. Never hot-link unverified media inside a qualified assurance view. URL preflight is not SSRF protection by itself: all DNS, redirects, fallback addresses and connect-time destinations require independent egress enforcement.
+
+AI-consuming agents may inspect off-chain description, feedback, skill and validation text only as **lower-trust input**. A correct source digest does not turn instructions embedded in that text into runtime authorization or tool-selection policy.
+
+The candidate [v0.10.0 policy configuration](../policy/policy-v0.10.0.schema.json) is an additive configuration contract. The [normalized-evidence reference harness](../scripts/run_conformance.py) does **not** implement a chain resolver, secure fetcher, wallet proof, independent validator, TEE/zk verifier or execution authorization. It is a falsification aid for the local decision boundary, not a production architecture substitute.
