@@ -50,8 +50,8 @@ All recognized reasons are emitted deterministically in alphabetical order. An i
 | DTF-001 | P06 (transfer) | Similar temporal invalidation; **not** a claim that wallet binding alone was delegated authority |
 | DTF-010 | P03 (missing verification) | Missing evidence cannot be treated as admission |
 | DTF-011 | P12 (stale snapshot) | Unresolved freshness cannot establish an affirmative decision |
-| DTF-023 | P07 (conflicted response) | Unsupported composition of independent claims is not accepted |
-| DTF-027 | P02/P16 (request/artifact mismatch) | Evidence must identify the exact evaluated claim |
+| DTF-023 | Future composition fixture | Independent component PASS results cannot establish composition-level assurance without seam obligations; **not yet directly tested** by this narrow evaluator |
+| DTF-027 | Runner/CI assurance boundary | Successful CLI execution and schema validation do **not** constitute substantive assurance; this is a documentation-level mapping, **not yet a canonical DTFC execution vector** |
 
 These are **informative proposed mappings**; they are not executed DTFC canonical conformance vectors and do not imply the external corpus has adopted, approved or certified CSP.
 
