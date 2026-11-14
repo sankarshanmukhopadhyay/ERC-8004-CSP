@@ -1,6 +1,6 @@
 # Rego policy-engine feasibility for ERC-8004 CSP
 
-**Decision:** suitable for a bounded, optional policy-decision prototype; **not implemented** by this document.
+**Decision (historical feasibility assessment):** suitable for a bounded, optional policy-decision prototype. The prototype was subsequently implemented; see [executable Rego policy](executable-rego-policy.md). This feasibility note is preserved as the decision record and does not itself define the current implementation.
 
 The existing `policy/policy.schema.json` defines CSP consumer configuration. It does not evaluate live evidence. [Open Policy Agent (OPA)](https://www.openpolicyagent.org/docs) and Rego can provide deterministic consumer policy decisions over a normalized evidence snapshot without replacing ERC-8004 registries or declaring delegated authorization.
 

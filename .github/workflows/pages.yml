@@ -36,7 +36,7 @@ jobs:
       - name: Build complete site
         run: python scripts/build_pages.py
       - name: Test generated catalogue and internal links
-        run: python -m unittest tests/test_pages.py -v
+        run: python -m unittest tests.test_pages tests.test_spec_traceability -v
       - name: Upload site for publishing
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3

@@ -14,18 +14,21 @@ This repository packages the CSP as:
 
 | Path | What it is |
 |---|---|
-| `spec/erc-8004-csp.md` | The normative CSP document |
+| `spec/erc-8004-csp.md` | Expanded working-draft CSP specification with identified requirements and upstream section citations |
 | `policy/policy.schema.json` | JSON Schema for a consumer policy |
 | `policy/example-policy.json` | Example consumer policy (L3-oriented baseline) |
 | `policy/rego/` | Experimental Rego validation-admission policy and versioned contracts |
 | `docs/executable-rego-policy.md` | OPA installation, decision semantics, evidence and DTFC mapping |
 | `conformance/rego/` | Synthetic positive and adversarial fixtures |
-| `conformance/checklist.md` | Checklist by conformance level |
-| `conformance/test-cases.md` | Test case suite |
+| `conformance/checklist.md` | Evidence-oriented checklist by conformance level |
+| `conformance/requirements.json` | Machine-readable index of 71 normative requirements and scenario coverage |
+| `conformance/test-cases.md` | 24 negative, boundary and acceptance scenarios (descriptive; not an executed full-stack CTS) |
 | `docs/architecture.md` | Reference architecture for implementers |
 | `docs/threat-model.md` | Consumer-focused threat model and attacker playbooks |
 | `docs/upstream-alignment-2026-11.md` | Upstream traceability, authority and evidence boundaries |
-| `docs/rego-feasibility.md` | Bounded Rego feasibility decision and falsification requirements |
+| `docs/rego-feasibility.md` | Historical Rego feasibility decision and falsification requirements |
+| `docs/release-assessment-2026-11.md` | New specification milestone compatibility and release decision |
+| `docs/release-notes-v0.10.0-draft.md` | Draft v0.10.0 release notes (not yet published) |
 | `.github/workflows/rego-conformance.yml` | Executable Rego conformance checks |
 | `.github/workflows/pages.yml` | Full-content GitHub Pages build, validation and deployment |
 | `scripts/build_pages.py` | Static site build script |
@@ -38,16 +41,22 @@ This repository packages the CSP as:
 - **L3**: validation-meaningful consumption with deterministic rules.
 - **L4**: externally economically secured profile claims.
 
-See `spec/erc-8004-csp.md` for the full requirements matrix.
+See the [expanded working-draft specification](spec/erc-8004-csp.md) for the section-cited upstream interface assumptions, identified consumer requirements, evidence states and crosswalk. The L0–L4 labels are preserved; the expanded document is **not yet a tagged new CSP release**.
 
-## v0.9.1 highlights
+## Proposed next specification milestone
 
-- Corrected the integrity model for registration files so that **content-addressed URIs, `data:` URIs, or extension-level digests** are treated as cryptographically anchored, while plain `https://` retrieval without a digest is treated as retrieved but **not cryptographically anchored**.
+A substantive revision is being prepared as a **v0.10.0 working-draft candidate**. Its [machine-readable index](conformance/requirements.json) derives 71 normative requirement IDs from the Markdown specification, with descriptive-scenario coverage explicitly separated from executed evidence. It adds detailed consumer evidence and threat requirements, upstream citations, identity/hash semantics and a broader acceptance-case catalogue. The [release assessment](docs/release-assessment-2026-11.md) determines that a new **specification** release is justified after acceptance and validation, since some wording changes are semantically significant. The [draft release notes](docs/release-notes-v0.10.0-draft.md) are not a published release. The last issued CSP tag remains **v0.9.1**.
+
+**Compatibility:** the existing `policy/policy.schema.json` remains version `0.9.1`; the optional Rego input/output schemas remain experimental `1.0.0`. Neither is silently version-bumped by an editorial or normative draft expansion.
+
+## v0.9.1 baseline highlights
+
+- The v0.9.1 baseline grouped content-addressed URIs, embedded `data:` URIs and extension-level digests within its anchoring classification. **The expanded working draft narrows this interpretation:** embedded bytes are tied to the observed on-chain URI but do not independently establish an external digest commitment. Plain HTTPS without a binding digest remains unanchored.
 - Added explicit handling for **`agentWallet` freshness**, **post-transfer invalidation**, and **EOA vs ERC-1271 wallet binding semantics**.
 - Added **`registrations[]` cross-check requirements** to reduce continuity spoofing across registries and chains.
 - Tightened **validation request/response linkage** around `requestHash`, supersession, finality, and drift after `agentURI` changes.
 - Added stricter **`data:` URI safety controls** and clearer **`supportedTrust` interpretation**.
-- Added the static-site generator; GitHub Actions now builds and publishes a complete derived site from tracked source files.
+- The current repository also includes a full GitHub Actions Pages publication pipeline, added after the v0.9.1 release.
 
 ## Quick start
 
@@ -91,7 +100,7 @@ The workflow builds and validates on pull requests and deploys on pushes to `mai
 
 ## Upstream alignment and executable policy
 
-The [November 2026 upstream mapping](docs/upstream-alignment-2026-11.md) distinguishes ERC-8004 registry semantics from CSP consumer guidance and from actual action authorization. The [Rego feasibility assessment](docs/rego-feasibility.md) proposes a narrow optional consumer-decision evaluator with false-success fixtures. **The released v0.9.1 baseline did not include executable Rego; the current repository includes an experimental evaluator without changing that released baseline.** Identity, reputation and validation signals must not be treated as authority to act.
+The [November 2026 upstream mapping](docs/upstream-alignment-2026-11.md) now provides section-level traceability and explicitly distinguishes ERC-8004 namespace-qualified identifiers and KECCAK-256 commitments from local Rego adapter fields and SHA-256 evidence identifiers. The [Rego feasibility assessment](docs/rego-feasibility.md) proposes a narrow optional consumer-decision evaluator with false-success fixtures. **The released v0.9.1 baseline did not include executable Rego; the current repository includes an experimental evaluator without changing that published baseline.** Identity, reputation and validation signals must not be treated as authority to act.
 
 ## Upstream references
 

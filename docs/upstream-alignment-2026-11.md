@@ -1,42 +1,45 @@
-# ERC-8004 upstream alignment and consumer authority boundary
+# ERC-8004 Upstream Alignment and CSP Source Traceability
 
-**Review date:** 2026-11-14  
-**Local baseline:** CSP v0.9.1; this note does not change its normative requirements or policy schema.  
-**Upstream:** [ERC-8004: Trustless Agents](https://eips.ethereum.org/EIPS/eip-8004) (draft, maintained outside this repository).
+**Reviewed:** 2026-11-14. **Upstream status:** [ERC-8004 is Draft](https://eips.ethereum.org/EIPS/eip-8004).  
+**Local scope:** consumer-security requirements only; the [revised CSP working draft](../spec/erc-8004-csp.md) is not an upstream ERC amendment or published new version.
 
-This document records how the existing CSP consumes ERC-8004. The upstream ERC controls registry interface semantics. This repository controls only its separately maintained consumer security profile. An upstream editorial or protocol change does not automatically amend the CSP.
+## Traceability of source semantics to consumer obligations
 
-## Traceability
+| Upstream reference and exact section | Source-defined proposition | Local derivation and section | Interoperability caveat |
+| --- | --- | --- | --- |
+| [ERC-8004: Identity Registry](https://eips.ethereum.org/EIPS/eip-8004#identity-registry) | Subject is (`agentRegistry` namespace string, `agentId` token) and control follows ERC-721 | CSP `5 `CSP-ID-01–07` | Token ID alone and address-only lookup are not globally unique |
+| [ERC-721: Specification](https://eips.ethereum.org/EIPS/eip-721#specification) | Transfer and operator approval are token-specific | CSP `5, `CSP-ID-03–05` | Approval does not establish third-party action mandates |
+| [ERC-8004: Agent URI and Registration File](https://eips.ethereum.org/EIPS/eip-8004#agent-uri-and-agent-registration-file) | HTTPS/IPFS/data URI, service claims, registrations and optional supportedTrust | CSP ``5–7, `CSP-ID-08–11` | Registration and supportedTrust declarations are not independently verified assurances |
+| [ERC-8004: Endpoint Domain Verification](https://eips.ethereum.org/EIPS/eip-8004#endpoint-domain-verification-optional) | Optional well-known registration proves endpoint-domain association | CSP `5.3 `CSP-ID-11` | Domain control is not endpoint safety or delegated authorization |
+| [ERC-8004: On-chain metadata](https://eips.ethereum.org/EIPS/eip-8004#on-chain-metadata) | `agentWallet` is reserved, signature-bound, cleared on transfer | CSP `5.2 `CSP-ID-04–07` | Wallet-control evidence is not consent to any particular operation |
+| [EIP-712: Specification](https://eips.ethereum.org/EIPS/eip-712#specification), [Security Considerations](https://eips.ethereum.org/EIPS/eip-712#security-considerations) | Typed data and domain binding; signing standard does not supply replay protection automatically | CSP `5.2 | Consumer must record exact domain, deadline and context |
+| [ERC-1271: Specification](https://eips.ethereum.org/EIPS/eip-1271#specification) | Contract wallet can verify signature; result can depend on state/time | CSP `5.2 | Cannot treat an old signature result as permanent |
+| [ERC-8004: Giving Feedback](https://eips.ethereum.org/EIPS/eip-8004#giving-feedback) | Signed fixed-point value and optional KECCAK-256 `feedbackHash` | CSP ``6, 8 `CSP-IN-01`, `CSP-RP-01` | Raw numeric values and local SHA-256 digests are not interchangeable |
+| [ERC-8004: Revoking Feedback](https://eips.ethereum.org/EIPS/eip-8004#revoking-feedback), [Appending Responses](https://eips.ethereum.org/EIPS/eip-8004#appending-responses) | Clients revoke; anyone may append response | CSP `8 `CSP-RP-03,07` | An annotation is not authenticated adjudication |
+| [ERC-8004: Read Functions](https://eips.ethereum.org/EIPS/eip-8004#read-functions) | `getSummary` selects nonempty `clientAddresses` | CSP `8 `CSP-RP-02–06` | Selection governs summary meaning and Sybil exposure |
+| [ERC-8004: Validation Request](https://eips.ethereum.org/EIPS/eip-8004#validation-request) | Designated validator and KECCAK-256 `requestHash` | CSP `9 `CSP-VL-01–03` | Local methodology/scope bindings are additional, not upstream fields |
+| [ERC-8004: Validation Response](https://eips.ethereum.org/EIPS/eip-8004#validation-response) | Value 0–100; repeated response on one request; optional evidence hash | CSP `9 `CSP-VL-04–12` | Neither universal threshold nor finality implied |
+| [ERC-8004: Security Considerations](https://eips.ethereum.org/EIPS/eip-8004#security-considerations) | Sybil exposure and external validator economics | CSP ``8, 10–12 | Economic guarantees and authorization require separate evidence |
 
-| Upstream behavior | CSP consumer interpretation | Evidence and limit |
-| --- | --- | --- |
-| The identity registry identifies an agent by `agentRegistry` and `agentId` and uses ERC-721 ownership. | Resolve against a specified chain and registry; treat transfer as a change of control, not continuous authorization. | `spec/erc-8004-csp.md` §§6.1, 10–11; registry data does not prove authority to perform a requested operation. |
-| `agentURI` can reference HTTPS, IPFS or embedded data. | Classify retrieval and anchoring separately; apply safe-fetch before interpretation. | CSP §§7–8; retrieval or digest match does not establish endpoint safety or authorization. |
-| `agentWallet` is reserved, set through wallet-control proof, and cleared on ERC-721 transfer. | Invalidate previous wallet binding upon transfer; require current chain-state and proof before using a new binding. | CSP §§6.1, 10; a payment/signing wallet is not by itself an action mandate. |
-| Registration `supportedTrust` is optional; absent/empty means discovery only. | Do not convert a profile advertisement into an assurance finding. | CSP §§2, 6.1; even a nonempty value is a claim, not independently verified evidence. |
-| Reputation feedback is submitted by client addresses; `getSummary` requires a nonempty selected `clientAddresses` set. | Record selection/filter provenance, revocation and weighting; never imply an ecosystem-wide objective score. | CSP §§6.2, 9; the choice and governance of the client set are consumer policy. |
-| Feedback `appendResponse` may be called by anyone; feedback may be revoked. | Distinguish authorship, third-party annotations and revoked state. | CSP §§6.2, 9; response annotations are not adjudicated truth. |
-| `validationRequest` commits to the request payload with `requestHash`; a designated validator responds. | Bind the selected response to its request, validator, agent and assessed artifact or scope. | CSP §§6.3, 12; request integrity and authorization for execution are different claims. |
-| Validation responses range from 0 to 100 and a validator may update the same request multiple times. | Treat the number as protocol data; interpretation, thresholds, freshness, conflict handling and finality are consumer-defined. | CSP §§6.3, 12; ERC-8004 does not impose universal pass/fail or finality semantics. |
-| Validator incentives and slashing are external to the validation registry. | Do not assert L4 economic security without evidence from the actual external mechanism. | CSP §5; an L4 label is not external certification. |
+## Important semantic deltas from CSP v0.9.1
 
-## Authority and enforcement invariant
+1. **Namespace fidelity:** upstream `agentRegistry` is the full namespace-qualified string. The experimental Rego input's `subject.agent_registry` is currently an address-only adapter field; `subject.chain_id` is separate and there is no explicit namespace field. A resolver/adapter must verify the mapping, not describe the Rego input as upstream wire shape.
+2. **Digest algorithms:** `feedbackHash`, `requestHash` and `responseHash` use ERC-8004 KECCAK-256 commitments, while the Rego sample's `sha256:` digest is a local artifact reference. The two are not substitutes.
+3. **Data URI integrity:** embedded content is bound to the verified observed URI and may be immutable within that snapshot; it is not automatically an independently established digest-authenticity proof. The revised CSP distinguishes embedded provenance from external content anchoring.
+4. **Validation semantics:** `methodologyURI`, `scopeTags`, weight, finality and confidence are consumer or validator methodology concerns, not mandatory `validationResponse` ABI arguments.
+5. **Evidence uncertainty:** reorganization, stale indexers, missing bytes, conflicting signals and absent delegation stay separately representable and cannot become an affirmative consumer or execution decision.
 
-An ERC-8004 agent record identifies a registry subject. Reputation and validation are evidence signals, not delegated-action authorization. Consumer display policy may decide whether to show, suppress, warn, or qualify those signals. It **MUST NOT** manufacture a permission to act from identity, reputation, validation, `supportedTrust`, domain control or wallet-control evidence alone.
+These are **local interpretive and compatibility decisions**, not changes to ERC-8004. See [CSP `13](../spec/erc-8004-csp.md) and [release assessment](release-assessment-2026-11.md).
 
-An executing system needs a separate authoritative delegation and runtime authorization mechanism that checks the principal, permitted operation, target, scope, time, context and revocation state. CSP policy evaluations may be one input to that enforcement decision, but never its substitute.
+## Authority and historical-state principle
 
-## Historical and uncertain evidence
+An on-chain record establishes a bounded source observation. An indexer gives a derived view; a consumer policy supplies a separate interpretation; a runtime authorization engine needs a separate principal mandate. A historical observation, the state effective at a particular time and a present determination are distinct questions. Never infer one from another without source/time/lifecycle evidence.
 
-A latest indexed snapshot is a derived observation, not necessarily the present canonical state. Consumers should retain chain identity, block or observation reference, verification time, source and policy version as appropriate. Transfer, wallet reset, changed `agentURI`, revoked feedback, superseded validator responses, chain reorganization, stale caches, and unavailable evidence must remain distinguishable. Unknown, missing, contradictory or stale data must not become an affirmative assurance assertion.
+## Related implementation and test evidence
 
-## Compatibility and review status
+- [Rego evaluator](executable-rego-policy.md) implements *normalized validation-display admission only*.
+- [Architecture](architecture.md) identifies the resolver-to-policy boundary.
+- [Conformance cases](../conformance/test-cases.md) provide 24 local falsification scenarios, but the full set is **not** currently executable in this repository.
+- [Consumer policy schema](../policy/policy.schema.json) remains the released v0.9.1 policy configuration contract.
 
-This note is an informative interpretation of upstream semantics under CSP v0.9.1, not a normative revision. No wire format, policy schema, conformance level, or released artifact is changed. Any new executable policy contract must be versioned and tested independently before it is described as implemented.
-
-## Sources
-
-- [ERC-8004: Trustless Agents](https://eips.ethereum.org/EIPS/eip-8004)
-- [EIP-712: Typed structured data hashing and signing](https://eips.ethereum.org/EIPS/eip-712)
-- [ERC-721: Non-Fungible Token Standard](https://eips.ethereum.org/EIPS/eip-721)
-- [ERC-1271: Standard Signature Validation Method for Contracts](https://eips.ethereum.org/EIPS/eip-1271)
+Reference authority remains with [ERC-8004](https://eips.ethereum.org/EIPS/eip-8004), [ERC-721](https://eips.ethereum.org/EIPS/eip-721), [EIP-712](https://eips.ethereum.org/EIPS/eip-712), and [ERC-1271](https://eips.ethereum.org/EIPS/eip-1271). An upstream draft revision needs a fresh applicability review rather than an automatic local normative update.

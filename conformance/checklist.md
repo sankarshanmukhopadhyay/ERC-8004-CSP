@@ -1,38 +1,65 @@
-# Conformance Checklist
+# ERC-8004 CSP Conformance Checklist
 
-## L1 — Integrity-aware
+**Authority:** [working-draft specification](../spec/erc-8004-csp.md). This checklist summarizes its obligations and does not replace its normative text. **Claiming Lx requires every applicable prerequisite level**, and a passing unit test alone is not an independent assurance finding.
 
-| Area | Check | Pass criteria |
-|---|---|---|
-| Fetch | Safe-fetch sandbox | Timeouts, size caps, media-type enforcement, isolated retrieval |
-| Integrity | Anchoring classification | Content is classified as anchored, unanchored, mismatch, unavailable, or malformed |
-| UX | Control change | Transfers trigger a prominent control-change banner |
-| UX | Wallet binding | `agentWallet` is explicit as current, cleared, or stale |
-| Safety | `data:` URI policy | Only allowlisted inert media types are accepted |
+## Evidence package required for any declaration
 
-## L2 — Sybil-aware reputation
+| Evidence | Acceptance condition | Requirement |
+| --- | --- | --- |
+| Subject and scope | Full namespace-qualified `agentRegistry` and `agentId`, consumer role, version and supported capabilities | CSP-ID-01, CSP-CF-01 |
+| Version provenance | Implementation commit, policy version/digest, evaluation date and test suite | CSP-CF-01–03, CSP-EV-01 |
+| Source basis | Chain, contract, canonical block or explicit uncertainty, URI/content identifiers | CSP-EV-01–04 |
+| False-success results | Negative tests demonstrate no positive claim on missing/contradictory/stale evidence | CSP-EV-02, CSP-CF-02 |
+| Claim limitation | Local self-declaration vs independently assessed assurance clearly marked | CSP-CF-02–04 |
 
-| Area | Check | Pass criteria |
-|---|---|---|
-| Reputation | Weighting policy | Default weights exist, are disclosed, and are inspectable |
-| Spam | Rate limits | Bursts do not degrade UX or indexer stability |
-| Responses | Gating | `appendResponse()` is policy-gated and typed correctly |
-| Revocation | Transparency | Revoked feedback remains visible as revoked |
-| Continuity | `registrations[]` cross-check | Mismatches are surfaced and policy-handled |
+## L0: Discovery and parsing only
 
-## L3 — Validation-meaningful
+| Check | Required evidence | Requirement |
+| --- | --- | --- |
+| Do not invent trust or authorization from registry existence | Output inspection with nonempty source record and absent trust evidence | CSP-AB-01, CSP-CF-04 |
+| Preserve upstream versus consumer-enriched field ownership | Traceable source-to-derived field inventory | CSP-UP-01 |
 
-| Area | Check | Pass criteria |
-|---|---|---|
-| Validators | Policy | Validator set, methodology, and weights are published |
-| Semantics | Scope | Display includes validator, method, scope, freshness, and request linkage |
-| Finality | Deterministic | Conflicts and progressive states resolve by explicit rule |
-| Drift | Revalidation | Material `agentURI` changes stale dependent validations |
-| Freshness | Window | Expired validations are marked expired or stale |
+## L1: Integrity-aware identity consumption
 
-## L4 — Economically secured
+| Check | Required evidence | Requirement |
+| --- | --- | --- |
+| Resolve complete canonical subject and source block | Trace including namespace, chain, contract and token | CSP-ID-01–03 |
+| Reset wallet/owner continuity after transfer | T03/T15 with current and prior snapshots | CSP-ID-04–07 |
+| Reclassify agentURI and inspect active registration | T10/T14, correct domain/URI scope | CSP-ID-06, CSP-ID-08–11 |
+| Keep embedded, anchored, unanchored, mismatch and unavailable distinct | T01/T02/T04 and digest/CID evidence | CSP-IN-01–07 |
+| Enforce constrained fetch and inert media rendering | T05/T06/T17 plus redirect/all-hop network policy | CSP-SF-01–09 |
+| Fail closed on indexer uncertainty and reorganization | T18 | CSP-EV-01–04 |
 
-| Area | Check | Pass criteria |
-|---|---|---|
-| Economics | External protocol | Claims are backed by staking, slashing, bonds, or insurance |
-| Disclosures | Dependencies | User-visible dependency disclosure is present and accurate |
+## L2: Sybil-aware reputation
+
+| Check | Required evidence | Requirement |
+| --- | --- | --- |
+| Fixed-point signed values and revocation respected | Input/output showing scaling and revoked status | CSP-RP-01–03 |
+| `getSummary` client-set provenance exposed | Nonempty source cohort or policy/digest | CSP-RP-02 |
+| Scoring policy and exclusions inspectable | Weighting and freshness disclosure | CSP-RP-04–06 |
+| No false independence/credential-derived personhood | Collusion and misleading reviewer tests | CSP-RP-05–06 |
+| Third-party annotation differentiated; flood bounded | T07–T09 | CSP-RP-07–08 |
+
+## L3: Validation-meaningful
+
+| Check | Required evidence | Requirement |
+| --- | --- | --- |
+| Bind request and response with correct KECCAK-256 commitment | T16, T21; source event, exact bytes | CSP-IN-01, CSP-VL-01–03 |
+| Threshold/method/scope interpretation explicitly local | Method policy, validator, subject and artifact references | CSP-VL-04, CSP-VL-09–11 |
+| Progressive response and conflict resolution deterministic | T11/T12, sorted history and policy rule | CSP-VL-05–07 |
+| Expiry, URI drift and indeterminate states not shown as positive | T13/T14/T18 | CSP-VL-08, CSP-VL-11–12 |
+| Rego use, if claimed, bounded to display admission | Schema and actual-engine tests, adapter identity binding | CSP-VL-13–14 |
+
+## L4: Externally economically secured
+
+| Check | Required evidence | Requirement |
+| --- | --- | --- |
+| Active external instrument and scope established | External contract/rule version, beneficiary and effective state | CSP-EC-01–02 |
+| Withdrawal/suspension and loss coverage distinguishable | T23/T24, lifecycle/revocation evidence | CSP-EC-02–03 |
+| No L4 promotion from registry status alone | Negative fixture with `supportedTrust` only | CSP-EC-04 |
+
+## Disposition
+
+Each check should report **PASS**, **FAIL**, **INDETERMINATE**, or **NOT APPLICABLE** with evidence and reason. An INDETERMINATE or unexplained NOT APPLICABLE cannot satisfy an affirmative level claim. Conformance evidence must be produced by an actual consumer implementation; the repository's experimental Rego integration does **not** certify L3 or L4 consumers.
+
+See [test cases](test-cases.md), [architecture](../docs/architecture.md) and the [upstream traceability matrix](../spec/erc-8004-csp.md).

@@ -1,18 +1,63 @@
-# Conformance Test Cases
+# ERC-8004 CSP Conformance Test Scenarios
 
-| ID | Scenario | Setup | Action | Expected | Level |
-|---|---|---|---|---|---|
-| T01 | Plain HTTPS registration with no digest | `agentURI` is `https://...` and no extension digest exists | Fetch and classify | Show `retrieved but unanchored`; do not claim integrity verified | L1 |
-| T02 | Registration mismatch | Expected anchor and retrieved content differ | Fetch and classify | Quarantine and show mismatch | L1 |
-| T03 | Agent transfer clears wallet trust | Transfer the ERC-721 token after wallet was set | Refresh state | Show control-change banner and wallet as stale or cleared until rebound | L1 |
-| T04 | Unavailable content | 404 or timeout | Fetch | Show unavailable and last verified snapshot if present | L1 |
-| T05 | Oversized `data:` URI | Valid `data:` URI over policy byte limit | Fetch | Block and record policy violation | L1 |
-| T06 | Active-content `data:` URI | `data:text/html` or scriptable SVG | Fetch and render | Reject active rendering and show policy warning | L1 |
-| T07 | Feedback spam burst | 10k events emitted cheaply | Index and render | Throttling and quotas keep system usable | L2 |
-| T08 | `appendResponse()` spam | 5k third-party responses | Render | Gated display, no UI DoS, typed as third-party annotations | L2 |
-| T09 | Revocation | Feedback is later revoked | Render | Prior feedback remains visible as revoked | L2 |
-| T10 | `registrations[]` mismatch | Active `(agentRegistry, agentId)` absent from declared `registrations[]` | Resolve registration file | Warning or block continuity claim per policy | L2 |
-| T11 | Validator conflict | Multiple validators disagree | Render | Deterministic finality output by explicit policy rule | L3 |
-| T12 | Progressive validation states | Same `requestHash` receives soft and hard finality responses | Render | Show latest, final, and superseded states distinctly | L3 |
-| T13 | Expired validation | Freshness window has elapsed | Render | Mark expired or stale; suppress affirmative badge | L3 |
-| T14 | `agentURI` drift after validation | Validation exists, then `agentURI` changes materially | Refresh | Downgrade or stale prior validation until re-evaluated | L3 |
+**Status:** acceptance propositions for implementers of the [working-draft CSP](../spec/erc-8004-csp.md), not proof these scenarios have been executed against an independently maintained production consumer. Synthetic [Rego fixtures](rego/cases.json) exercise only the optional local admission contract.
+
+Every test record SHOULD include the consumer build/commit, policy/configuration version, canonical source snapshot and expected/observed disposition. The expected result is at least one of **PASS**, **FAIL**, **INDETERMINATE**, or **NOT APPLICABLE** with a reason. For negative scenarios, the absence of an erroneous positive claim is necessary but not sufficient when the consumer must also produce a specific disclosure or status.
+
+## Identity, retrieval and lifecycle (L1+)
+
+| ID | Precondition and adversarial input | Action | Required observable outcome | Spec basis |
+| --- | --- | --- | --- | --- |
+| **T01** | HTTPS registration fetched with no CID or digest | Fetch and render | `retrieved-unanchored`; no integrity-verified label | CSP-IN-04 |
+| **T02** | Expected CID or digest is inconsistent with fetched bytes | Resolve and render | Quarantine mismatch; no affirmative use | CSP-IN-05 |
+| **T03** | ERC-721 token transfers after wallet binding | Reconcile event and refresh | Prior wallet and owner continuity invalidated; new binding explicitly unverified | CSP-ID-04–05 |
+| **T04** | Registered content endpoint unavailable or times out | Resolve | Unavailable; any cached snapshot visibly historical | CSP-SF-07 |
+| **T05** | `data:` content exceeds separate limit | Decode | Reject without interpretation; size reason captured | CSP-SF-06 |
+| **T06** | `data:text/html` or scriptable SVG | Render | No active content execution; disallowed media warning | CSP-SF-05–06 |
+| **T10** | `registrations[]` lacks active fully qualified subject | Resolve linked registrations | Mismatch visible; no unsupported continuity | CSP-ID-08–09 |
+| **T15** | Same token ID on different chains/registries | Aggregate records | No cross-subject collision; identifier includes namespace, chain, contract | CSP-ID-01 |
+| **T16** | Correct SHA-256 artifact hash supplied where an ERC `keccak256` commitment is required | Verify off-chain feedback/request/response | Reject inappropriate digest substitution; no affirmative integrity result | CSP-IN-01, CSP-VL-03 |
+| **T17** | HTTP redirect to loopback, private IP or metadata endpoint | Fetch with redirects and DNS resolution | Request blocked on every prohibited hop; no secret exposure | CSP-SF-02–04 |
+| **T18** | Previously accepted block becomes non-canonical or indexed snapshot ages beyond policy | Evaluate current state | Indeterminate / stale; no present-state PASS until reconciliation | CSP-EV-02–04 |
+
+## Reputation and reviewer independence (L2+)
+
+| ID | Precondition and adversarial input | Action | Required observable outcome | Spec basis |
+| --- | --- | --- | --- | --- |
+| **T07** | Burst of 10,000 low-cost feedback events | Ingest/render | Backpressure and quotas bound resource use; no fabricated quality | CSP-RP-06, CSP-RP-08 |
+| **T08** | 5,000 `appendResponse` calls from unrelated responders | Render and classify | Responses attributed to responders; gated without UI/fetch exhaustion | CSP-RP-07–08 |
+| **T09** | Valid feedback later revoked | Recompute current and historical scores | Excluded from positive current scoring, retained as historical revoked item | CSP-RP-03 |
+| **T20** | Colluding reviewer cohort returns high `getSummary` value with a nonempty selected client list | Calculate/display score | Selection and weighting disclosed; no claim of representative ecosystem-wide quality or independent personhood | CSP-RP-02, CSP-RP-05–06 |
+
+## Validation and action-boundary tests (L3+)
+
+| ID | Precondition and adversarial input | Action | Required observable outcome | Spec basis |
+| --- | --- | --- | --- | --- |
+| **T11** | Two validator responses conflict or policy evidence is incomplete | Evaluate selected result | Deterministic rule; unresolved conflict is not affirmative admission | CSP-VL-07 |
+| **T12** | Same `requestHash` receives successive soft and hard responses | Replay timeline | Latest, policy-selected final and superseded states separately visible | CSP-VL-05–06 |
+| **T13** | Validation exceeds declared age/freshness rule | Display | Expired/stale; no unqualified validation badge | CSP-VL-09–11 |
+| **T14** | Material `agentURI`/artifact change after validation | Refresh | Dependent earlier validation stale until re-bound and re-evaluated | CSP-VL-08 |
+| **T19** | HTTPS endpoint domain has well-known registration linkage but no independent permissions or safety verification | Present domain and action claim | Domain control only; no generalized trusted/authorized badge | CSP-ID-11, CSP-AB-01 |
+| **T21** | Response for one `requestHash` is replayed against different artifact/scope, or selected validator differs | Evaluate signal | Binding mismatch/rejection or indeterminate as appropriate, never admission for mismatched scope | CSP-VL-01–04 |
+| **T22** | Valid wallet-binding signature and high reputation/validation but no delegated operation mandate | Attempt consequential action | CSP signal cannot authorize; external runtime authorization still required | CSP-AB-01, CSP-VL-14 |
+
+## External economic-security (L4)
+
+| ID | Precondition and adversarial input | Action | Required observable outcome | Spec basis |
+| --- | --- | --- | --- | --- |
+| **T23** | `supportedTrust` declares `crypto-economic` but no active external instrument is resolvable | Evaluate L4 claim | L4 NOT established; unknown/unavailable explicitly reflected | CSP-EC-01, CSP-EC-04 |
+| **T24** | External stake, bond or insurance is withdrawn, suspended or does not cover the represented loss | Re-evaluate assurance | Coverage withdrawn/qualified; no generic economic guarantee | CSP-EC-02–03 |
+
+## Adopter evidence requirements
+
+- The **source block and event records** establish the registry observation. Test clocks and consumer freshness policy establish the time-bounded question.
+- The **original external bytes plus the correct digest/CID algorithm** establish the integrity check. A JSON parsing test does not.
+- The **selected reviewer population and scoring policy** establish the basis for a consumer reputation calculation, not reviewer quality.
+- The **request/response event sequence and independent scope binding** establish what was actually evaluated, not broader agent capability.
+- The **actual consumer output**, including what the user sees or downstream API receives, must reflect the safe disposition. Helper-only tests cannot prove the display invariant.
+
+## Coverage status
+
+T01–T24 remain **specification acceptance scenarios** unless a particular consumer provides execution evidence. The experimental OPA/Rego unit fixtures P01–P20 are narrower and use synthetic normalized input; they do not implement ERC-8004 chain resolution, live URI fetch, KECCAK-256 commitment verification, reputation aggregation, external economic checks or transaction authorization. Keep the distinction when publishing conformance claims.
+
+See [checklist](checklist.md), [architecture](../docs/architecture.md) and [source/citation traceability](../spec/erc-8004-csp.md).

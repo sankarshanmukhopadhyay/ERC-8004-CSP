@@ -17,6 +17,12 @@ All timestamps in the input are explicit Unix seconds UTC. The engine does not r
 
 The `consumer_policy.validators` and `methodology_uri` example values are fictional and confer no recognition. Validator qualification, conflict-resolution governance and external data verification remain implementation responsibilities.
 
+## Upstream identifier and commitment adapter
+
+The [ERC-8004 Identity Registry](https://eips.ethereum.org/EIPS/eip-8004#identity-registry) identifies an agent using the namespace-qualified `agentRegistry` string and `agentId`. The current experimental Rego input instead exposes `subject.chain_id` and `subject.agent_registry` (an EVM address). A trusted resolver **must** verify the full upstream namespace/chain/address relationship before constructing the Rego input. Its `request.request_hash` must be bound to the on-chain KECCAK-256 commitment; the `sha256:` artifact digest in the local input is a *different local identifier* and cannot substitute for an upstream `responseHash` or `feedbackHash`. This adapter and hash verification **are not implemented by the Rego evaluator**.
+
+See [CSP §§2, 6, 9 and 13](../spec/erc-8004-csp.md) and the [upstream traceability matrix](upstream-alignment-2026-11.md).
+
 ## Minimal reproduction
 
 Install Python 3.12+, `jsonschema==4.23.0`, and independently obtain and verify [OPA v1.9.0](https://github.com/open-policy-agent/opa/releases/tag/v1.9.0) for your platform. The CI Linux amd64 static artifact is pinned to SHA-256 `66fa66f3b730b2fb086003863428b382b2898d343adb4b5dfab5598b4d739eed` (the hash used by the DTFC OPA experiment).
@@ -61,4 +67,4 @@ The paired test presents identical unverified evidence to the safe and intention
 
 The evaluation result is a *derived consumer-policy judgment*. It must not be interpreted as delegated authority, transaction permission, validator certification, or historical truth. The upstream ERC-8004 registries remain authoritative for their own chain semantics. A production system would additionally need authenticated chain-state resolution, reorganization handling, secure fetch and integrity verification, validator identity resolution, artifact binding, revocation handling, policy lifecycle governance, and independent evidence validation.
 
-No change is made to `policy/policy.schema.json` or CSP L0–L4 conformance levels. Passing these synthetic tests does not establish production readiness or independent assurance.
+The working-draft [CSP specification](../spec/erc-8004-csp.md) expands evidence and assurance requirements without changing `policy/policy.schema.json` or CSP L0–L4 level names. Passing these synthetic tests does not establish production readiness or independent assurance.
