@@ -54,7 +54,8 @@ class BoundaryTests(unittest.TestCase):
     def test_ssrf_static_preflight(self):
         unsafe=["http://example.org","https://127.0.0.1","https://169.254.169.254",
                 "https://[::ffff:169.254.169.254]","https://user:pass@example.org/",
-                "https://example.org:8080/","https://10.0.0.1/"]
+                "https://example.org:8080/","https://10.0.0.1/","https://127.1/","https://0x7f.0x0.0x0.0x1/",
+                "https://[2002:c0a8:101::]/","https://[64:ff9b::a9fe:a9fe]/"]
         for url in unsafe:
             with self.subTest(url=url): self.assertFalse(is_safe_https_literal(url))
         self.assertTrue(is_safe_https_literal("https://example.org/registration.json"))
